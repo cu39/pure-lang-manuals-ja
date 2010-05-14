@@ -1815,12 +1815,14 @@ scalars (machine ints and doubles), see `Constant Definitions`_ for details.
 
 コンパイラは通常、定数の下位式（この例では ``2*pi`` など）をコンパイル時に計算します。単純スカラー（machine intとdouble）に対してはすべてこのように動作します。詳しくは `Constant Definitions`_ を参照してください。
 
-List Comprehensions
+List Comprehensions リスト内包
 -------------------
 
 List comprehensions are Pure's main workhorse for generating and processing
 all kinds of list values. Here's a well-known example, a variation of
 Erathosthenes' classical prime sieve::
+
+リスト内包は Pure であらゆる種類のリスト値を生成し、処理するための main workhorse です。ここに掲げるのはよく知られた例で、エラトステネスの篩で素数を発見する古典的アルゴリズムの変形である。
 
   primes n        = sieve (2..n) with
     sieve []      = [];
@@ -1830,13 +1832,19 @@ Erathosthenes' classical prime sieve::
 (This definition is actually rather inefficient, there are much better albeit
 more complicated implementations of this sieve.)
 
+（この定義は実用上では非効率なもので、もっと複雑だが効率的な実装がある。）
+
 For instance::
+
+例えば::
 
   > primes 100;
   [2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97]
 
 If you dare, you can actually have a look at the catmap-lambda-if-then-else
 expression the comprehension expanded to::
+
+その気があるなら、 catmap-lambda-if-then-else 式で内包を拡張した例を見てみることもできます::
 
   > show primes
   primes n = sieve (2..n) with sieve [] = []; sieve (p:qs) = p:sieve
@@ -1848,6 +1856,8 @@ returns the list of all placements of n queens on an n x n board (encoded as
 lists of n pairs (i,j) with i = 1..n), so that no two queens hold each other
 in check::
 
+リスト内包は、バックトラック探索を組み立てるのに便利でもあります。例えば次の例は n クイーン問題を解くアルゴリズムで、 n x n のボード上に置かれた全ての n クイーンのリストを返します（encoded as lists of n pairs (i,j) with i = 1..n）。結果、2つのクイーンがチェック内で互いをホールドすることはない。■この段落全面見直し■
+
   queens n       = search n 1 [] with
     search n i p = [reverse p] if i>n;
                  = cat [search n (i+1) ((i,j):p) | j = 1..n; safe (i,j) p];
@@ -1858,6 +1868,8 @@ in check::
 
 (Again, this algorithm is rather inefficient, see the examples included in the
 Pure distribution for a much better algorithm by Libor Spacek.)
+
+（またまた、このアルゴリズムは非効率である。 Libor Spacek によるもっと効率的なアルゴリズムの例が Pure ディストリビューションに同梱されているので、そちらを参照）
 
 Lazy Evaluation and Streams 遅延評価とストリーム
 ---------------------------
