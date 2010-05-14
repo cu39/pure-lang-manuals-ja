@@ -42,9 +42,13 @@ This manual describes the Pure programming language and how to invoke the Pure
 interpreter program. To read the manual inside the interpreter, just type
 ``help`` at the command prompt. See the `Online Help`_ section for details.
 
+このマニュアルはPureプログラミング言語と、Pureインタープリタプログラムを動かす方法を説明します。インタープリタを使っている最中にこのテキストを読むには、ただ``help``とタイプするだけです。詳しくは`Online Help`_ セクションを参照。
+
 There is a companion to this manual, the `Pure Library Manual`_ which contains
 the description of the standard library operations. More information about
 Pure can be found under the following URLs:
+
+このマニュアルには `Pure Library Manual`_ という仲間もいて、標準ライブラリの働きを解説しています。以下のURLではさらにPureに関する情報を見つけることができます。
 
 * Pure website: http://pure-lang.googlecode.com
 * Pure mailing list: http://groups.google.com/group/pure-lang
@@ -61,11 +65,15 @@ evaluate expressions in a symbolic fashion by reducing them to normal form. An
 overview of the language can be found in the `Pure Overview`_ section below,
 and subsequent sections discuss most language features in detail.
 
+Pureは項書き替えを基礎とする現代的な関数型プログラミング言語です。Pureプログラムは基本的に等式ルールの集合です。この等式は、式を記号的な方法で正規形へ還元して評価するのに使われます。言語の全体像は下にある `Pure Overview`_ セクションとそれに続くセクションにあり、言語機能のほとんどについて詳細に議論しています。
+
 The Pure interpreter has an LLVM_ backend which JIT-compiles Pure programs to
 machine code, hence programs run blazingly fast and interfacing to C modules
 is easy, while the interpreter still provides a convenient, fully interactive
 environment for running Pure scripts and evaluating expressions. You can also
 compile your scripts to standalone executables if you prefer that.
+
+Pure インタープリタは LLVM バックエンドを持っています。 LLVM は Pure プログラムをマシン語に JIT コンパイルします。なのでプログラムは激しく高速で、Cモジュールへ簡単に接続することができます。その一方でインタープリタは、 Pure で書かれたスクリプトや式を、完全にインタラクティブな使いやすい環境で走らせることができます。またお好みなら、スクリプトをスタンドアロンの実行ファイルにコンパイルすることもできます。
 
 Pure programs (a.k.a. scripts) are just ordinary text files containing Pure
 code. They must be encoded in UTF-8 (which subsumes 7 bit ASCII), other
@@ -76,14 +84,20 @@ and the input language accepted by the interpreter, except that the
 interpreter also understands some special commands when running in interactive
 mode; see the `Interactive Usage`_ section for details.
 
+Pure プログラム（またはスクリプト）は Pure コードを含む単なる普通のテキストファイルです。そのファイルは UTF-8 （7ビット ASCII をその一部に含む）でエンコードされなければならず、 Latin-1 のような他のエンコーディングはサポートされません。Pureのソースには、有名なテキストエディタ用のシンタックスハイライト用ファイルやプログラミングモードがたくさん含まれています。Pure言語とインタープリタが許容する入力言語の間にほとんど違いはありませんが、インタラクティブモードで実行されているインタープリタはさらに特別なコマンドを理解します。詳しくは`Interactive Usage`_ を参照してください。
+
 (In case you're wondering, the name "Pure" actually refers to the
 adjective. But you can also write it as "PURE" and take this as a recursive
 acronym for the "Pure Universal Rewriting Engine".)
+
+（In case you're wondering, "Pure"という名前は実際には形容詞を表しています。しかしまた "PURE" と書いてもいいし、それを "Pure Universal Rewriting Engine" という再帰的頭字語と理解してもかまいません）
 
 Invoking the Pure Interpreter
 =============================
 
 The Pure interpreter is invoked as follows::
+
+Pureインタープリタは以下のように起動されます。
 
   pure [options ...] [script ...] [-- args ...]
   pure [options ...] -x script [args ...]
@@ -94,80 +108,105 @@ Options
 The interpreter accepts various options which are described in more detail
 below:
 
+インタープリタは様々なオプションを許容します。詳細は以下の通り：
+
 ``-c``
     Batch compilation.
+    バッチコンパイル。
 
 ``--ctags``, ``--etags``
     Create a tags file in ctags (vi) or etags (emacs) format.
+    ctags (vi) か etags (emacs) フォーマットのタグファイルを生成する。
 
 ``--eager-jit``
     Enable eager JIT compilation. This requires LLVM 2.7 or later, otherwise
     this flag will be ignored.
+    eager JIT コンパイルを有効にする。この機能はLLVM 2.7以上を必要とする。
+    存在しない場合このフラグは無視される。
 
 ``-fPIC``, ``-fpic``
     Create position-independent code (batch compilation).
 
 ``-g``
     Enable symbolic debugging.
+    シンボリックデバッグを有効にする。
 
 ``--help``, ``-h``
     Print help message and exit.
+    ヘルプメッセージを表示して終了する。
 
 ``-i``
     Force interactive mode (read commands from stdin).
+    対話モード（標準入力からコマンドを読む）を強制する。
 
 ``-I directory``
     Add a directory to be searched for included source scripts.
+    インクルードするソーススクリプトを検索するディレクトリを追加する。
 
 ``-L directory``
     Add a directory to be searched for dynamic libraries.
+    動的ライブラリを検索するディレクトリを追加する。
 
 ``-l libname``
     Library to be linked in batch compilation.
+    バッチコンパイル時にリンクするライブラリを指定する。
 
 ``--noediting``
     Disable command-line editing.
+    コマンドライン編集を無効にする。
 
 ``--noprelude``, ``-n``
     Do not load the prelude.
+    preludeをロードしない。
 
 ``--norc``
     Do not run the interactive startup files.
 
 ``-o filename``
     Output filename for batch compilation.
+    バッチコンパイル時の出力ファイル名を指定する。
 
 ``-q``
     Quiet startup (suppresses sign-on message in interactive mode).
+    静かなスタートアップ（対話モードのサインオンメッセージを表示しない）。
 
 ``-T filename``
     Tags file to be written by ``--ctags`` or ``--etags``.
+    ``--ctags`` や ``--etags`` で出力されるタグファイル名を指定する。
 
 ``-u``
     Do not strip unused functions in batch compilation.
+    バッチコンパイル時に使われていない関数が削除されるのを抑制する。
 
 ``-v[level]``
     Set verbosity level. See below for details.
+    メッセージ表示レベル（verbosity level）を設定する。詳細は下部を参照。
 
 ``--version``
     Print version information and exit.
+    バージョン情報を出力して終了。
 
 ``-w``
     Enable compiler warnings about various dubious constructs and backward
     compatibility issues.
+    様々な構造の曖昧さや後方互換性に関するコンパイラの警告メッセージを有効にする。
 
 ``-x``
     Execute script with given command line arguments.
+    コマンドライン引数で渡されたスクリプトを実行する。
 
 ``--``
     Stop option processing and pass the remaining command line arguments in
     the ``argv`` variable.
+    オプションの処理を止め、残りのコマンドライン引数を ``argv`` 変数に渡す。
 
 (Besides these, the interpreter also understands a number of other command
 line switches for setting various code generation options; please see `Code
 Generation Options`_ below for details.)
 
-Overview of Operation
+（これらに加えて、インタープリタはコード生成オプションを設定する他のコマンドラインスイッチもたくさん理解します。詳しくは下部`Code Generation Options`_ を参照してください。
+
+Overview of Operation 動作の全体像
 ---------------------
 
 If any source scripts are specified on the command line, they are loaded and
@@ -175,6 +214,8 @@ executed, after which the interpreter exits. Otherwise the interpreter enters
 the interactive read-eval-print loop, see `Running Interactively`_ below. You
 can also use the -i option to enter the interactive loop (continue reading
 from stdin) even after processing some source scripts.
+
+コマンドラインでいかなるソーススクリプトが指定された場合でも、それは読み込まれて実行され、その後インタープリタは終了します。そうでない場合、インタープリタはread-eval-printループの対話モードに入ります。下部`Running Interactively`_ を参照してください。また-iオプションを使って、ソーススクリプトを処理した後でさえも続く対話ループ（標準入力から読み込みを続ける）に入ることもできます
 
 Options and source files are processed in the order in which they are given on
 the command line. Processing of options and source files ends when either the
@@ -188,6 +229,8 @@ respectively. In the case of -x this also includes the script name as
 executable programs by including a "shebang" like the following as the first
 line in your main script. (This trick only works with Unix shells, though.)
 
+オプションとソースファイルはコマンドラインで与えられた順番通りに処理されます。オプションやソースファイルスクリプトの処理は -- か -x オプションのいずれかが現れたところで終了します。 -x オプションの後には実行すべきスクリプトが続いている必要があり、そのファイルはアプリケーションの「メインスクリプト」となります。いずれの場合でも、後に続くあらゆるパラメータは ``argc`` と ``argv`` 変数（それぞれ引数の数と、実際のパラメータ文字列を渡す）を通じて、実行されるスクリプトへ渡されます。 -x オプションの場合 ``argv!0`` として実行ファイル名を含みます。この -x オプションは、以下のように "shebang" をメインスクリプトの最初の行に置いてPureスクリプトを実行可能なプログラムにするとき特に便利です。
+
 ::
 
   #!/usr/local/bin/pure -x
@@ -200,6 +243,8 @@ interpreter and the system it runs on. (Moreover, Pure 0.21 and later also
 define the variable ``compiling`` which indicates whether the program is
 executed in a batch compilation, see `Compiling Scripts`_ below.)
 
+インタープリタは起動時に ``version`` 変数（Pureインタープリタのバージョン文字列がセットされる）と ``sysinfo`` 変数（ホストシステムを同定する文字列を提供）も定義します。これらの変数は、あなたのスクリプトのある一部が、インタープリタの特定のバージョンや、そのインタープリタが動作するシステムに依存している場合に役立つものです。（さらに、Pure 0.21以上は ``compiling`` 変数も定義します。この変数はバッチコンパイルで実行されるかどうかを示します。詳しくは下部 `Compiling Scrpits`_ を参照）
+
 If available, the prelude script prelude.pure is loaded by the interpreter
 prior to any other definitions, unless the -n or --noprelude option is
 specified. The prelude is searched for in the directory specified with the
@@ -211,7 +256,9 @@ libraries via a ``using`` declaration in the source, which are searched for in
 a number of locations, including the directories named with the -I and -L
 options; see the Declarations_ and `C Interface`_ sections for details.
 
-Compiling Scripts
+もしpreludeスクリプト（prelude.pure）が利用できる場合、インタープリタは他のあらゆる定義に先行してこれをロードします（-nや--nopreludeが設定されない限り）。preludeはPURELIB環境変数で設定されたディレクトリから検索されます。もしPURELIB変数が設定されていなければ、システム固有のデフォルトが使用されます。他のソーススクリプトの相対パス名がコマンドラインで指定されていれば、カレントワーキングディレクトリからの相対パスとして解釈されます。それに加え、実行されるプログラムが他のスクリプトやライブラリを ``using`` 宣言を通じてロードすることも可能です。このスクリプトやライブラリは -I と -L オプションで指定されるディレクトリを含め、たくさんの場所からロードされます。詳しくは Declarations_ と `C Interface`_ セクションを参照してください。
+
+Compiling Scripts スクリプトのコンパイル
 -----------------
 
 The interpreter compiles scripts, as well as definitions that you enter
@@ -221,6 +268,8 @@ Thus the interpreter never really "interprets" the source program or some
 intermediate representation, it just acts as a frontend to the compiler,
 taking care of compiling source code to native machine code before it gets
 executed.
+
+インタープリタはスクリプトだけでなく、あなたが対話的に入力する定義をも自動的にコンパイルします。このコンパイルはインクリメント式に行われ, as the code is needed,  and is therefore known as JIT (`just in time`) compilation. したがってインタープリタはソースプログラムや他の何らかのrepresentationを「解釈する」（interpretsする）ことはなく、単にコンパイラのフロントエンドとして振る舞い、ソースコードが実行される前にネイティブコードへとコンパイルする世話をしてくれます。
 
 Pure's LLVM backend does "lazy JIT compilation" by default, meaning that each
 function (global or local) is compiled no sooner than it is run for the first
@@ -233,8 +282,12 @@ cases (since bigger chunks of compilation work can be done in one go) and less
 efficient in others (e.g., eager JITing may compile large chunks of code which
 aren't actually called later, except in rare circumstances).
 
+PureのLLVMバックエンドはデフォルトでは「遅延JITコンパイル」を行います。「遅延JITコンパイル」（"lazy JIT compilation"）とは、（グローバルまたはローカルな）関数のそれぞれが、最初に実行される段階ではじめてコンパイルされることを意味します。しかし --eager-jit オプションを指定すれば、コンパイルされた関数から呼び出されるかもしれない他のすべての（ローカルまたはグローバルな）関数をもコンパイルします（PURE_EAGER_JIT環境変数は、どんな値がセットされていても、 --eager-jit オプションと同じ効果を発揮するので、インタープリタを走らせるたびに毎回 --eager-jit オプションを指定する必要はなくなります）。先行JITコンパイル（eager JIT compilation）は、ある種のケース（since bigger chunks of compilation work can be done in one go）ではより効果的でしょうし、別のケース（e.g., eager JITing may compile large chunks of code which aren't actually called later, except in rare circumstances）では効果的でなくなるでしょう。
+
 Note that the eager JIT mode is only available with LLVM 2.7 or later;
 otherwise this option will be ignored.
+
+先行JITコンパイルモードはLLVM 2.7以降でのみ利用可能であることに注意してください。2.6以前だとこのオプションは無視されます。
 
 It is also possible to compile your scripts to native code beforehand, using
 the -c batch compilation option. This options forces the interpreter to
@@ -250,6 +303,8 @@ file is written to standard output, which is useful if you want to pass the
 generated code to the LLVM tools in a pipeline. If the output filename ends in
 the .bc extension, an LLVM bitcode file is created instead.
 
+また -c バッチコンパイルオプションを使えば、あなたのスクリプトをあらかじめネイティブコードにコンパイルすることができます。このオプションはインタープリタに非対話モードを強制します（ -i オプションを使った場合は別で、-c がオーバーライドされます）。コマンドラインで定義されたあらゆるオプションは通常通り実行されますが、実行後、インタープリタはプログラムのスナップショットを撮り、それを、サポートされている出力形式のいずれかへとコンパイルします。サポートされるのは LLVM アセンブラ（.ll）、ビットコード（.bc）、ネイティブアセンブラ（.s）、オブジェクト（.o）、ネイティブな実行ファイルで、 -o オプションで指定されたファイル名次第です。もし出力ファイル名が .ll 拡張子で終わっていたら LLVM アセンブラ用のファイルが作成され、そのファイルはLLVMのツールチェーンで処理できるものとなります。もし出力ファイルが単に '-' であれば、アセンブラファイルが標準出力に書かれます。これはパイプを通じて LLVM ツールにコードを渡したいときに便利です。もし出力ファイル名が .bc で終わっていたら、 LLVM のビットコードファイルが作られます。
+
 The .ll and .bc formats are supported natively by the Pure interpreter, no
 external tools are required to generate these. If the target is an .s, .o or
 executable file, the Pure interpreter creates a temporary bitcode file on
@@ -258,6 +313,8 @@ and then uses gcc to assemble and link the resulting program (if requested).
 You can also specify additional libraries to be linked into the executable
 with the -l option. If the output filename is omitted, it defaults to
 ``a.out`` (``a.exe`` on Windows).
+
+Pure インタープリタは .ll と .bc 形式をネイティブにサポートしており、外部ツールに頼らずそれらを出力できます。もしターゲットが .s や .o や実行可能ファイルであった場合、 Pure インタープリタは一時的なビットコードファイルを作成し、それに対して LLVM ツールの opt と llc を実行してネイティブなアセンブラファイルを作成します。その後（必要があれば） gcc を使って最終的なプログラムをコンパイル＆リンクします。 -l オプションを使って、実行ファイルにリンクすべき追加ライブラリを定義することも可能です。もし出力ファイル名を省略した場合、出力ファイル名は ``a.out`` （Windows では ``.exe``）となります。
 
 The -c option provides a convenient way to quickly turn a Pure script into a
 standalone executable which can be invoked directly from the shell. One
@@ -269,12 +326,16 @@ library is required on the target system). On the other hand, compiled scripts
 also have some limitations, mostly concerning the use of the built-in ``eval``
 function. Please see the `Batch Compilation`_ section for details.
 
+-c オプションは Pure スクリプトをスタンドアローンな実行ファイルへと素早く変える便利な方法です。この実行ファイルはシェルから直接実行できます。スクリプトをコンパイルすることの利点のひとつは、JITコンパイルにかかる時間を排除し、プログラムの起動時間をかなり短縮できることにあります。スタンドアローンな実行ファイルを好むべきもう一つの理由は、Pureをフルインストールしなくてもプログラムをシステム上に配置できる点です（しばしば対象システムに合わせたラインタイムライブラリは必要になります）。その一方で、コンパイルされたスクリプトにはいくつかの制限があります。最も重大なのは、組み込み ``eval`` 関数に関する制限です。詳しくは ``Batch Compilation``_ セクションを参照して下さい。
+
 The -v64 (or -v0100) verbosity option can be used to have the interpreter
 print the commands it executes during compilation, see `Verbosity and
 Debugging Options`_ below. When creating an object file, this also prints the
 suggested linker command (including all the dynamic modules loaded by the
 script, which also have to be linked in to create a working executable), to
 which you only have to add the options describing the desired output file.
+
+-64 （あるいは -v0100）饒舌（verbosity）オプションを指定すると、インタープリタがコンパイル中に実行されるコマンドを出力させることができます。下部 `Verbosity and Debugging Options`_ を参照して下さい。オブジェクトファイルを作成している最中は、示唆されたリンカコマンドを出力します（スクリプトによって動的にロードされるモジュールのすべても含まれます。それらは実行ファイルを作成するためにリンクされる必要があるものです）が、そのためにあなたがしなければならないのは、求めている出力ファイルを説明するオプションを付加することだけです。
 
 Tagging Scripts
 ---------------
@@ -478,13 +539,16 @@ Note that the ``--required`` pragma can only be used in source code, there's
 no command line option for it. An example showing how to use this option can
 be found in the `Batch Compilation`_ section.
 
-Startup Files
+Startup Files スタートアップファイル
 -------------
 
 The interpreter may source various files during its startup. These are:
 
+インタープリタは起動時に様々なファイルを読み込みます。以下の通り：
+
 ~/.pure_history
     Interactive command history.
+    対話コマンドの履歴。
 
 ~/.purerc, .purerc, .pure
     Interactive startup files. The latter is usually a dump from a previous
@@ -493,53 +557,76 @@ The interpreter may source various files during its startup. These are:
 prelude.pure
     Standard prelude. If available, this script is loaded before any other
     definitions, unless -n was specified.
+    標準prelude。prelude.pureがある場合、他のあらゆる定義に先行してロードされます（-n や --noprelude が設定されない限り）
 
-Environment
+Environment 環境
 -----------
 
 Various aspects of the interpreter can be configured through the following
 shell environment variables:
+
+以下のシェル環境変数を通じて、インタープリタの様々な側面を設定することができます。
 
 BROWSER
     If the PURE_HELP variable is not set (see below), this specifies a
     colon-separated list of browsers to try for reading the online
     documentation. See http://catb.org/~esr/BROWSER/.
 
+    もし PURE_HELP 変数（下を参照）が設定されていない場合、この変数がコロンで区切られたブラウザのリストを定義します。そこの含まれるブラウザはオンラインドキュメントを読む際に順に試されます。  http://catb.org/~esr/BROWSER/ を参照。
+
 PURELIB
     Directory to search for library scripts, including the prelude. If PURELIB
     is not set, it defaults to some location specified at installation time.
+
+    ライブラリスクリプト（prelude を含む）を検索するディレクトリです。もし PURELIB が設定されていない場合、インストール時に定義された場所をデフォルトとします。
 
 PURE_EAGER_JIT
     Enable eager JIT compilation (same as ``--eager-jit``), see `Compiling
     Scripts`_ for details.
 
+    短絡（JIT）コンパイルを有効にします（``--eager-jit`` と同様）。詳しくは `Compiling Scripts`_ を参照。
+
 PURE_HELP
     Command used to browse the Pure manual. This must be a browser capable of
     displaying html files. Default is w3m(1).
+
+    Pureマニュアルを読むのに使うコマンドを設定します。このコマンドはHTMLファイルを表示できるものでなければいけません。デフォルトは w3m(1) です。
 
 PURE_INCLUDE
     Additional directories (in colon-separated format) to be searched for
     included scripts.
 
+    インクルードするスクリプトファイルを探す追加ディレクトリです（コロン区切りフォーマット）。
+
 PURE_LIBRARY
     Additional directories (in colon-separated format) to be searched for
     dynamic libraries.
+
+    動的ライブラリを探す追加ディレクトリです（コロン区切りフォーマット）。
 
 PURE_MORE
     Shell command to be used for paging through output of the show command,
     when the interpreter runs in interactive mode.
 
+    インタープリタが対話モードで実行されているとき、 show コマンドの出力のページングに使われるコマンドです。
+
 PURE_PS
     Command prompt used in the interactive command loop ("> " by default).
 
+    対話式のコマンドループで使われるコマンドプロンプトです（デフォルトは "> "）。
+
 PURE_STACK
     Maximum stack size in kilobytes (default: 0 = unlimited).
+
+    最大スタックサイズをキロバイト単位で設定します（デフォルト: 0 = 制限なし）。
 
 (Besides these, the interpreter also understands a number of other environment
 variables for controlling various code generation options; please see `Code
 Generation Options`_ above for details.)
 
-Pure Overview
+これらに加え、インタープリタは他にもたくさんの環境変数を理解するので、様々なコード生成オプションをコントロールできます。詳しくは上部 `Code Generation Options`_ を参照して下さい。
+
+Pure Overview Pureの全体像
 =============
 
 Pure is a fairly simple yet powerful language. Programs are basically
@@ -548,10 +635,14 @@ convenience, it is also possible to define global variables and constants, and
 for advanced uses Pure offers macro functions as a kind of preprocessing
 facility. These are all described below and in the following sections.
 
+Pureは適度にシンプルであながらパワフルでもある言語です。プログラムは基本的に、書き替えルールと、評価されるべき式の集まりです。便宜のため、グローバル変数と定数を定義することもできます。またもっと高度な使用のため、Pureはマクロ関数も提供します as a kind of preprocessing facility. これらのすべては下のセクションとそれに続くセクションで説明されます。
+
 Here's a first example which demonstrates how to define a simple recursive
 function in Pure, entered interactively in the interpreter (note that the
 '``>``' symbol at the beginning of each input line is the interpreter's
 default command prompt)::
+
+これはPureでシンプルな再帰関数を定義する方法を示す最初のサンプルで、インタープリタへ対話的に入力されています（各入力行の先頭にある '``>``' 記号がインタープリタのデフォルトプロンプトだということに注意してください）::
 
   > // my first Pure example
   > fact 0 = 1;
@@ -559,13 +650,15 @@ default command prompt)::
   > let x = fact 10; x;
   3628800
 
-Lexical Matters
+Lexical Matters レキシカルな要素
 ---------------
 
 Pure is a free-format language; whitespace is insignificant, except if it
 serves to delimit other symbols. Hence, as shown above, definitions and
 expressions at the toplevel have to be terminated with a semicolon, even in
 interactive mode.
+
+Pureは自由形式（free-format）の言語です。ホワイトスペースは、他のシンボルの境界として機能する場合を除き、重要ではありません。したがって、上で示した通り、たとえ対話モードであっても、最上位にある定義と式はセミコロンで終わる必要があります。
 
 Comments have the same syntax as in C++ (using ``//`` for line-oriented and
 ``/* ... */`` for multiline comments; the latter may not be nested). Lines
@@ -598,7 +691,9 @@ cover almost everything you'd ever want to use in an operator symbol. All
 other extended Unicode characters are effectively treated as "letters" which
 can be used as identifier constituents.
 
-Definitions and Expression Evaluation
+識別子、数値、文字列の慣習的な表記法はすべて提供されています。加えて、Pureではあなたが自分で演算子を定義することも許されます。PureはUnicodeをフルサポートしており、（ほとんど）あらゆる言語でプログラムを書くことができ、Unicode文字セットに含まれる■特別な■記号を活用することができます（スクリプトがUTF-8でエンコードされていることが必要）。このシンプルさを保つため、ASCIIの句読点文字に加えて、PureはUnicodeレパートリーが含む以下のコードポイントを句読点とみなします: U+00A1 から U+00BF まで、 U+00D7、 U+00F7、 U+20D0 から U+2BFF まで。これは Latin-1 レパートリーの特別記号や以下の記号を含んでいます: Combining Diacritical Marks for Symbols, Letterlike Symbols, Number Forms, Arrows, Mathematical Symbols, Miscellaneous Technical Symbols, Control Pictures, OCR, Enclosed Alphanumerics, Box Drawing, Blocks, Geometric Shapes, Miscellaneous Symbols, Dingbats, Miscellaneous Mathematical Symbols A, Supplemental Arrows A, Supplemental Arrows B, Miscellaneous Mathematical Symbols B, Supplemental Mathematical Operators, and Miscellaneous Symbols and Arrows 。あなたが演算子シンボルとして使いたいと願うもののほぼすべてをカバーしているでしょう。その他の Unicode 拡張文字は事実上「文字」として扱われ、識別子の構成要素にすることができます。
+
+Definitions and Expression Evaluation 定義と、式の評価
 -------------------------------------
 
 On the surface, Pure is quite similar to other modern functional languages
@@ -607,6 +702,8 @@ more akin to Lisp. In particular, Pure is dynamically typed, so functions can
 be fully polymorphic and you can add to the definition of an existing function
 at any time. For instance, we can extend the example above to make the
 ``fact`` function work with floating point numbers, too::
+
+表面的には、Pureは Haskell_ や ML_ のような他の現代的関数型言語とよく似ています。しかしフードの下ではもっと動的な言語で、より Lisp に近くなります。特に、Pureは動的に型を決定するので、関数はとても多態的になることができますし、あなたは既存の関数に定義を追加することができます。例えば、上で例に出した例を拡張して、 ``fact`` 関数が浮動小数点数を扱えるようにすることも可能です::
 
   > fact 0.0 = 1.0;
   > fact n::double = n*fact (n-1) if n>0;
@@ -626,6 +723,8 @@ language, but it is also possible to introduce your own type tags for
 user-defined data structures. This will be explained in more detail under
 `Type Tags`_ in the `Rule Syntax`_ section below.
 
+2番目の等式の左辺側にある ``n::double`` 構造に注意してください。これはこの等式が（倍精度の）浮動小数点数の値をもつ ``n`` だけに適用されるものであることを意味しています。この構造はPure用語で「型タグ」とも呼ばれるもので、実際、パターンマッチングのシンプルな形式でもあります（下部参照）。同じように、このセクション冒頭の定義では ``int`` タグを使って ``n`` パラメータが整数値であることを示しました。 ``int`` 型と ``double`` 型はPure言語に組み込まれているものですが、ほかにユーザ定義のデータ構造のための独自の型タグをあなたが導入することも可能です。それについての詳細は下部 `Rule Syntax`_ セクション内 `Type Tags`_ 部で説明します。
+
 Expressions are generally evaluated from left to right, innermost expressions
 first, i.e., using call by value semantics. Pure also has a few built-in
 special forms (most notably, conditional expressions, the short-circuit
@@ -633,9 +732,13 @@ logical connectives ``&&`` and ``||``, the sequencing operator ``$$``, the
 lazy evaluation operator ``&``, and the ``quote``) which take some or all of
 their arguments unevaluated, using call by name.
 
+式は一般に左から右へ、内側の式ほど先に評価されます。すなわちcall by value semanticsを使っています。Pureはまた、いくつかの組み込み特別形を持っています（特に注目すべきは条件式に関するもので、短絡論理結合子 ``&&`` と ``||`` 、継起演算子（sequencing operator） ``$$`` 、遅延評価演算子 ``&`` 、そして ``quote`` ）。これらはいくつかの、あるいはすべての引数を未評価なまま持ち、call by name方式を使います。
+
 Like in Haskell and ML, functions are often defined by pattern matching, i.e.,
 the left-hand side of a definition is compared to the target expression,
 binding the variables in the pattern to their actual values accordingly::
+
+Haskell や ML のように、関数はしばしばパターンマッチングによって評価されます。つまり、定義の左辺は対象となる式と比較され、変数がパターン中の実際の値に対応するかたちで束縛されます::
 
   > foo (bar x) = x-1;
   > foo (bar 99);
@@ -644,6 +747,8 @@ binding the variables in the pattern to their actual values accordingly::
 Due to its term rewriting semantics, Pure goes beyond most other functional
 languages in that it can do symbolic evaluations just as well as "normal"
 computations::
+
+書き替えセマンティクスにより、「普通の」計算だけでなく記号代数的評価を行えるという点で、Pureは他の関数言語の一歩先を行っています。
 
   > square x = x*x;
   > square 4;
@@ -663,6 +768,8 @@ the left-hand side of an equation, and may act as a constructor symbol if it
 happens to occur in a normal form term. This enables you to work with
 algebraic rules like associativity and distributivity in a direct fashion::
 
+数値や文字列のようないくつかの有名なデータ構造は別として、Pureインタープリタが実際に行うのは、記号代数的なやり方で式を評価し、プログラマーが与えた等式によって式を書き替えてゆき、もうそれ以上は等式を適用できなくなるまで続けることです。この処理の結果は「正規形」と呼ばれ、元々の式の「値」（"value"）を表します。項書き替えという流儀を貫くことにより、Pure内では「定義済み」（"defined"）関数シンボルと「コンストラクタ」（"constructor"）関数シンボルの区別はありません。その結果、あらゆる関数シンボルや演算子は等式左辺の *どこでも* 使うことができ、もし正規形の項の中に現れた場合にはコンストラクタシンボルとして振る舞うことが許されます。このことにより、あなたは結合や分配のような代数のルールをそのままのやり方で使うことができます::
+
   > (x+y)*z = x*z+y*z; x*(y+z) = x*y+x*z;
   > x*(y*z) = (x*y)*z; x+(y+z) = (x+y)+z;
   > square (a+b);
@@ -676,7 +783,9 @@ are forbidden in these languages. In Pure such definitions are just normal
 business, which makes the language directly usable as a tool for symbolic
 algebra.
 
-Parameters in Equations
+これに対して、HaskellやMLのような言語がいわゆる「コンストラクタ原則」を常に強制することに注意してください。「コンストラクタ原則」は stipulates that only pure constructor symbols (without any defining equations) may occur as a subterm on the left-hand side of a definition. したがってこれらの言語では上のような等式定義が許されません。しかしこのような定義はPureでは普通のことです。こうした特徴により、Pureは記号代数のツールとして直接使えるものになっています。
+
+Parameters in Equations 等式のパラメータ
 -----------------------
 
 Taking a look at the above examples, you might have been wondering how the
@@ -687,6 +796,8 @@ an equation like ``foo (foo bar) = bar``? Since most of the time we don't
 declare any symbols in Pure, how does the interpreter know that ``foo`` is a
 literal function symbol here, while ``bar`` is a variable?
 
+前段で挙げた例を見て、あなたはPureのインタープリタが等式中の何をパラメータ（「変数」とも呼ばれる）として理解するのか不思議に思っているかもしれません。例えば ``(x+y)*z = x*z+y+z`` のように、単に変数と演算専用の記号だけを含むルールであれば、この区別ははっきりしています。しかし ``foo (foo bar) = bar`` のような等式ではどうでしょうか？ Pureを使うほとんどの機会において私たちはいかなる記号も定義しないのに、インタープリタは ``foo`` がここで関数リテラルのシンボルであり、 ``bar`` が変数であることを理解できるのでしょうか？
+
 The answer is that the interpreter considers the different positions in the
 left-hand side expression of an equation. Basically, a Pure expression is just
 a tree formed by applying expressions to other expressions, with the atomic
@@ -695,6 +806,8 @@ even true for infix expressions like ``x+y``, since in Pure these are always
 equivalent to a function application of the form ``(+) x y`` which has the
 atomic subterms ``(+)``, ``x`` and ``y`` at its leaves.)
 
+答えはこういうことです。インタープリタは等式の左辺にある式の異なる位置を考えます。Pureの式は基本的に、ある式を他の式に適用する単なるツリー形状をとり、そのツリーの枝には、数値や記号などアトム的な下位式（subexpressions）が葉として付いています（このことは ``x+y`` のような挿入演算子の式（infix expressions）についても当てはまります。なぜならPureにおいてこれらは ``(+) x y`` という形式の関数アプリケーションと常に等価（equivalent）であり、この式は ``(+)`` と ``x`` と ``y`` というアトム的な下位項（subterms）を葉として持っていることになります）。
+
 Now the interpreter divides the leaves of the expression tree into "head" (or
 "function") and "parameter" (or "variable") positions based on which leaves
 are leftmost in a function application or not. Thus, in an expression like ``f
@@ -702,6 +815,10 @@ x y z``, ``f`` is in the head or function position, while ``x``, ``y`` and
 ``z`` are in parameter or variable positions. (Note that in an infix
 expression like ``x+y``, ``(+)`` is the head symbol, not ``x``, as the
 expression is really parsed as ``(+) x y``, see above.)
+
+今やインタープリタは式の木についている複数の葉を「頭」（または「関数」）の位置と「パラメータ」（または「変数」）の位置に分割し、最も左にある葉は関数アプリケーションの位置を占めることになり、他はそうなりません。したがって、 ``f x y z`` のような式のうち、 ``f`` は頭もしくは関数の位置にあり、 ``x`` と ``y`` と ``z`` はパラメータもしくは変数の位置にあることになります（``x+y`` のような挿入演算子の式では、 あくまで ``(+)`` が頭部シンボルであり、決して ``x`` ではないことに注意してください。上で説明したように、この式は ``(+) x y`` として構文解析されます）。
+
+■headは「先頭」とすべきだろうか？
 
 Identifiers in head positions are taken as literal function symbols by the
 interpreter, while identifiers in variable positions denote, well,
@@ -713,7 +830,9 @@ symbol to be recognized as a literal even if it occurs in a variable
 position. This is done by means of a ``nonfix`` declaration, see `Symbol
 Declarations`_ for details.)
 
-Expression Syntax
+頭の位置にある識別子はインタープリタによって関数リテラルのシンボルとして扱われ、それに対して変数の位置にある識別子は、そう、変数を与えます。私たちはこのしきたりを `頭＝関数ルール` と呼んで言及しています。このルールはとても直感的で、等式内で変数を宣言することなく私たちは先へ進むことができます（ただし、ここではカバーしきれない厄介なケースも存在します。特に、あなたがある記号を、それが変数の位置に置かれる時でもリテラルとして認識させる必要があるならば、Pureでは特別な定数記号として宣言することが許されています。これは ``nonfix`` 宣言を通じて可能です。詳しくは `Symbol Declarations`_ を参照してください）。
+
+Expression Syntax 式の文法
 -----------------
 
 The Pure language provides built-in support for machine integers (32 bit),
@@ -725,9 +844,14 @@ you might expect, zero denotes *false* and any non-zero value *true*). Pure
 also provides some built-in support for lists and matrices, although most of
 the corresponding operations are actually defined in the prelude.
 
+Pure言語は以下のデータ型を組み込みサポートしています。machine integer (32 bit), bigint （ GMP_ を使って実装）、浮動小数点値（IEEE 754 倍精度）、character strings (UTF-8 encoded) 、ジェネリック C ポインタ（ただし、ポインタは syntactic representation を持たず、そのため外部C関数として作られる必要がある）。真偽値はmachine integerにエンコードされます（おそらくあなたの想像通り、ゼロは *false* を表し、あらゆる非ゼロ値は *true* を表します）。Pureはまた、リストとマトリクスの組み込みサポートを提供しており、それらに対応する演算（operation）は実際には prelude 内で定義されています。
+
 Expressions consist of the following elements:
 
+式は以下の要素から構成されます:
+
 Numbers: ``4711``, ``4711L``, ``1.2e-3``
+数値: ``4711``, ``4711L``, ``1.2e-3``
     The usual C notations for integers (decimal: ``1000``, hexadecimal:
     ``0x3e8``, octal: ``01750``) and floating point values are all provided.
     Integers can also be denoted in base 2 by using the ``0b`` or ``0B``
@@ -738,7 +862,10 @@ Numbers: ``4711``, ``4711L``, ``1.2e-3``
     This notation is also used when printing bigint constants, to distinguish
     them from machine integers.
 
+    従来のCの記数法で、整数（10進数: ``1000`` 、16進数: ``0x3e8`` 、8進数: ``01750``）と浮動小数点数がすべてサポートされます。整数はまた ``0b`` か ``0B`` プレフィクスを使って2進数でも記述できます: ``0b1111101000`` 。machine integerでは大きすぎて表現しきれない整数の定数は自動的に bigint へ昇格されます。さらに言えば、整数リテラルの直後に大文字の ``L`` が付いている場合、たとえ machine integer で表現しうるものでも常に bigint 定数として解釈されます。 machine integer との区別を明確にするため、この記数法は bigint 定数を出力するときでも貫かれます。
+
 Strings: ``"Hello, world!\n"``
+文字列: ``"Hello, world!\n"``
     String constants are double-quoted and terminated with a null character,
     like in C. In difference to C, strings are always encoded in UTF-8, and
     character escapes in Pure strings have a more flexible syntax (borrowed
@@ -756,9 +883,12 @@ Strings: ``"Hello, world!\n"``
     Entity definitions for Characters`__. Thus, e.g., ``"\&copy;"`` denotes
     the copyright character (code point 0x000A9).
 
+    文字列定数はCと同じように、ダブルクォートで囲まれヌル文字で終わります。Cと異なるのは、文字列が常にUTF-8でエンコードされること、またPureの文字エスケープがCよりも柔軟な文法を持っていることです（同じ作者のQ言語から借りてきています）。この文法はあらゆるUnicode文字を特定する記法を提供します。特に ``\``[ *n* という表記法（*n* は10進法（プレフィクスなし）、16進数（``0x`` プレフィクス）、8進数（``0`` プレフィクス、2進数（``0b`` プレフィクス）いずれかの整数リテラルで示す）は、 Unicode 文字（コードポイント） #\ *n* を示します。このエスケープは様々な数字で構成することができるので、括弧を使って曖昧さを排除することができます。例えば ``"\(123)4"`` は #123 の後にASCII文字の ``4`` が続いていることを示します。従来のC方式に似た ``\n`` のような非表示の特殊文字エスケープもサポートされます。さらには ``\&``\ *name*\ ``;`` 形式の記号文字エスケープ（ *name* は `XML Entity definitions for Characters`__ で定義される単一文字エンティティ名）も使えます。したがって、例えば ``"&copy;"`` はコピーライト文字（コードポイント 0x000A9）を表します。
+
 __ http://www.w3.org/TR/xml-entity-names/
 
 Function and variable symbols: ``foo``, ``foo_bar``, ``BAR``, ``foo::bar``
+関数シンボルと変数シンボル: ``foo``, ``foo_bar``, ``BAR``, ``foo::bar``
     These consist of the usual sequence of letters (including the underscore)
     and digits, starting with a letter. Case is significant, thus ``foo``,
     ``Foo`` and ``FOO`` are distinct identifiers. The '``_``' symbol, when
@@ -768,7 +898,10 @@ Function and variable symbols: ``foo``, ``foo_bar``, ``BAR``, ``foo::bar``
     like in ``foo::bar``. (This requires that the given namespace has already
     been created, as explained under Namespaces_ in the Declarations_ section.)
 
+    関数と変数を表すシンボルはひとつながりの文字（アンダーバーを含む）と数字で構成され、必ず文字から始まります。大文字と小文字は区別されるので ``foo`` と ``Foo`` と ``FOO`` は別個の識別子です。 ``_`` 記号は、等式の左辺に現れたとき、特別なものとなります。このとき ``_`` は `匿名変数` を示し、実際に変数と束縛されることなくいかなる値にもマッチします。また ``foo::bar`` のように関数・変数の識別子の前に名前空間の識別子を付けることも可能です（この場合、付加した名前空間がすでに作成されていることが必要です。 Declarations_ セクション内 Namespace_ 部で説明している通りです）。
+
 Operator and constant symbols: ``x+y``, ``x==y``, ``not x``
+演算子シンボルと定数シンボル: ``x+y``, ``x==y``, ``not x``
     For convenience, Pure also provides you with a limited means to extend the
     syntax of the language with special operator and constant symbols by means
     of a corresponding `fixity` declaration, as discussed in section
@@ -779,6 +912,8 @@ Operator and constant symbols: ``x+y``, ``x==y``, ``not x``
     such a symbol occurs on the left-hand side of an equation, it is always to
     be interpreted as a literal constant, cf. `Parameters in Equations`_.)
 
+    便宜のため、 Pure は限定された意味を提供しています。対応する `fixity` 宣言を使って、特別な演算子と定数シンボルによって言語の文法を拡張するために。 `Symbol Declarations`_ セクションで議論している通り。従来の挿入（infix）、前置（prefix）、後置（postfix）演算子に加え、 Pure はアウトフィクス（角括弧）とノンフィクス（定数）シンボルも提供します（ノンフィクスシンボルは、実際には多かれ少なかれ普通の識別子と同じような働きをしますが、 ``nonfix`` 属性はコンパイラに対して以下のように伝える点が異なります。そのようなシンボルが等式の左辺に現れたとき、そのシンボルを常にリテラル定数と扱え、と伝えるのです。 cf. `Parameters in Equations`_ ）
+
     Operator and constant symbols may take the form of an identifier or a
     sequence of punctuation characters. They must always be declared before
     use. Once declared, they are always special, and can't be used as ordinary
@@ -787,12 +922,17 @@ Operator and constant symbols: ``x+y``, ``x==y``, ``not x``
     ordinary function symbol. Also, operators and constant symbols can be
     qualified with a namespace just like normal identifiers.
 
+    演算子シンボルと定数シンボルは、1つの識別子か、句読点文字のシーケンスという形をとることができます。それらは常に使用前に宣言される必要があります。一度宣言されたら、それらシンボルは常に特別であり、もはや通常の識別子として使うことはできません。しかし、 Haskell と同じように、 ``(+)`` や ``(not)`` のように演算子を丸括弧で囲うことにより通常の関数シンボルへ変えることができます。また、演算子シンボルと定数シンボルを、普通の識別子とまったく同じように名前空間で修飾することも可能です。
+
 Lists: ``[x,y,z]``, ``x:xs``, ``x..y``, ``x:y..z``
+リスト: ``[x,y,z]``, ``x:xs``, ``x..y``, ``x:y..z``
     Pure's basic list syntax is the same as in Haskell, thus ``[]`` is the
     empty list and ``x:xs`` denotes a list with head element ``x`` and tail
     list ``xs``. (The infix constructor symbol '``:``' is declared in the
     prelude.) The usual syntactic sugar for list values in brackets is
     provided, thus ``[x,y,z]`` is exactly the same as ``x:y:z:[]``.
+
+    Pure の基本的なリスト文法は Haskell と同じです。なので ``[]`` は空リストを、 ``x:xs`` は ``x`` が先頭要素で後の残りが ``xs`` であるリストを示します（挿入コンストラクタシンボル '``:``' は prelude で宣言されています）。角括弧はリスト値を表すよくある糖衣構文として提供されるので、 ``[x,y,z]`` は ``x:y:z:[]`` とまったく同じことです。
 
     There's also a way to denote arithmetic sequences such as ``1..5``, which
     denotes the list ``[1,2,3,4,5]``. (Haskell users should note the missing
@@ -806,7 +946,12 @@ Lists: ``[x,y,z]``, ``x:xs``, ``x..y``, ``x:y..z``
     ``0.0:0.1..0.29`` actually yields ``[0.0,0.1,0.2,0.3]``, as does
     ``0.0:0.1..0.31``.)
 
+    ``1..5`` のような形で等差数列を示す方法もあります。この例は ``[1,2,3,4,5]`` を表します（ Haskell ユーザは角括弧（ブラケット）が無いことに注意してください。 Haskell とは異なり、 Pure は数列のために特別な文法は使いません。 '``..``' 記号は単なる普通の挿入演算子で、 prelude 内で宣言と定義が行われています）。任意の差（stepsizes）は数列の最初の2要素に '``:``' を使って、 ``1.0:1.2..3.0`` のように表すことができます（四捨五入のエラーのせいで作為的な数値が混入するのを防ぐため、浮動小数点数列の境界上位は常に最も近いグリッドポイントに丸められます。例えば ``0.0:0.1..0.29`` は実際には ``[0.0,0.1,0.2,0.3]`` をもたらし、また ``0.0:0.1..0.31`` も同じ結果となります。
+
+■TODO 小数点以下の揃えられ方について訳註として詳説を加えたい。
+
 Tuples: ``x,y,z``
+タプル: ``x,y,z``
     Pure's tuples are a bit unusual: They are constructed by just "pairing"
     things using the '``,``' operator, for which the empty tuple ``()`` acts
     as a neutral element (i.e., ``(),x`` is just ``x``, as is ``x,()``). Pairs
@@ -821,7 +966,10 @@ Tuples: ``x,y,z``
     ``3``, and another tuple ``4,5``. Likewise, ``[(1,2,3)]`` is a list with a
     single element, the tuple ``1,2,3``.
 
+    Pure のタプルは少し珍しいものです: タプルは '``,``' を使って単純に「ペアになった」何かです。そのため、空のタプル ``()`` はニュートラルな要素として振る舞います（つまり ``(),x`` は単に ``x`` であり、 ``x,()`` もまた同様です）。ペアは常に右側のものと結びつきます。つまり ``x,y,z == x,(y,z) == (x,y),z`` であり、ここでは ``x,(y,z)`` が正規化された表現となります。このことは、タプルが常にフラットであることを含意しています。すなわち、ネストされたタプル（タプルのタプル）というものはありません。もし入れ子の構造が必要なら、タプルの代わりにリストを使うべきです。また、丸括弧は通例では式をグループ化するためだけに使われるもので、 Pure のタプル文法の一部では *ない* ことに注意してください。 *ただし* マトリクスやリスト内にタプルを含める必要がある場合は別です。例えば ``[(1,2),3,(4,5)]`` は 1,2 のタプル、整数 3 、もう一つのタプル ``4,5`` という3つの要素からなるリストです。同様に ``[(1,2,3)] は ``1,2,3`` という1つのタプルを持つリストです。
+
 Matrices: ``{1.0,2.0,3.0}``, ``{1,2;3,4}``, ``{1L,y+1;foo,bar}``
+マトリクス: ``{1.0,2.0,3.0}``, ``{1,2;3,4}``, ``{1L,y+1;foo,bar}``
     Pure also offers matrices, a kind of arrays, as a built-in data structure
     which provides efficient storage and element access. These work more or
     less like their Octave/MATLAB equivalents, but using curly braces instead
@@ -833,6 +981,8 @@ Matrices: ``{1.0,2.0,3.0}``, ``{1,2;3,4}``, ``{1L,y+1;foo,bar}``
     form (however, internally all matrices are stored in C's row-major
     format).
 
+    Pure はマトリクスも提供します。マトリクスは配列の一つで、組み込みのデータ構造であり、効率のよい保存とアクセスを提供します。これらは Ooctave/MATLAB のそれとだいたい同じように動作しますが、角括弧（ブラケット）の代わりに波括弧を使います。すでに示されているように、カンマはマトリクスの列（columns）を分け、セミコロンは行（rows）を分けます。実際、 ``{...}`` 構造はgeneralであり、すべての次元が一致していれば、個別の要素 and/or サブマトリクスから新しいマトリクスを作ることを許します。例えば ``{{1;3},{2;4}} は 2x2 のマトリクスをさきほどと別の「列優先」（"column-major"）フォーマットで書く方法です（とはいえ、内部的にはすべてのマトリクスはCの行優先フォーマットで保存されます）。
+
     Note that, while the ``[...]`` and ``{...}`` constructs look superficially
     similar, they work in very different ways. The former is just syntactic
     sugar for a corresponding constructor term and can thus be used as a
@@ -841,6 +991,8 @@ Matrices: ``{1.0,2.0,3.0}``, ``{1,2;3,4}``, ``{1L,y+1;foo,bar}``
     can *not* be used as patterns (instead, matrix values can be matched using
     the special ``matrix`` type tag, see the `Rule Syntax`_ section for
     details).
+
+    ``[...]`` と ``{...}`` は構造の外見がよく似ているのに対して、両者の動作が非常に異なることに注意してください。前者は単に、対応するコンストラクタの syntactic sugar であり、そのため等式左辺のパターンとして使用できます。それと対照的に、後者は組み込み処理の一つであり、専用のマトリクス型を持つオブジェクトを生み出します。こちらはパターンとして使うことはでき *ません* （その代わり、マトリクスの値は専用の ``matrix`` 型タグを使ってマッチさせることができます。詳しくは `Rule Syntax`_ セクションを参照してください）。
 
     Pure supports both numeric and symbolic matrices. The former are
     homogeneous arrays of double, complex double or (machine) int matrices,
@@ -855,10 +1007,15 @@ Matrices: ``{1.0,2.0,3.0}``, ``{1,2;3,4}``, ``{1L,y+1;foo,bar}``
     Pure interpreter does not require GSL, however, so numeric matrices will
     work even if GSL is not installed.)
 
+    Pure は数値マトリクスと記号マトリクスの両者をサポートします。前者は double, complex double or (machine) int の均質な（homogeneous）配列であり、対する後者は Pure のいかなる式をも内包することができます。 Pure は各データのために適切な型を採用するでしょう。もしマトリクスがそれぞれ型の異なる値を含んでいたら、あるいは数値マトリクスに保存できない Pure の値を含んでいたら、その代わりに代数マトリクスが創り出されます（これには bigint の場合も含まれます。マトリクス構造に関する限り bigint は代数値とみなされます）。数値マトリクスは `GNU Scientific Library` (GSL) と完全互換のデータレイアウトを使っており、Cインターフェースを使ってGSLへ容易に渡すことが可能です（しかし Pure インタープリタは GSL を必要としないので、数値マトリクスは GSL がインストールされていなくても動作します）。
+
     More information about matrices and corresponding examples can be found in
     the Examples_ section below.
 
+    マトリクスに関する詳細やそれぞれの例は Example_ セクションにあります。
+
 Comprehensions: ``[x,y | x=1..n; y=1..m; x<y]``, ``{f x | x=1..n}``
+内包: ``[x,y | x=1..n; y=1..m; x<y]``, ``{f x | x=1..n}``
     Pure provides both list and matrix comprehensions as a convenient means to
     construct list and matrix values from a "template" expression and one or
     more "generator" and "filter" clauses. The former bind a pattern to values
@@ -870,13 +1027,18 @@ Comprehensions: ``[x,y | x=1..n; y=1..m; x<y]``, ``{f x | x=1..n}``
     function over a list or matrix, defined in the prelude), but they are
     often much easier to write.
 
+    Pure はリストとマトリクスの内包を提供します。これはリスト値やマトリクス値を、 "template" 式や、1つ以上の "generator" や "filter" 節から構成するのに便利なものです。前者は、あるパターンを、リストかマトリクスで描写される値にバインドします。後者は、生成される要素のどれを結果に追加するか定義しているだけです。リスト内包とマトリクス内包の両者は、実際には、ネストされたラムダと、条件式と、 "catmaps" （リスト構造やマトリクス構造を結合し、ある関数をリストやマトリクスにマッピングする処理のコレクションで、 prelude 内で定義される）を組み合わせた糖衣構文です。しかし■それら■のほうがしばしば簡単に書けます。
+
     Matrix comprehensions work pretty much like list comprehensions, but
     produce matrices instead of lists. List generators in matrix
     comprehensions alternate between row and column generation so that most
     common mathematical abbreviations carry over quite easily. Examples of
     both kinds of comprehensions can be found in the Examples_ section below.
 
+    マトリクス内包はリスト内包とほとんど同じように動作しますが、リストの代わりにマトリクスを作り出します。マトリクス内包のリストジェネレータは、行と列の生成を異なるものにします。そのため、数学的な abbreviations のほとんどをとても簡単に持ち越すことができます。両種の内包の例は下部 Examples_ セクションにあります。
+
 Function and operator applications: ``foo x y z``, ``-x``, ``x+y``, ``(+x)``
+関数と演算子の適用: ``foo x y z``, ``-x``, ``x+y``, ``(+x)``
     As in other modern FPLs, function applications are written simply as
     juxtaposition (i.e., in "curried" form) and associate to the left. This
     means that in fact all functions only take a single argument.
@@ -890,6 +1052,8 @@ Function and operator applications: ``foo x y z``, ``-x``, ``x+y``, ``(+x)``
     example, ``max 0`` is the function which, for a given ``x``, returns ``x``
     itself if it is nonnegative and zero otherwise. This works because
     ``(max 0) x = max 0 x`` is the maximum of ``0`` and ``x``.
+
+    他の現代的な関数型言語と同じく、関数適用はシンプルに並置して（つまり「カリー化された」形式）書き、左と結合します。つまり、実際にはすべての関数は引数を1つだけ取ることを意味します。複数の引数を取る関数は、引数1つの関数をつなげたものとして表現されます。例えば ``f x y = (f x) y`` という例だと、まず ``f`` が最初の引数 ``x`` に適用され、関数 ``f x`` を生み出します。今度はその新たな関数が第2引数 ``y`` に適用されるわけです。このことにより、既存の関数に `部分適用` を行ってそこから新たな関数を導くことが可能となります。 `部分適用` はいくらかの、全部ではない引数を定義します。 例として prelude から ``max`` 関数を取り上げます。 ``max 0`` に ``x`` が与えられたとき、 ``x`` が負であれば ``x`` そのものを、そうでなければゼロを返します。これが機能するのは ``(max 0) x = max 0 x`` が ``0`` と ``x`` の最大値であるからです。
 
     Operator applications are written using prefix, postfix, outfix or infix
     notation, as the declaration of the operator demands, but are just
@@ -908,19 +1072,28 @@ Function and operator applications: ``foo x y z``, ``-x``, ``x+y``, ``(+x)``
     ``(+-x)`` can be used to indicate a function which subtracts ``x`` from
     its argument.)
 
+    演算子の適用は、その演算子の宣言にもとづき、前置、後置、アウトフィクス、挿入いずれかの記法を使って書きますが、通常の関数適用が変装しただけのものです。すでに述べたように、ある演算子を丸括弧で囲むと、その演算子は普通の関数シンボルとなります。つまり ``x+y`` は ``(+) x y`` とまったく同じだということです。便宜のため、挿入演算子の部分適用はいわゆる `演算子セクション` を使って書くことも可能です。 *左セクション* は ``(x+)`` という形をとりますが、これは ``(+) x`` の部分適用と等価です。 *右セクション* は ``(+x)`` という形をとり、 ``flip (+) x`` と等価で（prelude から連結子 ``flip`` を使っていますが、これは ``flip f x y = f y x`` と定義されています）、したがって ``(x+) y`` は ``x+y`` と等価であり、それに対して ``(+x) y`` は ``y+x`` へと還元されます。例えば ``(1/)`` は逆数を示し、 ``(+1)`` は後者関数を示します（対照的に、 ``(-x)`` はいつでも単項の負数を示すことに注意してください。引数から ``x`` を引く関数を表すには ``(+-x)`` を使うことができます）。
+
 Conditional expressions: ``if x then y else z``
+条件式: ``if x then y else z``
     Evaluates to ``y`` or ``z`` depending on whether ``x`` is "true" (i.e., a
     nonzero integer). An exception is raised if the condition is not an
     integer.
 
+    ``y`` と ``z`` のどちらを評価するかは ``x`` が "true" （つまり非ゼロ数）かどうかに依存します。条件式が整数でない場合は例外が起きます。
+
 Lambdas: ``\x -> y``
+ラムダ: ``\x -> y``
     These denote anonymous functions and work pretty much like in Haskell.
     Pure supports multiple-argument lambdas (e.g, ``\x y -> x*y``), as well as
     pattern-matching lambda abstractions which match one or more patterns
     against the lambda arguments, such as ``\(x,y) -> x*y``. An exception is
     raised if the actual lambda arguments do not match the given patterns.
 
+    これらは無名関数を表しており、 Haskell とまったく同じように動作します。 Pure は複数の引数を取るラムダ（例えば ``\x y -> x*y`` ）やパターンマッチを行うラムダ抽出（lambda abstraction）をサポートします。ラムダ抽出は、ラムダの引数に対して1つ以上のパターンマッチを、例えば ``\(x,y) -> x*y`` のようなかたちで行います。与えられたパターンにラムダの実際の引数がマッチしない場合、例外が起きます。
+
 Case expressions: ``case x of rule; ... end``
+Case 式: ``case x of rule; ... end``
     Matches an expression, discriminating over a number of different cases,
     similar to the Haskell case construct. The expression ``x`` is matched in
     turn against each left-hand side pattern in the rule list, and the first
@@ -929,7 +1102,10 @@ Case expressions: ``case x of rule; ... end``
     pattern bound to their corresponding values. An exception is raised if the
     target expression doesn't match any of the patterns.
 
+    Haskell の case 構造と同じく、式のマッチを行い、たくさんのそれぞれ異なる場合を識別します。式 ``x`` はルールリスト中の各左辺のパターンに対して次々マッチを試され、最初に ``x`` にマッチしたパターンが式全体の値を与えます, by evaluating the corresponding right-hand side with the variables in the pattern bound to their corresponding values. ターゲットの式がどのパターンにもマッチしなかった場合は例外が起きます。
+
 When expressions: ``x when rule; ... end``
+When 式: ``x when rule; ... end``
     An alternative way to bind local variables by matching a collection of
     subject terms against corresponding patterns, similar to Aardappel_'s
     ``when`` construct. A single binding such as ``x when u = v end`` is
@@ -940,7 +1116,10 @@ When expressions: ``x when rule; ... end``
     several nested single definitions, with the first binding being the
     "outermost" one.
 
+    ローカル変数を束縛するもう一つの方法です。subject項のコレクションを対応するパターンに対してマッチさせてローカル変数を束縛します。 Aardappel_ の ``when`` 構造と同じです。 ``x when u = v end`` のような単一の束縛は ``case v of u = x end`` と等価ですが、前者のほうが書きやすいことが多いでしょう。 ``when`` 節は複数の定義を含むことができ、この複数の定義は左から右へ処理されます。したがって後にある定義はそれより前にある変数を参照することができます。■これは、単独の定義をいくつかネストした場合とまったく同じで、最初に束縛されたものが "outmost" なものとなります。■
+
 With expressions: ``x with rule; ... end``
+With 式: ``x with rule; ... end``
     Defines local functions. Like Haskell's ``where`` construct, but it can be
     used anywhere inside an expression (just like Aardappel's ``where``, but
     Pure uses the keyword ``with`` which better lines up with ``case`` and
@@ -948,7 +1127,9 @@ With expressions: ``x with rule; ... end``
     and the definitions can be mutually recursive and consist of as many
     equations as you want.
 
-Operators and Precedence
+    ローカル関数を定義します。 Haskell の ``where`` 構造と似ていますが、 ``with`` は式の中のどこででも使うことができます（ちょうど Aardappel の ``where`` と同じようなものですが、 Pure は ``with`` キーワードを使います which better lines up with ``case`` and ``when``）。 ``with`` 節の内側で複数の関数を定義することでき、またそれらの関数が相互に再帰的であることもできますし、あなたが望むだけたくさんの等式で構成することもできます。
+
+Operators and Precedence 演算子と優先順位
 ------------------------
 
 Expressions are parsed according to the following precedence rules: Lambda
@@ -960,6 +1141,8 @@ expressions. Precedence and associativity of operator symbols are given by
 their declarations (cf. `Symbol Declarations`_), and function application
 binds stronger than all operators. Parentheses can be used to override default
 precedences and associativities as usual.
+
+式は以下の優先順位に従って構文解析されます: ラムダは最も弱く結びつきます。 ``when``, ``with`` and ``case`` が後続する、条件式（``if``-``then``-``else``）が後続する、`シンプルな式`、つまり他のあらゆる種類の式（演算子、関数アプリケーション、定数、シンボルと other primary expressions を含む）が後続する。演算子シンボルの優先度と結合しやすさは、その宣言により与えられます（cf. `Symbol Declarations`_）。また関数アプリケーションは全演算子よりも強く結びつきます。例によって、丸括弧を使うとデフォルトの優先度と結合しやすさをオーバーライドできます。
 
 The common operator symbols like ``+``, ``-``, ``*``, ``/`` etc. are all
 declared at the beginning of the prelude, see the `Pure Library Manual`_ for a
@@ -975,7 +1158,9 @@ in short-circuit mode (see below), whereas the bitwise connectives receive
 their arguments using call-by-value, just like the other arithmetic
 operations.
 
-Special Forms
+``+``, ``-``, ``*``, ``/`` などなどありふれた演算子シンボルはすべて prelude の先頭で宣言されています。これらのリストは `Pure Library Manual`_ で参照できます。算術演算子および関係演算子はほとんどCの慣例を踏襲しています。しかし、やむを得ず（Pure では ``!`` と ``&`` と ``|`` を他の目的に使っていますが）論理演算、ビット演算、negated equality predicates はちょっと違う記号を使っています: ``~``, ``&&`` and ``||`` はそれぞれ論理否定、連言命題、選言命題を表します。他方、それぞれに対応するビット演算子は ``not`` ``and`` ``or`` を使います。さらに、これらの慣習を踏襲して、等しくないこと（inequality）は ``~=`` で示します。また ``&&`` と ``||`` が特別形であり短絡モード（下部参照）で評価されること、その一方で、ビット結合子が他の算術演算子と同じようにcall-by-nameを用いて引数を受けとることに注意して下さい。
+
+Special Forms 特別形
 -------------
 
 As already mentioned, some operations are actually implemented as special
@@ -989,6 +1174,8 @@ these operations work as if they were defined by the following equations (but
 note that the second operand is indeed passed "by name", so that it isn't
 evaluated unless its value is actually needed)::
 
+すでに述べた通り、いくつかの演算は実際には特別形として実装されています。特に、条件式 ``if x then y else z`` は名前呼出しの引数 ``y`` と ``z`` を伴う特別形です。 ``x`` の値によって、枝の片方だけが実際に評価されます。同じように、論理結合子 ``&&`` と ``||`` はオペランドを短絡モードで評価します。従って、例えば ``x&&y`` は ``x`` が偽と評価されるとただちに偽となり、 ``y`` が評価されることはありません。この処理の組み込み定義は、あたかも次のように定義された等式のように動作します（しかし2番目のオペランドは実のところ "by name" で渡されることに注意して下さい。その結果として、2番目のオペランドの値は実際に必要とされない限り評価されないわけです）。
+
   x::int && y = if x then x else y;
   x::int || y = if x then y else x;
 
@@ -1000,6 +1187,8 @@ you need a normalized truth value then you'll have to make sure that either
 both operands are already normalized, or you'll have to normalize the result
 yourself.)
 
+（これはCの場合とまったく同じというわけではありません。というのもこれらの処理の結果は正規化され *ない* からです。すなわち、これらの処理は "true" を示すために1意外の非ゼロ値を返す可能性があります。このことには ``&&`` と ``||`` を末尾再帰で実装できるという利点があります（`Stack Size and Tail Recursion`_ を参照して下さい）。したがって、もし正規化された真偽値を必要とする場合、あなたは両方のオペランドいずれもがすでに正規化されていることを確認するか、あるいは結果そのものをあなたが自分で正規化しなければなりません。
+
 If the built-in definitions of ``&&`` and ``||`` fail then both operands are
 evaluated and the resulting symbolic term is reduced using the equations
 specified by the programmer, which allows you to extend the definitions of
@@ -1008,22 +1197,29 @@ term is in normal form then it is returned as is, thus ``&&`` and ``||`` can
 be used in symbolic evaluations as usual. For instance, the following
 equations let you compute the disjunctive normal form of logical expressions::
 
+``&&`` と ``||`` の組み込み定義が fail した場合、両方のオペランドが評価され、プログラマーにより定義された等式を使って the resulting symbolic term is reduced. このことにより、あなたは ``&&`` と ``||`` の定義を拡張することができます just as with other builtins. また、結果の項が正規形である場合、そのまま返されます。したがって ``&&`` と ``||`` を普通通り記号代数評価に使うことができます。例えば、次の等式を使うと論理式の選言的な正規形を計算することができます。::
+
   // eliminate double negations:
+  // 二重否定を排除する:
   ~~a           = a;
 
   // de Morgan's laws:
+  // ド・モルガンの法則:
   ~(a || b)     = ~a && ~b;
   ~(a && b)     = ~a || ~b;
 
   // distributivity:
+  // 分配法則
   a && (b || c) = a && b || a && c;
   (a || b) && c = a && c || b && c;
 
   // associativity:
+  // 結合法則
   (a && b) && c = a && (b && c);
   (a || b) || c = a || (b || c);
 
 Example::
+例::
 
   > a || ~(b || (c && ~d));
   a||~b&&~c||~b&&d
@@ -1032,6 +1228,8 @@ The sequencing operator ``$$`` evaluates its left operand, immediately throws
 the result away and then goes on to evaluate the right operand which gives the
 result of the entire expression. This operator is useful to write
 imperative-style code such as the following prompt-input interaction::
+
+連続演算子（sequencing operator） ``$$`` は左オペランドを評価し、ただちに結果を出し、続けて右オペランドを評価し、それが式全体の結果となります。この演算子は、プロンプト入力のような、命令的なコードを書くのに便利です。
 
   > using system;
   > puts "Enter a number:" $$ scanf "%g";
@@ -1042,6 +1240,8 @@ imperative-style code such as the following prompt-input interaction::
 We mention in passing here that the same effect can be achieved with a
 ``when`` clause, which also allows you to execute a function solely for its
 side-effects and just ignore the return value::
+
+ついでに言っておくと ``when`` 節も同じ目的に使えます。 ``when`` 節は副作用（side-effects）を得るために関数を単独で実行することを許し、返値をただ無視します。
 
   > scanf "%g" when puts "Enter a number:" end;
   Enter a number:
@@ -1062,10 +1262,14 @@ with a thunked tail, which allows it to be infinite. The Pure prelude defines
 many functions for creating and manipulating these kinds of objects; further
 details and examples can be found in the Examples_ section below.
 
+``&`` 演算子は遅延評価を行います。標準preludeで唯一定義されている後置演算子で、 ``x`` が Pure の任意の式であるとき ``x&`` と書きます。この演算子はオペランドを一種の無名クロージャへと変え、評価を延期します。この種のオブジェクトは `thunk` や `future` としても知られています。 future の値は実際に必要とされたとき（パターンマッチングの間や、値がC呼び出しの引数となったとき）、自動的に評価され記憶されます。つまり、計算された結果がサンク（thunk）と入れ替わるので、サンクは一度だけ計算される必要が生じます。 future は Pure においてあらゆる種類の遅延評価データ構造を実装するのに役立ちます。特に遅延リスト a.k.a. ストリームを実装するために。`stream` は thunked tail を持つ単なるリストで、無限大になることもできます。 Pure の prelude は、この種のオブジェクトを創り、操作するための関数をたくさん定義します。さらなる詳細と具体例は下部 Examples_ セクションにあります。
+
 Last but not least, the special form ``quote`` quotes an expression, i.e.,
 ``quote x`` (or, equivalently, ``'x``) returns just ``x`` itself without
 evaluating it. The prelude also provides a function ``eval`` which can be used
 to evaluate a quoted expression at a later time. For instance::
+
+最後になってしまいましたが、 ``quote`` 形式はある式をクォートします。すなわち ``quote x`` （あるいは ``'x`` でも等価）は単に ``x`` を返し、評価は行いません。 prelude はまた ``eval`` 関数を提供します。 ``eval`` はクォートされた式を後で評価することができます。例えば::
 
   > let x = '(2*42+2^12); x;
   2*42+2^12
@@ -1074,6 +1278,8 @@ to evaluate a quoted expression at a later time. For instance::
 
 The quote also inhibits evaluation inside matrix values, including the
 "splicing" of embedded submatrices::
+
+クォートはマトリクス内の値を評価することも抑制します。これには埋め込まれたサブマトリクスの接合（"splicing"）を抑制することも含まれます。
 
   > '{1,2+3,2*3};
   {1,2+3,2*3}
@@ -1084,14 +1290,19 @@ The ``quote`` should be well familiar to Lisp programmers. However, there are
 some notable differences, please see `The Quote`_ in the `Caveats and Notes`_
 section for details and more examples.
 
-Toplevel
+``quote`` は Lisp プログラマーには非常に親しみのあるものでしょう。しかし、注意すべき違いがいくつかあります。さらなる詳細と例は `Caveats and Notes`_ セクション内 `The Quote`_ を参照して下さい。
+
+Toplevel トップレベル
 --------
 
 At the toplevel, a Pure program basically consists of rewriting rules (which
 are used to define functions and macros), constant and variable definitions,
 and expressions to be evaluated:
 
+最上位層では、 Pure プログラムは基本的に書き替えルール（関数やマクロを定義するのに使われる）、定数と変数の定義、評価されるべき式で構成されます。
+
 Rules: ``lhs = rhs;``
+ルール: ``lhs = rhs;``
     Rewriting rules always combine a left-hand side pattern (which must be a
     simple expression) and a right-hand side (which can be any kind of Pure
     expression described above). The same format is also used in ``with``,
@@ -1106,7 +1317,10 @@ Rules: ``lhs = rhs;``
     right-hand sides in collections of rules; see the `Rule Syntax`_ section
     for details.
 
+    書き替えルールは常に左辺パターン（単純な式であることが必要）と右辺（上で説明されているあらゆる種類の Pure 式）を結合します。同じフォーマットは ``with`` 、 ``when`` 、 ``case`` 式内でも使えます。最上位のルール、 ``with`` 式、 ``case`` 式という基本的な形式はそれぞれ ``if guard`` 条件を末尾に付けることができます。ここで ``guard`` というのは、ルールを適用してよいかどうかを示す整数式です。さらに、 ``otherwise`` キーワードを空の guard を示すものとして使うこともできます。 ``otherwise`` は常に真です（これは "default" ケースを示す糖衣構文です。インタープリタはこれを単にコメントと扱います）。 Pure はまた  provides some abbreviations for factoring out common left-hand or right-hand sides in collections of rules; 詳しくは `Rules Syntax`_ セクションを参照して下さい。
+
 Macro rules: ``def lhs = rhs;``
+マクロルール: ``def lhs = rhs;``
     A rule starting with the keyword ``def`` defines a macro function. No
     guards or multiple left-hand and right-hand sides are permitted
     here. Macro rules are used to preprocess expressions on the right-hand
@@ -1114,13 +1328,19 @@ Macro rules: ``def lhs = rhs;``
     implement user-defined special forms and simple kinds of optimization
     rules. See the Macros_ section below for details and examples.
 
+    ``def`` キーワードで始まるルールはマクロ関数を定義します。この場合、条件ガードや複数の右辺・左辺は許されません。マクロルールは、コンパイル時に他の式の右辺をぷりプロセスするために使われ、また典型的には、ユーザ定義の特別形や単純な最適化ルールを実装するために使われます。詳細と具体例は下部 Macros_ セクションを参照して下さい。
+
 Global variable bindings: ``let lhs = rhs;``
+グローバル変数のバインディング: ``let lhs = rhs;``
     Binds every variable in the left-hand side pattern to the corresponding
     subterm of the right-hand side (after evaluating it). This works like a
     ``when`` clause, but serves to bind global variables occurring free on the
     right-hand side of other function and variable definitions.
 
+    左辺のパターン内にあるすべての変数を、右辺の下位項（subterm）に（まず評価を行ってから）結びつけます。これは ``when`` 節のように機能しますが、右辺に自由に現れる他の関数や変数定義をグローバル変数へ結びつけてくれます。
+
 Constant bindings: ``const lhs = rhs;``
+定数バインディング
     An alternative form of ``let`` which defines constants rather than
     variables. (These are not to be confused with nonfix symbols which simply
     stand for themselves!) Like ``let``, this construct binds the variable
@@ -1130,10 +1350,15 @@ Constant bindings: ``const lhs = rhs;``
     during program execution. This also allows the compiler to apply some
     special optimizations such as constant folding.
 
+    ``let`` のもう一つの形で、変数でなく定数を定義します（この定数をノンフィクスシンボルと混同しないで下さい。ノンフィクスは単純にそれ自身を象徴（stand for）します！）。 ``let`` のように、この構造は左辺の変数シンボルを右辺の対応する値に（まず評価を行ってから）結びつけます。 ``const`` が ``let`` と異なるのは、 ``const`` は一度だけしか定義を行えないので、その値はプログラム実行中に変化しないという点です。これによりコンパイラは、例えば constant folding のような特別な最適化を行うことができます。
+
 Toplevel expressions: ``expr;``
+最上位の式: ``expre;``
     A singleton expression at the toplevel, terminated with a semicolon,
     simply causes the given value to be evaluated (and the result to be
     printed, when running in interactive mode).
+
+    最上位にある単独の式（セミコロンで終わる）は単純に、評価されるべき値を生じさせます（そして、対話モードで実行された場合は値が表示されます）。
 
 Scoping Rules
 -------------
@@ -1149,6 +1374,8 @@ a (lexical) `closure`. For instance, the following function, when invoked with
 a single argument ``x``, returns another function which adds ``x`` to its
 argument::
 
+識別子や他のシンボルのスコープについては、ここに若干の説明が揃っています。現代的な関数型言語のほとんどと同じように、 Pure ではローカルな関数と変数を `lexical` または `static` に束縛しています。この意味するところは、ローカルな名前の束縛はコンパイル時に周囲を取り巻くプログラムテキストと完全に境界を定められ、プログラムが実行されている間も変わることがありません。特に、もし関数がもう一つの（匿名の、あるいはローカルな）関数を返す場合、返される関数は自分が作り出された環境をキャプチャします。すなわち、それは（レキシカルな）クロージャとなるわけです。例えば、次の関数は、 ``x`` という引数とともに呼ばれると、引数に ``x`` を加算する関数を返します::
+
   > foo x = bar with bar y = x+y end;
   > let f = foo 99; f;
   bar
@@ -1157,6 +1384,8 @@ argument::
 
 This works the same no matter what other bindings of ``x`` may be in effect
 when the closure is invoked::
+
+クロージャが作動するときに他の ``x`` バインディングが有効であったとしても、このプログラムは同じように動作します。
 
   > let x = 77; f 10, (f 20 when x = 88 end);
   109,119
@@ -1169,8 +1398,12 @@ interactive usage, but works the same no matter whether the source code is
 entered interactively or being read from a script, in order to ensure
 consistent behaviour between interactive and batch mode operation.
 
+ただし、グローバルな変数や関数シンボルの束縛は、やや違った動作をします。対話式で使われる多くの言語と同じように、 Pure はグローバルシンボルを `動的に` 束縛します。なので、束縛は対話的なセッションの間のいつでも簡単に変更できます。このことは主に対話式に使うとき便利ですが、ソースコードが対話的に入力された場合でも、スクリプトファイルから読み込まれた場合でも、同じように動作します。対話型処理でもバッチモード処理でも確実に一貫した振る舞いとなるよう、こうした動作になっています。
+
 So, for instance, you can easily bind a global variable to a new value by just
 entering a corresponding ``let`` command::
+
+なので、例えば、グローバル変数に新たな値を束縛するには、対応する ``let`` コマンドを入力するだけで済みます。
 
   > foo x = c*x;
   > foo 99;
@@ -1186,8 +1419,12 @@ command at the toplevel. Thus referential transparency is unimpaired; while
 the value of a global variable may change between different toplevel
 expressions, it will always take the same value in a single evaluation.
 
+これは命令言語（imperative languages）においてグローバル変数とほぼ同じように動作します。 Pure のグローバル変数の値は最上位の ``let`` コマンドでのみ変更可能であることに注意して下さい。したがって参照透過性は損なわれていません。あるグローバル変数の値は、最上位にある他の式と異なるかもしれませんが、それは一つの評価においていつも同じ値をとるでしょう。
+
 Similarly, you can also add new equations to an existing function at any
 time::
+
+同様に、すでに存在する関数に新たな等式を追加することはいつでも可能です。
 
   > fact 0 = 1;
   > fact n::int = n*fact (n-1) if n>0;
@@ -1204,6 +1441,8 @@ time::
 
 (In interactive mode, it is even possible to completely erase a definition,
 see section `Interactive Usage`_ for details.)
+
+（対話モードでは定義そのものを完全に消去することさえ可能です。詳しくは `Interactive Usage`_ セクションを参照して下さい）。
 
 So, while the meaning of a local symbol never changes once its definition has
 been processed, toplevel definitions may well evolve while the program is
@@ -1516,18 +1755,24 @@ definitions (``def``), to be discussed in the `Macros`_ section. In this case,
 however, the rule denotes a real rewriting rule, not a pattern binding, hence
 the left-hand side is mandatory in these rules.
 
-Examples
+Examples 具体例
 ========
 
 Here are a few examples of simple Pure programs.
 
+シンプルな Pure プログラムの例をいくつかここで示します。
+
 The factorial::
+
+階乗::
 
   fact n = n*fact (n-1) if n>0;
          = 1 otherwise;
   let facts = map fact (1..10); facts;
 
 The Fibonacci numbers::
+
+フィボナッチ数::
 
   fib n = a when a,b = fibs n end
             with fibs n = 0,1 if n<=0;
@@ -1542,6 +1787,8 @@ tail-recursive definitions like the following will be executed in constant
 stack space (see `Stack Size and Tail Recursion`_ in the `Caveats and Notes`_
 section for more details on this)::
 
+Pure が tail call optimization を行うことはここでとても価値あることです。このおかげで次のような末尾再帰の定義を一定のスタック領域で実行できます（詳細は `Caveats and Notes`_ セクション内の `Stack Size and Tail Recursion`_ 部を参照してください）。
+
   // tail-recursive factorial using an "accumulating parameter"
   fact n = loop 1 n with
     loop p n = if n>0 then loop (p*n) (n-1) else p;
@@ -1551,6 +1798,8 @@ Here is an example showing how constants are defined and used. Constant
 definitions take pretty much the same form as variable definitions with
 ``let`` (see above), but work more like the definition of a parameterless
 function whose value is precomputed at compile time::
+
+以下の例は、定数を定義し、使用する方法を示したものです。定数定義は変数定義とほとんどまったく同じように ``let`` 形式を使います（上部を参照）。しかし定数はむしろ、引数を取らず値がコンパイル時に計算される関数のように動作します。
 
   > extern double atan(double);
   > const pi = 4*atan 1.0;
@@ -1563,6 +1812,8 @@ function whose value is precomputed at compile time::
 Note that the compiler normally computes constant subexpression at compile
 time, such as ``2*pi`` in the ``foo`` function. This works with all simple
 scalars (machine ints and doubles), see `Constant Definitions`_ for details.
+
+コンパイラは通常、定数の下位式（この例では ``2*pi`` など）をコンパイル時に計算します。単純スカラー（machine intとdouble）に対してはすべてこのように動作します。詳しくは `Constant Definitions`_ を参照してください。
 
 List Comprehensions
 -------------------
@@ -1608,7 +1859,7 @@ in check::
 (Again, this algorithm is rather inefficient, see the examples included in the
 Pure distribution for a much better algorithm by Libor Spacek.)
 
-Lazy Evaluation and Streams
+Lazy Evaluation and Streams 遅延評価とストリーム
 ---------------------------
 
 As already mentioned, lists can also be evaluated in a "lazy" fashion, by just
@@ -2027,7 +2278,7 @@ nested, too::
 
 .. _Expression References: purelib.html#expression-references
 
-Macros
+Macros マクロ
 ======
 
 Macros are a special type of functions to be executed as a kind of
@@ -2035,12 +2286,16 @@ Macros are a special type of functions to be executed as a kind of
 define custom special forms and to perform inlining of function calls and
 other simple kinds of source-level optimizations.
 
+マクロは特別なタイプの関数であり、コンパイル時の一種の "preprocessing stage" （プリプロセス段階）で実行されます。 Pure においてこれらは典型的に、カスタム特別形を定義するためや、関数呼び出しの直列化（inlining）を実行するため、あるいは単純な類のソースレベルでの最適化を行うために使われます。
+
 Whereas the macro facilities of most programming languages simply provide a
 kind of textual substitution mechanism, Pure macros operate on symbolic
 expressions and are implemented by the same kind of rewriting rules that are
 also used to define ordinary functions in Pure. In difference to these, macro
 rules start out with the keyword ``def``, and only simple kinds of rules
 without any guards or multiple left-hand and right-hand sides are permitted.
+
+ほとんどのプログラミング言語において、マクロは、テキスト的な代替物を提供する仕組みとして便利であるのに対して、 Pure のマクロは記号式の上で作動し、通常の関数を定義する際に使われるのと同じく書き替えルールとして定義されています。通常の書き替えルールと異なるのは、マクロのルールは ``def`` キーワードを先頭に書き始める点と、シンプルなルールだけが許され、ガードや複数の左辺・右辺は許されていないという点です。
 
 Syntactically, a macro definition looks just like a variable or constant
 definition, using ``def`` in lieu of ``let`` or ``const``, but they are
@@ -2050,6 +2305,8 @@ before constant substitutions and the actual compilation step. Macros can be
 defined in terms of other macros (also recursively), and are evaluated using
 call by value (i.e., macro calls in macro arguments are expanded before the
 macro gets applied to its parameters).
+
+統語的には、マクロ定義は変数や定数の定義とよく似ており、 ``let`` や ``const`` の代わりに ``def`` を使いますが、それぞれが処理される方法は異なります。マクロは右辺にある関数、定数、変数の定義の代わりとなります。全マクロの置換は、定数の置換や実際のコンパイルステップよりも前に実行されます。マクロは他のマクロを使って定義することもできます（再帰的にもできます）。また、値呼び出しで評価されます（つまり、マクロ引数内でのマクロ呼び出しはマクロがパラメータへ適用される前に展開されます）。
 
 Optimization Rules
 ------------------
@@ -2320,7 +2577,7 @@ definitions. This restricts the kinds of expressions which can be rewritten by
 a macro. But Pure macros are certainly powerful enough for most common
 preprocessing purposes, while still being robust and easy to use.
 
-Declarations
+Declarations 宣言
 ============
 
 Pure is a very terse language by design. Usually you don't declare much stuff,
@@ -2328,15 +2585,25 @@ you just define it and be done with it. However, there are a few toplevel
 constructs which let you declare symbols with special attributes and manage
 programs consisting of several source modules:
 
+Pure は設計から非常に簡潔な言語です。たいてい、たくさんの宣言を行うことはなく、ただ宣言してそれを使うだけです。しかし、あなたが特別な属性を持つシンボルを宣言することを許し、複数のソースモジュールから構成されるプログラムを管理する、いくつかのトップレベル構造があります。
+
 * symbol declarations determine "scope" and "fixity" of a symbol;
+
+* シンボル宣言はシンボルの "scope" と "fixity" を決定します。
 
 * ``extern`` declarations specify external C functions (described in the
   `C Interface`_ section);
 
+* ``extern`` 宣言は外部C関数を定義します（`C Interface`_ セクションを参照）。
+
 * ``using`` clauses let you include other scripts in a Pure script;
+
+* ``using`` 節で、ある Pure スクリプト内から別のスクリプトをインクルードできます。
 
 * ``namespace`` declarations let you avoid name clashes and thereby make it
   easier to manage large programs consisting of many separate modules.
+
+* ``namespace`` 宣言により名前の衝突を避けることができ、これによってたくさんのモジュールからなる大きなプログラムを容易に管理できます。
 
 Symbol Declarations
 -------------------
@@ -3083,7 +3350,7 @@ big projects and large teams of developers. Nevertheless they should be useful
 if your programs grow beyond a small collection of simple source modules, and
 enable you to manage most Pure projects with ease.
 
-Exception Handling
+Exception Handling 例外のハンドリング
 ==================
 
 Pure also offers a useful exception handling facility. To raise an exception,
@@ -3092,6 +3359,8 @@ the argument. To catch an exception, you use the built-in special form
 ``catch`` with the exception handler (a function to be applied to the
 exception value) as the first and the expression to be evaluated as the second
 (call-by-name) argument. For instance::
+
+Pure はまた、便利な例外処理法を提供します。例外を起こすには、ただ組み込み関数 ``throw`` を、一緒に投げられる値を引数として呼び出すだけです。例外をキャッチするには、組み込み特別形 ``catch`` を呼び出します。 ``catch`` の第一引数は例外ハンドラ（例外の値に適用される関数）、第二引数は評価されるべき式（値呼び出し）とします。例えば::
 
   > catch error (throw hello_world);
   error hello_world
@@ -3169,7 +3438,7 @@ E.g., let's compute a solution for a standard 8x8 board::
   > queens 8;
   [(1,1),(2,5),(3,8),(4,6),(5,3),(6,7),(7,2),(8,4)]
 
-C Interface
+C Interface Cインターフェース
 ===========
 
 Accessing C functions from Pure programs is dead simple. You just need an
@@ -3371,7 +3640,7 @@ the library if you prefer that. If a library file cannot be found, or if an
 ``extern`` declaration names a function symbol which cannot be resolved, an
 appropriate error message is printed.
 
-Standard Library
+Standard Library 標準ライブラリ
 ================
 
 Pure comes with a collection of Pure library modules, which includes the
@@ -3451,7 +3720,7 @@ also provides operations to do basic C-style I/O, including ``printf`` and
 ``scanf``. These are all described in much more detail in the `Pure Library
 Manual`_.
 
-Interactive Usage
+Interactive Usage 対話的に使う
 =================
 
 In interactive mode, the interpreter reads definitions and expressions and
@@ -4266,7 +4535,7 @@ The interpreter processes all these files in the same way as with the ``run``
 command (see above). When invoking the interpreter, you can specify the --norc
 option on the command line if you wish to skip these initializations.
 
-Batch Compilation
+Batch Compilation バッチコンパイル
 =================
 
 As of Pure 0.21, the interpreter has a new -c option which provides a
@@ -4634,7 +4903,7 @@ And here's how you can compile, link and run this program::
 Note that the first two lines are output from the Pure program; the last line
 is what gets printed by the ``main`` routine in pure_main.c.
 
-Caveats and Notes
+Caveats and Notes 警告と注意
 =================
 
 This section is a grab bag of casual remarks, useful tips and tricks, and
@@ -4652,11 +4921,15 @@ it that way when possible. On the other hand, Pure doesn't get in your way if
 you want to call external operations with side effects; it does allow you to
 call any C function after all.
 
+人からいつも Pure の何が「ピュア」なんだとよく聞かれます。長くて弁解がましい答えは以下のようなものです。 Pure は実用性を犠牲にしないまま項書き替えの精神に近いところに留まろうとつとめています。 Pure でピュアな関数プログラムを書くことは可能であり、実際とても簡単なことで、また Pure は可能な限りあなたがそうすることを奨励します。他方、あなたがもし side effect とともに外部の処理を呼び出そうとするなら、 Pure はそれを邪魔しません。要するにあらゆるC関数を呼び出すことが許されています。
+
 The short answer is that I simply liked the name, and there wasn't any
 programming language named "Pure" yet (quite a feat nowadays), so there's one
 now. :)
 
-Backward Compatibility
+短い答えとしては、私は単純にこの名前が気に入っていて、しかも "Pure" と名付けられたプログラミング言語がまだなかった（今考えるとすごいこと）ので、この名前になっています :)
+
+Backward Compatibility 後方互換性
 ----------------------
 
 Pure 0.7 introduced built-in matrix structures, which called for some minor
@@ -5495,7 +5768,7 @@ follows::
   with handler (signal k) = printf "Hey, I got signal %d.\n" k $$ 0 end;
   process x = printf "counting: %d\n" x $$ sleep 1 $$ x+1;
 
-Copying
+Copying 複製について
 =======
 
 Pure comes with a fairly liberal license which lets you distribute your own
@@ -5539,7 +5812,7 @@ by the University of Illinois at Urbana-Champaign, and is licensed under a
 distribution for the exact licensing terms. You can also find the LLVM license
 at the LLVM_ website.
 
-Author
+Author 作者
 ======
 
 Albert Gräf <Dr.Graef@t-online.de>, Dept. of Computer Music, Johannes
