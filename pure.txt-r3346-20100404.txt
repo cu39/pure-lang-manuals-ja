@@ -1993,6 +1993,8 @@ lists which are so huge that you would never want to keep them in memory in
 their entirety). E.g., here's one way to define the infinite stream of all
 Fibonacci numbers::
 
+すでに述べた通り、リストは「怠惰な」やり方で評価されることも可能です。ただリストの末尾を未来へと向けてやればよいのです。この特殊なリストは `ストリーム` とも呼ばれます。ストリームを使えば、あなたは無限長のリストを扱うこともできるようになります（あるいは有限なリストであっても、あまりに大きくてその全体をメモリ上に保存したいと思わないケースもあるでしょう）。例えば、全フィボナッチ数を含む無限長ストリームを定義する方法の一つをここに示します。
+
   > let fibs = fibs 0L 1L with fibs a b = a : fibs b (a+b) & end;
   > fibs;
   0L:#<thunk 0xb5d54320>
@@ -2004,6 +2006,8 @@ with bigints in this example because the Fibonacci numbers grow quite rapidly,
 so with machine integers the values would soon start wrapping around to
 negative integers.
 
+ローカルな ``fibs`` 関数のリスト末尾にある ``&`` に注目して下さい。これが ``fibs`` の結果をストリームへと変えてくれます。この関数が再帰的な瞑想に陥るのを防ぐにはこれが必要です。また、私たちはこの例で bigint を扱っていることにも注意して下さい。フィボナッチ数はすぐに大きくなり、machine integer を使っているとすぐに負の整数側に回り込んでしまうでしょう。
+
 Streams like these can be worked with in pretty much the same way as with
 lists. Of course, care must be taken not to invoke "eager" operations such as
 ``#`` (which computes the size of a list) on infinite streams, to prevent
@@ -2011,6 +2015,8 @@ infinite recursion. However, many list operations work with infinite streams
 just fine, and return the appropriate stream results. E.g., the ``take``
 function (which retrieves a given number of elements from the front of a list)
 works with streams just as well as with "eager" lists::
+
+このようなストリームは通常のリストとまったく同じ方法で扱うことができます。もちろん、無限に繰り返される処理を避けるため、 ``#`` （リストの長さを計算する）のような「熱心な」処理を始めないよう気をつける必要はあります。しかし、リスト処理の多くは無限長のストリームでもうまく処理できますし、適切な結果ストリームを返してくれます。例えば ``take`` 関数（与えられた数の要素をリストの先頭から取得する）はストリームを処理する場合でも「熱心な」（先行評価の）リストと同じようにうまくやってくれます::
 
   > take 10 fibs;
   0L:#<thunk 0xb5d54350>
@@ -2020,10 +2026,14 @@ don't, they're lazy bums indeed!). Nevertheless, the stream computed with
 ``take`` is in fact finite and we can readily convert it to an ordinary list,
 forcing its evaluation::
 
+うーん、うまくいきませんね。でもこれがストリームの働き方なんです（もしかしたら、ずっとやらないかもしれません、なんせ怠惰なろくでなしなので！）。でも、 ``take`` で計算されたストリームは実際には有限で、強制的に評価してやれば普通のリストへと簡単に変換できます::
+
   > list (take 10 fibs);
   [0L,1L,1L,2L,3L,5L,8L,13L,21L,34L]
 
 An easier way to achieve this is to cut a "slice" from the stream::
+
+もっと簡単に実現するなら、ストリームから「スライス」を切り取ります。
 
   > fibs!!(0..10);
   [0L,1L,1L,2L,3L,5L,8L,13L,21L,34L,55L]
@@ -2034,6 +2044,8 @@ now readily available in case we need to have another look at it later. By
 these means, possibly costly reevaluations are avoided, trading memory for
 execution speed::
 
+私たちはストリームを変数に束縛したので、ストリームのうちすでに計算されたプレフィクスは記憶されていることに注意して下さい。なので、ストリームのこの部分をあとから使いたい場合でも簡単に使える状態になっています。この方法で実行速度とメモリーを取り引きすれば、コストがかかる可能性のある再評価を避けることができます。
+
   > fibs;
   0L:1L:1L:2L:3L:5L:8L:13L:21L:34L:55L:#<thunk 0xb5d54590>
 
@@ -2041,6 +2053,8 @@ Let's take a look at some of the other convenience operations for generating
 stream values. The prelude defines infinite arithmetic sequences, using
 ``inf`` or ``-inf`` to denote an upper (or lower) infinite bound for the
 sequence, e.g.::
+
+さあ、ストリームの値を生成する便利な処理を他にも見てみましょう。 prelude は無限大の数列を定義します。そこでは ``inf`` または ``-inf`` をその数列に束縛し、正の（or 負の）無限大を示すのに使うことができます。
 
   > let u = 1..inf; let v = -1.0:-1.2..-inf;
   > u!!(0..10); v!!(0..10);
@@ -2052,6 +2066,8 @@ the same function over and over again, ``repeat``, which just repeats its
 argument forever, and ``cycle``, which cycles through the elements of the
 given list::
 
+他の便利なストリーム生成関数として ``iterate`` があります。これは同じ関数を何度も何度も適用しつづけます。また ``repeat`` は、与えられた引数を永遠に繰り返します。 ``cycle`` は与えられたリストの要素を循環させます::
+
   > iterate (*2) 1!!(0..10);
   [1,2,4,8,16,32,64,128,256,512,1024]
   > repeat 1!!(0..10);
@@ -2062,6 +2078,8 @@ given list::
 Moreover, list comprehensions can draw values from streams and return the
 appropriate stream result::
 
+さらに、リスト内包はストリームから値を引き出し、対応する結果ストリームとして返すことができます::
+
   > let rats = [m,n-m | n=2..inf; m=1..n-1; gcd m (n-m) == 1]; rats;
   (1,1):#<thunk 0xb5d54950>
   > rats!!(0..10);
@@ -2070,12 +2088,16 @@ appropriate stream result::
 Finally, let's rewrite our prime sieve so that it generates the infinite
 stream of *all* prime numbers::
 
+最後に、この節の最初で書いた素数の篩を書き直して、 *全* 素数を含む無限長のリストを生成するようにしましょう::
+
   all_primes      = sieve (2..inf) with
     sieve (p:qs)  = p : sieve [q | q = qs; q mod p] &;
   end;
 
 Note that we can omit the empty list case of ``sieve`` here, since the sieve
 now never becomes empty. Example::
+
+ここでは ``sieve`` の空リストのケースを省略できることに注目して下さい。なぜなら、この篩が空になることはもうないからです。具体例::
 
   > let P = all_primes;
   > P!!(0..20);
@@ -2085,6 +2107,8 @@ now never becomes empty. Example::
 
 You can also just print the entire stream. This will run forever, so hit
 ``Ctrl-C`` when you get bored::
+
+あなたはストリーム全体を出力することもできます。これは永遠に走り続けるので、飽きたところで ``Ctrl-C`` を押して下さい::
 
   > using system;
   > do (printf "%d\n") all_primes;
@@ -2100,8 +2124,12 @@ memory is exhausted. Calling ``do`` on a fresh instance of the stream of
 primes allows ``do`` to get rid of each "cons" cell after having printed the
 corresponding stream element.)
 
+（ストリームを出力するときは必ず ``P`` 変数ではなく ``all_primes`` 関数を直接出力に使うようにして下さい。そうしないと要素が記憶されてしまうので、 ``P`` に保存されるストリームが表示される要素の数だけ大きくなり、最後にはメモリを使い果たすでしょう。作ったばかりの素数ストリームインスタンスに対して ``do`` を呼び出すと、あるストリーム要素を表示したあと、対応する "cons" cell を ``do`` が取り除いていってくれます）
+
 Matrix Computations
 -------------------
+
+マトリクス計算
 
 Pure offers a number of basic matrix operations, such as matrix construction,
 indexing, slicing, as well as getting the size and dimensions of a matrix
