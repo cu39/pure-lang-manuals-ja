@@ -393,6 +393,8 @@ the `Interactive Usage`_ section. To exit the interpreter, just type the
 ``quit`` command or the end-of-file character (``^D`` on Unix) at the
 beginning of the command line.
 
+インタープリタが対話モードで実行されている場合、インタープリタは繰り返しあなたに入力を促し（入力は Pure のコードでも、対話モード専用のコマンドでもかまいません）、計算結果を表示します。これは `read-eval-print` ループとしても知られ、 `Interactive Usage` セクションでより詳細に説明されます。インタープリタを終了するには、ただ ``quit`` コマンドを打ち込むか、コマンドラインの先頭で end-of-file 文字（Unix では ``^D``）を入力します。
+
 The interpreter may also source a few additional interactive startup files
 immediately before entering the interactive loop, unless the --norc option is
 specified. First .purerc in the user's home directory is read, then .purerc in
@@ -400,6 +402,8 @@ the current working directory. These are ordinary Pure scripts which can be
 used to provide additional definitions for interactive usage. Finally, a .pure
 file in the current directory (containing a dump from a previous interactive
 session) is loaded if it is present.
+
+インタープリタは他にも対話モード用の追加的な初期ファイルをたどります。これは対話ループに入る直前に行われますが、 --norc オプションが設定された場合は実行されません。まず最初にユーザのホームディレクトリにある .purerc ファイルが読み込まれ、次にカレントワーキングディレクトリにある .purerc が読み込まれます。通常これらのファイルは Pure スクリプトで、対話モード用の追加定義を行うために使われます。最後に、カレントディレクトリの .pure ファイル（直前の対話モードセッションのダンプを含む）が（もしあれば）読み込まれます。
 
 When the interpreter is in interactive mode and reads from a tty, unless the
 --noediting option is specified, commands are usually read using readline(3)
@@ -409,6 +413,8 @@ program. When exiting the interpreter, the command history is stored in
 ~/.pure_history, from where it is restored the next time you run the
 interpreter.
 
+インタープリタが対話モードかつ tty から読まれている場合、 --noediting オプションが指定されていなければ、コマンドは普通 readline(3) かその互換代替を使って読み込まれます。 `Interactive Usage`_ 以下にリストされている全コマンドと、実行中のプログラムで定義されているシンボルの補完機能を使うことができます。インタープリタを終了するとき、コマンド履歴が ~/.pure_history ファイルに保存され、次回インタープリタが起動したときにこのファイルから履歴を復旧します。
+
 As of Pure 0.22, the interpreter also provides a simple source level debugger
 when run in interactive mode, see Debugging_ for details. To enable the
 interactive debugger, you need to specify the -g option when invoking the
@@ -416,8 +422,12 @@ interpreter. This option causes your script to run *much* slower and also
 disables tail call optimization, so you should only use this option if you
 want to run the debugger.
 
+Pure 0.22 以降では、インタープリタの対話モードはシンプルなソースレベルデバッガも提供しています。詳しくは Debugging_ セクションを参照して下さい。対話デバッガを有効にするには、インタープリタ起動時に -g オプションを指定する必要があります。このオプションはあなたのスクリプトの実行を *かなり* 遅くし、また末尾呼び出しの最適化を無効にします。そのためこのオプションはデバッガを使いたいときだけ指定する方がよいでしょう。
+
 Verbosity and Debugging Options
 -------------------------------
+
+饒舌さとデバッグオプション
 
 The -v option is useful for debugging the interpreter, or if you are
 interested in the code your program gets compiled to. The level argument is
@@ -427,36 +437,45 @@ the first two levels will be useful for the average Pure programmer; the
 remaining levels are most likely to be used by the Pure interpreter
 developers.
 
+-v オプションはインタープリタでデバッグを行う際や、あなたのプログラムがコンパイルされた結果のコードに興味がある場合に役立ちます。レベル引数を指定してもしなくてもかまいません。デフォルトは 1 です。今のところ 7 段階のレベルが実装されています（もう 1 ビットが将来の拡張用に予約されています）。平均的な Pure プログラマーのたいがいの用途では、最初の 2 レベルで充分役に立つでしょう。残りのレベルは Pure インタープリタ開発者が使うようなものです。
+
 1 (0x1, 001)
     denotes echoing of parsed definitions and expressions.
+    定義と式の解析結果をエコーすることを示します。
 
 2 (0x2, 002)
     adds special annotations concerning local bindings (de Bruijn indices,
     subterm paths; this can be helpful to debug tricky variable binding
     issues).
+    ローカル束縛に関する特別な注釈を付加します（de Bruijn インデックス、下位項パス（subterm paths））。これはトリッキーな変数束縛をデバッグする際に役立ちうるものです。
 
 4 (0x4, 004)
     adds descriptions of the matching automata for the left-hand sides of
     equations (you probably want to see this only when working on the guts of
     the interpreter).
+    等式左辺への自動マッチングの説明を付加します（これを見たいと思うのは、インタープリタの内蔵部について作業しているときだけでしょう）。
 
 8 (0x8, 010)
     dumps the "real" output code (LLVM assembler, which is as close to the
     native machine code for your program as it gets; you definitely don't want
     to see this unless you have to inspect the generated code for bugs or
     performance issues).
+    「本当の」出力コードをダンプします（LLVM アセンブラのことです。このコードはあなたのプログラムがネイティブな機械語になったものとほぼ同じです。この出力を見たいと思うのは、バグやパフォーマンスの問題のため生成コードを精査する必要がある場合くらいでしょう）。
 
 16 (0x10, 020)
     adds debugging messages from the bison(1) parser; useful for debugging the
     parser.
+    bison(1) からのデバッグメッセージを付加します。構文解析器（パーサー）をデバッグするのに役立ちます。
 
 32 (0x20, 040)
     adds debugging messages from the flex(1) lexer; useful for debugging the
     lexer.
+    flex レキサーからのデバッグメッセージを付加します。字句解析器（レキサー）をデバッグするのに役立ちます。
 
 64 (0x40, 0100)
     turns on verbose batch compilation; this is useful if you want to see
     exactly which commands get executed during batch compilation (-c).
+    饒舌なバッチコンパイルを有効にします。バッチコンパイル（-c）中にどのコマンドが実行されているのか正確に見たいときに役立ちます。
 
 These values can be or'ed together, and, for convenience, can be specified in
 either decimal, hexadecimal or octal. Thus 0xff or 0777 always gives you full
@@ -466,12 +485,16 @@ developers). Some useful flag combinations for experts are (in octal) 007
 (definitions and assembler code) and 021 (parser debugging output along with
 parsed definitions).
 
+これらの値をまとめて or 接続することができます。また、便利なことに、10進数、16進数、8進数のいずれでも指定することができます。したがって 0xff や 0777 を指定すると常に完全なデバッグ出力を得ることができます（使うのは Pure 開発者くらいでしょうが）。エキスパートにとって役立ちそうなフラグの組み合わせは、（8進数で） 007 （定義、de Bruijn インデックス、自動マッチングをエコー）、 011 （定義とアセンブラコード）、 021 （パーサーのデバッグ出力、解析された定義）です。
+
 Note that the -v option is only applied after the prelude has been loaded. If
 you want to debug the prelude, use the -n option and specify the prelude.pure
 file explicitly on the command line. Verbose output is also suppressed for
 modules imported through a ``using`` clause. As a remedy, you can use the
 interactive ``show`` command (see the `Interactive Usage`_ section) to list
 definitions along with additional debugging information.
+
+-v オプションが適用されるのは prelude を読み込んだ後からであることに注意して下さい。もし prelude をデバッグしたい場合、コマンドラインから -n オプションで prelude.pure ファイルを明示指定して下さい。 ``using`` 節を通じてインポートされるモジュールに対しても饒舌な出力は抑制されます。そこでも饒舌に出力させたいなら、対話モードの ``show`` コマンド（`Interactive Usage`_ 節を参照）を使い、定義とともに追加のデバッグ情報をリストすることができます。
 
 Code Generation Options
 -----------------------
