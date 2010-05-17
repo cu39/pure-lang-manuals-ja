@@ -348,10 +348,14 @@ which you only have to add the options describing the desired output file.
 Tagging Scripts
 ---------------
 
+スクリプトへのタグ付け
+
 Pure programs often have declarations and definitions of global symbols
 scattered out over many different source files. The --ctags and --etags
 options let you create a tags_ file which allows you to quickly locate these
 items in text editors such as vi and emacs which support this feature.
+
+Pure で書かれたプログラムは様々なグローバルシンボルの宣言や定義を持ちますが、それらはしばしば別のソースファイルへ数多くちりばめられます。 --ctags と --etags オプションを使うと tags_ ファイルを作成できますが、これを使うと、そうしたアイテムをテキストエディター（vi や emacs など、この機能をサポートするもの）内で素早く配置することができます。
 
 .. _tags: http://en.wikipedia.org/wiki/Ctags
 
@@ -364,6 +368,8 @@ can be specified with the -T option; it defaults to ``tags`` for --ctags and
 ``TAGS`` for --etags (which matches the default tags file names used by vi and
 emacs, respectively).
 
+もし --ctags か --etags が定義されている場合、インタープリタは特別モードになり、ソースファイルを実行せず、解析だけを行ってグローバルシンボルの宣言と定義を収集します。その後、集められた情報は tags ファイル内に ctags か etags フォーマット（vi と emacs で使われるフォーマット）でそれぞれ書き込まれます。 -T オプションを使って tags ファイルにお望みの名前をつけることもできます。デフォルトの名前は、 --ctags は ``tags`` 、 --etags では ``TAGS`` となります（それぞれ vi と emacs がデフォルトとして検索する tags ファイル名）。
+
 The tags file contains information about the global constant, variable, macro,
 function and operator symbols of all scripts specified on the command line, as
 well as the prelude and other scripts included via a ``using`` clause. Tagged
@@ -373,6 +379,8 @@ pathnames, while scripts outside this hierarchy (such as included scripts from
 the standard library) are denoted with absolute pathnames. This scheme makes
 it possible to move an entire directory together with its tags file and have
 the tags information still work in the new location.
+
+tags ファイルには、コマンドラインで指定されたスクリプトファイル、 prelude 、 ``using`` 節で宣言された他のインクルードスクリプト内にある、グローバルな定数、変数、マクロ、関数、演算子シンボルの情報が含まれています。 tags ファイルと同じディレクトリ（または、再帰的に、サブディレクトリ）にあるタグ付けされたスクリプトは、相対パスで定義されます。それに対して、この階層構造の外にあるスクリプト（例えば標準ライブラリからインクルードされたスクリプト）は絶対パスで示されます。この方式により、 tags ファイルも含めてディレクトリ全体を他の場所に移動しても、 tags ファイルの情報は同じように機能します。
 
 Running Interactively
 ---------------------
