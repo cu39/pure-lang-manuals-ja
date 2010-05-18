@@ -3,6 +3,7 @@ The Pure Manual
 ===============
 
 :Author: Albert Graf <Dr.Graef@t-online.de>
+:Translator: cu39 <cu393uc@gmail.com>
 :Date: |date|
 
 .. Note: This document is formatted using docutils. The Makefile has rules
@@ -55,6 +56,14 @@ Pure can be found under the following URLs:
 
 .. contents::
 .. sectnum::
+
+翻訳版に関する注意
+==================
+
+「〔」 [#]_ と「〕」 [#]_ に囲まれた語句は原典の表現を注記したものです。
+
+.. [#] U+3014 始め亀甲括弧／LEFT TORTOISE SHELL BRACKET
+.. [#] U+3015 終わり亀甲括弧／RIGHT TORTOISE SHELL BRACKET
 
 Introduction
 ============
@@ -184,7 +193,7 @@ below:
 
 ``-v[level]``
     Set verbosity level. See below for details.
-    メッセージ表示レベル（verbosity level）を設定する。詳細は下部を参照。
+    メッセージ表示レベル〔verbosity level〕を設定する。詳細は下部を参照。
 
 ``--version``
     Print version information and exit.
@@ -249,7 +258,7 @@ interpreter and the system it runs on. (Moreover, Pure 0.21 and later also
 define the variable ``compiling`` which indicates whether the program is
 executed in a batch compilation, see `Compiling Scripts`_ below.)
 
-インタープリタは起動時に ``version`` 変数（Pureインタープリタのバージョン文字列がセットされる）と ``sysinfo`` 変数（ホストシステムを同定する文字列を提供）も定義します。これらの変数は、あなたのスクリプトのある一部が、インタープリタの特定のバージョンや、そのインタープリタが動作するシステムに依存している場合に役立つものです。（さらに Pure 0.21 以上は ``compiling`` 変数も定義します。この変数はバッチコンパイルで実行されるかどうかを示します。詳しくは下部 `Compiling Scripts`_ を参照）
+インタープリタは起動時に ``version`` 変数（Pure インタープリタのバージョン文字列がセットされる）と ``sysinfo`` 変数（ホストシステムを同定する文字列を提供）も定義します。これらの変数は、あなたのスクリプトのある一部が、インタープリタの特定のバージョンや、そのインタープリタが動作するシステムに依存している場合に役立つものです。（さらに Pure 0.21 以上は ``compiling`` 変数も定義します。この変数はバッチコンパイルで実行されるかどうかを示します。詳しくは下部 `Compiling Scripts`_ を参照）
 
 If available, the prelude script prelude.pure is loaded by the interpreter
 prior to any other definitions, unless the -n or --noprelude option is
@@ -277,7 +286,7 @@ intermediate representation, it just acts as a frontend to the compiler,
 taking care of compiling source code to native machine code before it gets
 executed.
 
-インタープリタはスクリプトだけでなく、あなたが対話的に入力する定義をも自動的にコンパイルします。このコンパイルはコードが必要となるにつれてインクリメント式に行われます。つまりJIT（`just in time`）として知られているものです。したがってインタープリタはソースプログラムや他の何らかの表現（representation）を「解釈する」（interpretsする）ことはなく、単にコンパイラのフロントエンドとして振る舞い、ソースコードが実行される前にネイティブコードへとコンパイルする世話をしてくれます。
+インタープリタはスクリプトだけでなく、あなたが対話的に入力する定義をも自動的にコンパイルします。このコンパイルはコードが必要となるにつれてインクリメント式に行われます。つまりJIT（`just in time`）として知られているものです。したがってインタープリタはソースプログラムや他の何らかの表現〔representation〕を「解釈する」〔interprets〕ことはなく、単にコンパイラのフロントエンドとして振る舞い、ソースコードが実行される前にネイティブコードへとコンパイルする世話をしてくれます。
 
 Pure's LLVM backend does "lazy JIT compilation" by default, meaning that each
 function (global or local) is compiled no sooner than it is run for the first
@@ -290,7 +299,7 @@ cases (since bigger chunks of compilation work can be done in one go) and less
 efficient in others (e.g., eager JITing may compile large chunks of code which
 aren't actually called later, except in rare circumstances).
 
-Pure の LLVM バックエンドはデフォルトでは「遅延 JIT コンパイル」を行います。「遅延JITコンパイル」（"lazy JIT compilation"）とは、（グローバルまたはローカルな）関数のそれぞれが、最初に実行される段階ではじめてコンパイルされることを意味します。しかし --eager-jit オプションを指定すれば、コンパイルされた関数から呼び出されるかもしれない他のすべての（ローカルまたはグローバルな）関数をもコンパイルします（PURE_EAGER_JIT 環境変数は、どんな値がセットされていても --eager-jit オプションと同じ効果を発揮するので、インタープリタを走らせるたびに毎回 --eager-jit オプションを指定する必要はなくなります）。先行 JIT コンパイル（eager JIT compilation）は、ある種のケースでは（比較的大きなコンパイル作業が一度に行われるので）より効果的でしょうし、別のケースでは効果的でなくなるでしょう（例えば、先行 JIT コンパイルが大きなコードの塊をコンパイルしても、実用上、それは稀な状況でしか呼ばれないものであるかもしれません）。
+Pure の LLVM バックエンドはデフォルトでは「遅延 JIT コンパイル」を行います。「遅延JITコンパイル」〔"lazy JIT compilation"〕とは、（グローバルまたはローカルな）関数のそれぞれが、最初に実行される段階ではじめてコンパイルされることを意味します。しかし --eager-jit オプションを指定すれば、コンパイルされた関数から呼び出されるかもしれない他のすべての（ローカルまたはグローバルな）関数をもコンパイルします（PURE_EAGER_JIT 環境変数は、どんな値がセットされていても --eager-jit オプションと同じ効果を発揮するので、インタープリタを走らせるたびに毎回 --eager-jit オプションを指定する必要はなくなります）。先行 JIT コンパイル〔eager JIT compilation〕は、ある種のケースでは（比較的大きなコンパイル作業が一度に行われるので）より効果的でしょうし、別のケースでは効果的でなくなるでしょう（例えば、先行 JIT コンパイルが大きなコードの塊をコンパイルしても、実用上、それは稀な状況でしか呼ばれないものであるかもしれません）。
 
 Note that the eager JIT mode is only available with LLVM 2.7 or later;
 otherwise this option will be ignored.
@@ -343,7 +352,7 @@ suggested linker command (including all the dynamic modules loaded by the
 script, which also have to be linked in to create a working executable), to
 which you only have to add the options describing the desired output file.
 
--64 （あるいは -v0100）饒舌（verbosity）オプションを指定すると、インタープリタがコンパイル中に実行されるコマンドを出力させることができます。下部 `Verbosity and Debugging Options`_ を参照して下さい。オブジェクトファイルを作成している最中は、示唆されたリンカコマンドを出力します（スクリプトによって動的にロードされるモジュールのすべても含まれます。それらは実行ファイルを作成するためにリンクされる必要があるものです）が、そのためにあなたがしなければならないのは、求めている出力ファイルを説明するオプションを付加することだけです。
+-64 （あるいは -v0100）饒舌〔verbosity〕オプションを指定すると、インタープリタがコンパイル中に実行されるコマンドを出力させることができます。下部 `Verbosity and Debugging Options`_ を参照して下さい。オブジェクトファイルを作成している最中は、示唆されたリンカコマンドを出力します（スクリプトによって動的にロードされるモジュールのすべても含まれます。それらは実行ファイルを作成するためにリンクされる必要があるものです）が、そのためにあなたがしなければならないのは、求めている出力ファイルを説明するオプションを付加することだけです。
 
 Tagging Scripts
 ---------------
@@ -447,7 +456,7 @@ developers.
     adds special annotations concerning local bindings (de Bruijn indices,
     subterm paths; this can be helpful to debug tricky variable binding
     issues).
-    ローカル束縛に関する特別な注釈を付加します（de Bruijn インデックス、下位項パス（subterm paths））。これはトリッキーな変数束縛をデバッグする際に役立ちうるものです。
+    ローカル束縛に関する特別な注釈を付加します（de Bruijn インデックス、下位項パス〔subterm paths〕）。これはトリッキーな変数束縛をデバッグする際に役立ちうるものです。
 
 4 (0x4, 004)
     adds descriptions of the matching automata for the left-hand sides of
@@ -494,7 +503,7 @@ modules imported through a ``using`` clause. As a remedy, you can use the
 interactive ``show`` command (see the `Interactive Usage`_ section) to list
 definitions along with additional debugging information.
 
--v オプションが適用されるのは prelude を読み込んだ後からであることを忘れないで下さい。もし prelude をデバッグしたい場合、コマンドラインから -n オプションで prelude.pure ファイルを明示指定して下さい。 ``using`` 節を通じてインポートされるモジュールに対しても饒舌な出力は抑制されます。そこでも饒舌に出力させたいなら、対話モードの ``show`` コマンド（`Interactive Usage`_ 節を参照）を使い、定義とともに追加のデバッグ情報をリストすることができます。
+-v オプションが適用されるのは prelude を読み込んだ後からであることを忘れないで下さい。もし prelude をデバッグしたい場合、コマンドラインから -n オプションで prelude.pure ファイルを明示指定して下さい。 ``using`` 節を通じてインポートされるモジュールに対しても饒舌な出力は抑制されます。そこでも饒舌に出力させたいなら、対話モードの ``show`` コマンド（ `Interactive Usage`_ 節を参照）を使い、定義とともに追加のデバッグ情報をリストすることができます。
 
 Code Generation Options
 -----------------------
@@ -705,7 +714,7 @@ serves to delimit other symbols. Hence, as shown above, definitions and
 expressions at the toplevel have to be terminated with a semicolon, even in
 interactive mode.
 
-Pureは自由形式（free-format）の言語です。ホワイトスペースは、他のシンボルの境界として機能する場合を除き、重要ではありません。したがって、上で示した通り、たとえ対話モードであっても、最上位にある定義と式はセミコロンで終わる必要があります。
+Pure は自由形式〔free-format〕の言語です。ホワイトスペースは、他のシンボルの境界として機能する場合を除き、重要ではありません。したがって、上で示した通り、たとえ対話モードであっても、最上位にある定義と式はセミコロンで終わる必要があります。
 
 Comments have the same syntax as in C++ (using ``//`` for line-oriented and
 ``/* ... */`` for multiline comments; the latter may not be nested). Lines
@@ -781,7 +790,7 @@ logical connectives ``&&`` and ``||``, the sequencing operator ``$$``, the
 lazy evaluation operator ``&``, and the ``quote``) which take some or all of
 their arguments unevaluated, using call by name.
 
-式は一般に左から右へ、内側の式ほど先に評価されます。すなわちcall by value semanticsを使っています。Pureはまた、いくつかの組み込み特別形を持っています（特に注目すべきは条件式に関するもので、短絡論理結合子 ``&&`` と ``||`` 、継起演算子（sequencing operator） ``$$`` 、遅延評価演算子 ``&`` 、そして ``quote`` ）。これらはいくつかの、あるいはすべての引数を未評価なまま持ち、call by name方式を使います。
+式は一般に左から右へ、内側の式ほど先に評価されます。すなわちcall by value semanticsを使っています。Pureはまた、いくつかの組み込み特別形を持っています（特に注目すべきは条件式に関するもので、短絡論理結合子 ``&&`` と ``||`` 、継起演算子〔sequencing operator〕 ``$$`` 、遅延評価演算子 ``&`` 、そして ``quote`` ）。これらはいくつかの、あるいはすべての引数を未評価なまま持ち、call by name方式を使います。
 
 Like in Haskell and ML, functions are often defined by pattern matching, i.e.,
 the left-hand side of a definition is compared to the target expression,
@@ -817,7 +826,7 @@ the left-hand side of an equation, and may act as a constructor symbol if it
 happens to occur in a normal form term. This enables you to work with
 algebraic rules like associativity and distributivity in a direct fashion:
 
-数値や文字列のようないくつかの有名なデータ構造は別として、Pureインタープリタが実際に行うのは、記号代数的なやり方で式を評価し、プログラマーが与えた等式によって式を書き替えてゆき、もうそれ以上は等式を適用できなくなるまで続けることです。この処理の結果は「正規形」と呼ばれ、元々の式の「値」（"value"）を表します。項書き替えという流儀を貫くことにより、Pure内では「定義済み」（"defined"）関数シンボルと「コンストラクタ」（"constructor"）関数シンボルの区別はありません。その結果、あらゆる関数シンボルや演算子は等式左辺の *どこでも* 使うことができ、もし正規形の項の中に現れた場合にはコンストラクタシンボルとして振る舞うことが許されます。このことにより、あなたは結合や分配のような代数のルールをそのままのやり方で使うことができます::
+数値や文字列のようないくつかの有名なデータ構造は別として、Pureインタープリタが実際に行うのは、記号代数的なやり方で式を評価し、プログラマーが与えた等式によって式を書き替えてゆき、もうそれ以上は等式を適用できなくなるまで続けることです。この処理の結果は「正規形」と呼ばれ、元々の式の「値」〔"value"〕を表します。項書き替えという流儀を貫くことにより、Pure内では「定義済み」〔"defined"〕関数シンボルと「コンストラクタ」〔"constructor"〕関数シンボルの区別はありません。その結果、あらゆる関数シンボルや演算子は等式左辺の *どこでも* 使うことができ、もし正規形の項の中に現れた場合にはコンストラクタシンボルとして振る舞うことが許されます。このことにより、あなたは結合や分配のような代数のルールをそのままのやり方で使うことができます::
 
   > (x+y)*z = x*z+y*z; x*(y+z) = x*y+x*z;
   > x*(y*z) = (x*y)*z; x+(y+z) = (x+y)+z;
@@ -832,7 +841,7 @@ are forbidden in these languages. In Pure such definitions are just normal
 business, which makes the language directly usable as a tool for symbolic
 algebra.
 
-これに対して、 Haskell や ML のような言語がいわゆる「コンストラクタ原則」を常に強制することに注意して下さい。「コンストラクタ原則」の規定では、純粋なコンストラクタシンボル（いかなる等式定義も伴わない）だけしか定義左辺内の下位項（subterm）として現れることを許されません。したがって、これらの言語では上のような等式定義が許されません。しかしこのような定義は Pure では普通のことです。こうした特徴により、 Pure は記号代数のツールとして直接使えるものになっています。
+これに対して、 Haskell や ML のような言語がいわゆる「コンストラクタ原則」を常に強制することに注意して下さい。「コンストラクタ原則」の規定では、純粋なコンストラクタシンボル（いかなる等式定義も伴わない）だけしか定義左辺内の下位項〔subterm〕として現れることを許されません。したがって、これらの言語では上のような等式定義が許されません。しかしこのような定義は Pure では普通のことです。こうした特徴により、 Pure は記号代数のツールとして直接使えるものになっています。
 
 Parameters in Equations
 -----------------------
@@ -857,7 +866,7 @@ even true for infix expressions like ``x+y``, since in Pure these are always
 equivalent to a function application of the form ``(+) x y`` which has the
 atomic subterms ``(+)``, ``x`` and ``y`` at its leaves.)
 
-答えはこういうことです。インタープリタは等式の左辺にある式の異なる位置を考えます。Pureの式は基本的に、ある式を他の式に適用する単なるツリー形状をとり、そのツリーの枝には、数値や記号などアトム的な下位式（subexpressions）が葉として付いています（このことは ``x+y`` のような挿入演算子の式（infix expressions）についても当てはまります。なぜならPureにおいてこれらは ``(+) x y`` という形式の関数アプリケーションと常に等価（equivalent）であり、この式は ``(+)`` と ``x`` と ``y`` というアトム的な下位項（subterms）を葉として持っていることになります）。
+答えはこういうことです。インタープリタは等式の左辺にある式の異なる位置を考えます。Pureの式は基本的に、ある式を他の式に適用する単なるツリー形状をとり、そのツリーの枝には、数値や記号などアトム的な下位式〔subexpressions〕が葉として付いています（このことは ``x+y`` のような挿入演算子の式〔infix expressions〕についても当てはまります。なぜならPureにおいてこれらは ``(+) x y`` という形式の関数アプリケーションと常に等価〔equivalent〕であり、この式は ``(+)`` と ``x`` と ``y`` というアトム的な下位項〔subterms〕を葉として持っていることになります）。
 
 Now the interpreter divides the leaves of the expression tree into "head" (or
 "function") and "parameter" (or "variable") positions based on which leaves
@@ -897,7 +906,7 @@ you might expect, zero denotes *false* and any non-zero value *true*). Pure
 also provides some built-in support for lists and matrices, although most of
 the corresponding operations are actually defined in the prelude.
 
-Pure言語は以下のデータ型を組み込みサポートしています。machine integer (32 bit), bigint （ GMP_ を使って実装）、浮動小数点値（IEEE 754 倍精度）、character strings (UTF-8 encoded) 、ジェネリック C ポインタ（ただし、ポインタは syntactic representation を持たず、そのため外部C関数として作られる必要がある）。真偽値はmachine integerにエンコードされます（おそらくあなたの想像通り、ゼロは *false* を表し、あらゆる非ゼロ値は *true* を表します）。Pureはまた、リストとマトリクスの組み込みサポートを提供しており、それらに対応する演算（operation）は実際には prelude 内で定義されています。
+Pure言語は以下のデータ型を組み込みサポートしています。machine integer (32 bit), bigint （ GMP_ を使って実装）、浮動小数点値（IEEE 754 倍精度）、character strings (UTF-8 encoded) 、ジェネリック C ポインタ（ただし、ポインタは syntactic representation を持たず、そのため外部C関数として作られる必要がある）。真偽値はmachine integerにエンコードされます（おそらくあなたの想像通り、ゼロは *false* を表し、あらゆる非ゼロ値は *true* を表します）。Pureはまた、リストとマトリクスの組み込みサポートを提供しており、それらに対応する演算〔operation〕は実際には prelude 内で定義されています。
 
 Expressions consist of the following elements:
 
@@ -967,7 +976,7 @@ Operator and constant symbols: ``x+y``, ``x==y``, ``not x``
     be interpreted as a literal constant, cf. `Parameters in Equations`_.)
 
 演算子シンボルと定数シンボル: ``x+y``, ``x==y``, ``not x``
-    便宜のため、 Pure は限定された意味を提供しています。対応する `fixity` 宣言を使って、特別な演算子と定数シンボルによって言語の文法を拡張するために。 `Symbol Declarations`_ セクションで議論している通り。従来の挿入（infix）、前置（prefix）、後置（postfix）演算子に加え、 Pure はアウトフィクス（角括弧）とノンフィクス（定数）シンボルも提供します（ノンフィクスシンボルは、実際には多かれ少なかれ普通の識別子と同じような働きをしますが、 ``nonfix`` 属性はコンパイラに対して以下のように伝える点が異なります。そのようなシンボルが等式の左辺に現れたとき、そのシンボルを常にリテラル定数と扱え、と伝えるのです。 cf. `Parameters in Equations`_ ）
+    便宜のため、 Pure は限定された意味を提供しています。対応する `fixity` 宣言を使って、特別な演算子と定数シンボルによって言語の文法を拡張するために。 `Symbol Declarations`_ セクションで議論している通り。従来の挿入〔infix〕、前置〔prefix〕、後置〔postfix〕演算子に加え、 Pure はアウトフィクス（角括弧）とノンフィクス（定数）シンボルも提供します（ノンフィクスシンボルは、実際には多かれ少なかれ普通の識別子と同じような働きをしますが、 ``nonfix`` 属性はコンパイラに対して以下のように伝える点が異なります。そのようなシンボルが等式の左辺に現れたとき、そのシンボルを常にリテラル定数と扱え、と伝えるのです。 cf. `Parameters in Equations`_ ）
 
     Operator and constant symbols may take the form of an identifier or a
     sequence of punctuation characters. They must always be declared before
@@ -1001,7 +1010,7 @@ Lists: ``[x,y,z]``, ``x:xs``, ``x..y``, ``x:y..z``
     ``0.0:0.1..0.29`` actually yields ``[0.0,0.1,0.2,0.3]``, as does
     ``0.0:0.1..0.31``.)
 
-    ``1..5`` のような形で等差数列を示す方法もあります。この例は ``[1,2,3,4,5]`` を表します（ Haskell ユーザは角括弧（ブラケット）が無いことに注意して下さい。 Haskell とは異なり、 Pure は数列のために特別な文法は使いません。 '``..``' 記号は単なる普通の挿入演算子で、 prelude 内で宣言と定義が行われています）。任意の差（stepsizes）は数列の最初の2要素に '``:``' を使って、 ``1.0:1.2..3.0`` のように表すことができます（四捨五入のエラーのせいで作為的な数値が混入するのを防ぐため、浮動小数点数列の境界上位は常に最も近いグリッドポイントに丸められます。例えば ``0.0:0.1..0.29`` は実際には ``[0.0,0.1,0.2,0.3]`` をもたらし、また ``0.0:0.1..0.31`` も同じ結果となります。
+    ``1..5`` のような形で等差数列を示す方法もあります。この例は ``[1,2,3,4,5]`` を表します（ Haskell ユーザは角括弧（ブラケット）が無いことに注意して下さい。 Haskell とは異なり、 Pure は数列のために特別な文法は使いません。 '``..``' 記号は単なる普通の挿入演算子で、 prelude 内で宣言と定義が行われています）。任意の差〔stepsizes〕は数列の最初の2要素に '``:``' を使って、 ``1.0:1.2..3.0`` のように表すことができます（四捨五入のエラーのせいで作為的な数値が混入するのを防ぐため、浮動小数点数列の境界上位は常に最も近いグリッドポイントに丸められます。例えば ``0.0:0.1..0.29`` は実際には ``[0.0,0.1,0.2,0.3]`` をもたらし、また ``0.0:0.1..0.31`` も同じ結果となります。
 
 ■TODO 小数点以下の揃えられ方について訳註として詳説を加えたい。
 
@@ -1036,7 +1045,7 @@ Matrices: ``{1.0,2.0,3.0}``, ``{1,2;3,4}``, ``{1L,y+1;foo,bar}``
     format).
 
 マトリクス: ``{1.0,2.0,3.0}``, ``{1,2;3,4}``, ``{1L,y+1;foo,bar}``
-    Pure はマトリクスも提供します。マトリクスは配列の一つで、組み込みのデータ構造であり、効率のよい保存とアクセスを提供します。これらは Ooctave/MATLAB のそれとだいたい同じように動作しますが、角括弧（ブラケット）の代わりに波括弧を使います。すでに示されているように、カンマはマトリクスの列（columns）を分け、セミコロンは行（rows）を分けます。実際、 ``{...}`` 構造はgeneralであり、すべての次元が一致していれば、個別の要素 and/or サブマトリクスから新しいマトリクスを作ることを許します。例えば ``{{1;3},{2;4}}`` は 2x2 のマトリクスをさきほどと別の「列優先」（"column-major"）フォーマットで書く方法です（とはいえ、内部的にはすべてのマトリクスはCの行優先フォーマットで保存されます）。
+    Pure はマトリクスも提供します。マトリクスは配列の一つで、組み込みのデータ構造であり、効率のよい保存とアクセスを提供します。これらは Ooctave/MATLAB のそれとだいたい同じように動作しますが、角括弧（ブラケット）の代わりに波括弧を使います。すでに示されているように、カンマはマトリクスの列〔columns〕を分け、セミコロンは行〔rows〕を分けます。実際、 ``{...}`` 構造はgeneralであり、すべての次元が一致していれば、個別の要素 and/or サブマトリクスから新しいマトリクスを作ることを許します。例えば ``{{1;3},{2;4}}`` は 2x2 のマトリクスをさきほどと別の「列優先」〔"column-major"〕フォーマットで書く方法です（とはいえ、内部的にはすべてのマトリクスはCの行優先フォーマットで保存されます）。
 
     Note that, while the ``[...]`` and ``{...}`` constructs look superficially
     similar, they work in very different ways. The former is just syntactic
@@ -1062,7 +1071,7 @@ Matrices: ``{1.0,2.0,3.0}``, ``{1,2;3,4}``, ``{1L,y+1;foo,bar}``
     Pure interpreter does not require GSL, however, so numeric matrices will
     work even if GSL is not installed.)
 
-    Pure は数値マトリクスと記号マトリクスの両者をサポートします。前者は double, complex double or (machine) int の均質な（homogeneous）配列であり、対する後者は Pure のいかなる式をも内包することができます。 Pure は各データのために適切な型を採用するでしょう。もしマトリクスがそれぞれ型の異なる値を含んでいたら、あるいは数値マトリクスに保存できない Pure の値を含んでいたら、その代わりに代数マトリクスが創り出されます（これには bigint の場合も含まれます。マトリクス構造に関する限り bigint は代数値とみなされます）。数値マトリクスは `GNU Scientific Library` (GSL) と完全互換のデータレイアウトを使っており、Cインターフェースを使ってGSLへ容易に渡すことが可能です（しかし Pure インタープリタは GSL を必要としないので、数値マトリクスは GSL がインストールされていなくても動作します）。
+    Pure は数値マトリクスと記号マトリクスの両者をサポートします。前者は double, complex double or (machine) int の均質な配列〔homogeneous arrays〕であり、対する後者は Pure のいかなる式をも内包することができます。 Pure は各データのために適切な型を採用するでしょう。もしマトリクスがそれぞれ型の異なる値を含んでいたら、あるいは数値マトリクスに保存できない Pure の値を含んでいたら、その代わりに代数マトリクスが創り出されます（これには bigint の場合も含まれます。マトリクス構造に関する限り bigint は代数値とみなされます）。数値マトリクスは `GNU Scientific Library` (GSL) と完全互換のデータレイアウトを使っており、Cインターフェースを使ってGSLへ容易に渡すことが可能です（しかし Pure インタープリタは GSL を必要としないので、数値マトリクスは GSL がインストールされていなくても動作します）。
 
     More information about matrices and corresponding examples can be found in
     the Examples_ section below.
@@ -1145,7 +1154,7 @@ Lambdas: ``\x -> y``
     raised if the actual lambda arguments do not match the given patterns.
 
 ラムダ: ``\x -> y``
-    これらは無名関数を表しており、 Haskell とまったく同じように動作します。 Pure は複数の引数を取るラムダ（例えば ``\x y -> x*y`` ）やパターンマッチを行うラムダ抽出（lambda abstraction）をサポートします。ラムダ抽出は、ラムダの引数に対して1つ以上のパターンマッチを、例えば ``\(x,y) -> x*y`` のようなかたちで行います。与えられたパターンにラムダの実際の引数がマッチしない場合、例外が起きます。
+    これらは無名関数を表しており、 Haskell とまったく同じように動作します。 Pure は複数の引数を取るラムダ（例えば ``\x y -> x*y`` ）やパターンマッチを行うラムダ抽出〔lambda abstraction〕をサポートします。ラムダ抽出は、ラムダの引数に対して1つ以上のパターンマッチを、例えば ``\(x,y) -> x*y`` のようなかたちで行います。与えられたパターンにラムダの実際の引数がマッチしない場合、例外が起きます。
 
 Case expressions: ``case x of rule; ... end``
     Matches an expression, discriminating over a number of different cases,
@@ -1215,7 +1224,7 @@ in short-circuit mode (see below), whereas the bitwise connectives receive
 their arguments using call-by-value, just like the other arithmetic
 operations.
 
-``+``, ``-``, ``*``, ``/`` などなどありふれた演算子シンボルはすべて prelude の先頭で宣言されています。これらのリストは `Pure Library Manual`_ で参照できます。算術演算子および関係演算子はほとんどCの慣例を踏襲しています。しかし、やむを得ず（Pure では ``!`` と ``&`` と ``|`` を他の目的に使っていますが）論理演算、ビット演算、negated equality predicates はちょっと違う記号を使っています: ``~``, ``&&`` and ``||`` はそれぞれ論理否定、連言命題、選言命題を表します。他方、それぞれに対応するビット演算子は ``not`` ``and`` ``or`` を使います。さらに、これらの慣習を踏襲して、等しくないこと（inequality）は ``~=`` で示します。また ``&&`` と ``||`` が特別形であり短絡モード（下部参照）で評価されること、その一方で、ビット結合子が他の算術演算子と同じように call-by-name を用いて引数を受けとることを覚えておいて下さい。
+``+``, ``-``, ``*``, ``/`` などなどありふれた演算子シンボルはすべて prelude の先頭で宣言されています。これらのリストは `Pure Library Manual`_ で参照できます。算術演算子および関係演算子はほとんどCの慣例を踏襲しています。しかし、やむを得ず（Pure では ``!`` と ``&`` と ``|`` を他の目的に使っていますが）論理演算、ビット演算、negated equality predicates はちょっと違う記号を使っています: ``~``, ``&&`` and ``||`` はそれぞれ論理否定、連言命題、選言命題を表します。他方、それぞれに対応するビット演算子は ``not`` ``and`` ``or`` を使います。さらに、これらの慣習を踏襲して、等しくないこと〔inequality〕は ``~=`` で示します。また ``&&`` と ``||`` が特別形であり短絡モード（下部参照）で評価されること、その一方で、ビット結合子が他の算術演算子と同じように call-by-name を用いて引数を受けとることを覚えておいて下さい。
 
 Special Forms
 -------------
@@ -1288,7 +1297,7 @@ the result away and then goes on to evaluate the right operand which gives the
 result of the entire expression. This operator is useful to write
 imperative-style code such as the following prompt-input interaction:
 
-連続演算子（sequencing operator） ``$$`` は左オペランドを評価し、ただちに結果を出し、続けて右オペランドを評価し、それが式全体の結果となります。この演算子は、プロンプト入力のような、命令的なコードを書くのに便利です。::
+連続演算子〔sequencing operator〕 ``$$`` は左オペランドを評価し、ただちに結果を出し、続けて右オペランドを評価し、それが式全体の結果となります。この演算子は、プロンプト入力のような、命令的なコードを書くのに便利です。::
 
   > using system;
   > puts "Enter a number:" $$ scanf "%g";
@@ -1300,7 +1309,7 @@ We mention in passing here that the same effect can be achieved with a
 ``when`` clause, which also allows you to execute a function solely for its
 side-effects and just ignore the return value:
 
-ついでに言っておくと ``when`` 節も同じ目的に使えます。 ``when`` 節は副作用（side-effects）を得るために関数を単独で実行することを許し、返値をただ無視します::
+ついでに言っておくと ``when`` 節も同じ目的に使えます。 ``when`` 節は副作用〔side-effects〕を得るために関数を単独で実行することを許し、返値をただ無視します::
 
   > scanf "%g" when puts "Enter a number:" end;
   Enter a number:
@@ -1321,7 +1330,7 @@ with a thunked tail, which allows it to be infinite. The Pure prelude defines
 many functions for creating and manipulating these kinds of objects; further
 details and examples can be found in the Examples_ section below.
 
-``&`` 演算子は遅延評価を行います。標準preludeで唯一定義されている後置演算子で、 ``x`` が Pure の任意の式であるとき ``x&`` と書きます。この演算子はオペランドを一種の無名クロージャへと変え、評価を延期します。この種のオブジェクトは `thunk` や `future` としても知られています。 future の値は実際に必要とされたとき（パターンマッチングの間や、値がC呼び出しの引数となったとき）、自動的に評価され記憶されます。つまり、計算された結果がサンク（thunk）と入れ替わるので、サンクは一度だけ計算される必要が生じます。 future は Pure においてあらゆる種類の遅延評価データ構造を実装するのに役立ちます。特に遅延リスト a.k.a. ストリームを実装するために。`stream` は thunked tail を持つ単なるリストで、無限大になることもできます。 Pure の prelude は、この種のオブジェクトを創り、操作するための関数をたくさん定義します。さらなる詳細と具体例は下部 Examples_ セクションにあります。
+``&`` 演算子は遅延評価を行います。標準preludeで唯一定義されている後置演算子で、 ``x`` が Pure の任意の式であるとき ``x&`` と書きます。この演算子はオペランドを一種の無名クロージャへと変え、評価を延期します。この種のオブジェクトは `thunk` や `future` としても知られています。 future の値は実際に必要とされたとき（パターンマッチングの間や、値がC呼び出しの引数となったとき）、自動的に評価され記憶されます。つまり、計算された結果がサンク〔thunk〕と入れ替わるので、サンクは一度だけ計算される必要が生じます。 future は Pure においてあらゆる種類の遅延評価データ構造を実装するのに役立ちます。特に遅延リスト a.k.a. ストリームを実装するために。`stream` は thunked tail を持つ単なるリストで、無限大になることもできます。 Pure の prelude は、この種のオブジェクトを創り、操作するための関数をたくさん定義します。さらなる詳細と具体例は下部 Examples_ セクションにあります。
 
 Last but not least, the special form ``quote`` quotes an expression, i.e.,
 ``quote x`` (or, equivalently, ``'x``) returns just ``x`` itself without
@@ -1338,7 +1347,7 @@ to evaluate a quoted expression at a later time. For instance:
 The quote also inhibits evaluation inside matrix values, including the
 "splicing" of embedded submatrices:
 
-クォートはマトリクス内の値を評価することも抑制します。これには埋め込まれたサブマトリクスの接合（"splicing"）を抑制することも含まれます::
+クォートはマトリクス内の値を評価することも抑制します。これには埋め込まれたサブマトリクスの接合〔"splicing"〕を抑制することも含まれます::
 
   > '{1,2+3,2*3};
   {1,2+3,2*3}
@@ -1398,7 +1407,7 @@ Global variable bindings: ``let lhs = rhs;``
     right-hand side of other function and variable definitions.
 
 グローバル変数のバインディング: ``let lhs = rhs;``
-    左辺のパターン内にあるすべての変数を、右辺の下位項（subterm）に（まず評価を行ってから）結びつけます。これは ``when`` 節のように機能しますが、右辺に自由に現れる他の関数や変数定義をグローバル変数へ結びつけてくれます。
+    左辺のパターン内にあるすべての変数を、右辺の下位項〔subterm〕に（まず評価を行ってから）結びつけます。これは ``when`` 節のように機能しますが、右辺に自由に現れる他の関数や変数定義をグローバル変数へ結びつけてくれます。
 
 Constant bindings: ``const lhs = rhs;``
     An alternative form of ``let`` which defines constants rather than
@@ -1411,7 +1420,7 @@ Constant bindings: ``const lhs = rhs;``
     special optimizations such as constant folding.
 
 定数バインディング
-    ``let`` のもう一つの形で、変数でなく定数を定義します（この定数をノンフィクスシンボルと混同しないで下さい。ノンフィクスは単純にそれ自身を象徴（stand for）します！）。 ``let`` のように、この構造は左辺の変数シンボルを右辺の対応する値に（まず評価を行ってから）結びつけます。 ``const`` が ``let`` と異なるのは、 ``const`` は一度だけしか定義を行えないので、その値はプログラム実行中に変化しないという点です。これによりコンパイラは、例えば constant folding のような特別な最適化を行うことができます。
+    ``let`` のもう一つの形で、変数でなく定数を定義します（この定数をノンフィクスシンボルと混同しないで下さい。ノンフィクスは単純にそれ自身を象徴し〔stand for〕ます！）。 ``let`` のように、この構造は左辺の変数シンボルを右辺の対応する値に（まず評価を行ってから）結びつけます。 ``const`` が ``let`` と異なるのは、 ``const`` は一度だけしか定義を行えないので、その値はプログラム実行中に変化しないという点です。これによりコンパイラは、例えば constant folding のような特別な最適化を行うことができます。
 
 Toplevel expressions: ``expr;``
     A singleton expression at the toplevel, terminated with a semicolon,
@@ -1604,7 +1613,7 @@ The prelude provides syntactic equality as a function |same|_ and a comparison
 predicate '``===``'. Thus the above definition of ``foo`` is roughly
 equivalent to the following:
 
-ここで「同じさ」という言葉を使って示そうとしているのは、文法的な一致であり、 matched subterm は構造的にも内容的にも同じでなければなりません。 prelude は文法的な等しさ（equality）を |same|_ 関数と '===' 演算子で提供しています。なので、上で示した ``foo`` の定義は大まかに次の表現と等価です::
+ここで「同じさ」という言葉を使って示そうとしているのは、文法的な一致であり、 matched subterm は構造的にも内容的にも同じでなければなりません。 prelude は文法的な等しさ〔equality〕を |same|_ 関数と '===' 演算子で提供しています。なので、上で示した ``foo`` の定義は大まかに次の表現と等価です::
 
   foo x y = x if same x y;
 
@@ -1721,7 +1730,7 @@ data type with an operation ``point`` to construct a point from its
 coordinates, and two operations ``xcoord`` and ``ycoord`` to retrieve the
 coordinates:
 
-このことは慣習であるにすぎないと覚えておいて下さい。しかしこれは非常に合理的に動作し、Pure が言語レベルではデータ型をサポートしていないことの代わりになってくれます。例えば ``Point`` というコンストラクタシンボルを使って平面上の点を表したいとしましょう。このコンストラクタは座標のペアに対して適用されます。私たちは ``point`` という処理によって座標ペアから点を構築（construct）し、また ``xcoord`` と ``ycoord`` という2つの処理によって座標を取り戻すことにします::
+このことは慣習であるにすぎないと覚えておいて下さい。しかしこれは非常に合理的に動作し、Pure が言語レベルではデータ型をサポートしていないことの代わりになってくれます。例えば ``Point`` というコンストラクタシンボルを使って平面上の点を表したいとしましょう。このコンストラクタは座標のペアに対して適用されます。私たちは ``point`` という処理によって座標ペアから点を構築し〔construct〕、また ``xcoord`` と ``ycoord`` という2つの処理によって座標を取り戻すことにします::
 
   point x y = Point (x,y);
   xcoord (Point (x,y)) = x;
@@ -2173,12 +2182,16 @@ provided through separate libraries (please check the Pure website for the
 pure-gsl module which is an ongoing project to provide a full GSL interface
 for the Pure language).
 
+Pure は基本的なマトリクス処理を数多く提供します。例えばマトリクスの構築、indexing、スライス、マトリクスの大きさや次元を得ることなどです（これらは下部 `Standard Library`_ セクションで詳しく説明されています）。しかし、マトリクス計算や他の代数アルゴリズムは組み込みでは提供され *ません* 。これらは独立したライブラリで提供可能であり、またそうすべきであるという考えからです（Pure ウェブサイトで pure-gsl モジュールをチェックしてみてください。Pure 言語に完全な GSL インターフェースを提供しようとする現在進行中のプロジェクトです）。
+
 But Pure's facilities for matrix and list processing also make it easy to roll
 your own, if desired. First, the prelude provides matrix versions of the
 common list operations like ``map``, ``fold``, ``zip`` etc., which provide a
 way to implement common matrix operations. E.g., multiplying a matrix ``x``
 with a scalar ``a`` amounts to mapping the function ``(a*)`` to x, which
-can be done as follows::
+can be done as follows:
+
+しかし Pure はマトリクスやリストを容易に扱えるよう整備されているので、お望みなら自分でそれを作るのも簡単です。まず、 prelude は、よく使うリスト処理（ ``map``, ``fold``, ``zip`` 等々）のマトリクス版を提供します。これらは共通のリスト処理を実装する手段を提供します。例えば、マトリクス ``x`` にスカラー ``a`` の数を掛けることは ``(a*)`` 関数を x に適用することに相当する、というルールは以下のように実現できます::
 
   > a * x::matrix = map (a*) x if ~matrixp a;
   > 2*{1,2,3;4,5,6};
@@ -2186,7 +2199,9 @@ can be done as follows::
 
 Likewise, matrix addition and other element-wise operations can be realized
 using ``zipwith``, which combines corresponding elements of two matrices using
-a given binary function::
+a given binary function:
+
+さらに、マトリクスの加算や、エレメントに関する他の処理は ``zipwith`` を使って実現できます。これは、2つのマトリクスの互いに対応する要素を、与えられた関数を使って結合します:
 
   > x::matrix + y::matrix = zipwith (+) x y;
   > {1,2,3;4,5,6}+{1,2,1;3,2,3};
@@ -2196,7 +2211,9 @@ Second, matrix comprehensions make it easy to express a variety of algorithms
 which would typically be implemented using ``for`` loops in conventional
 programming languages. To illustrate the use of matrix comprehensions, here is
 how we can define an operation to create a square identity matrix of a given
-dimension::
+dimension:
+
+2番目に、マトリクス内包は様々なアルゴリズムの表現を容易にしてくれます。よくあるプログラミング言語では、典型的には ``for`` ループを使ってこのようなアルゴリズムを実装しています。マトリクス内包の使い方を例示するするため、与えられた大きさの正方行列を作り出す処理を定義する方法をここで示します::
 
   > eye n = {i==j | i = 1..n; j = 1..n};
   > eye 3;
@@ -2210,9 +2227,13 @@ precisely, the last generator, which varies most quickly, yields a row, the
 next-to-last one a column of these row vectors, and so on.) This makes matrix
 comprehensions resemble customary mathematical notation very closely.
 
+``i==j`` 項はクロネッカー記号を表すための Pure のイディオムだと覚えておいて下さい。もう一つ触れておいたほうが良さそうな点は、上の例のようにリストから値が取り出される場合、マトリクス内包のジェネレータ節は行と列の生成を自動で交互に行うということです（より正確に言えば、最後のジェネレータは（最初に変化するわけですが）行を生成し、the next-to-last one a column of these row vectors, and so on.）。このことは、マトリクス内包を、数学の慣習的な記述と非常に似たものにしています。
+
 Of course, matrix comprehensions can also draw values from other matrices
 instead of lists. In this case the block layout of the component matrices is
-preserved. For instance::
+preserved. For instance:
+
+もちろん、マトリクス内包は他のマトリクスからリストでなくマトリクスを取り出すこともできます。この場合、要素となるマトリクスのブロックレイアウトは保たれます。例えば::
 
   > {x,y|x={1,2};y={a,b;c,d}};
   {(1,a),(1,b),(2,a),(2,b);(1,c),(1,d),(2,c),(2,d)}
@@ -2223,19 +2244,27 @@ filtered result isn't a rectangular matrix any more. E.g.,
 ``{2*x|x={1,2;3,-4};x>0}`` doesn't because the rows of the result matrix have
 different lengths.
 
+マトリクス内包にフィルタを含めると失敗するので注意して下さい。なぜかというと、フィルタした結果はもはや長方形のマトリクスではないからです。例えば ``{2*x|x={1,2,3,-4};x>0}`` はうまくいきます。 ``{2*x|x={-1,2;3,-4};x>0}`` も大丈夫。しかし ``{2*x|x={1,2;3,-4};x>0}`` だとうまくいきません。結果となるマトリクスの行の長さがそれぞれ違ってしまうからです。
+
 As a slightly more comprehensive example (no pun intended!), here is a
 definition of matrix multiplication in Pure. The building block here is the
-"dot" product of two vectors which can be defined as follows::
+"dot" product of two vectors which can be defined as follows:
+
+もう少しわかりやすい例として（シャレじゃなくて！ [#]_ ）、 Pure で定義したマトリクス乗算を示します。 The building block here は "dot" 関数による2つのベクターの積ですが、次のように定義できます::
 
   > sum = foldl (+) 0;
   > dot x::matrix y::matrix = sum $ zipwith (*) (rowvector x) (rowvector y);
   > dot {1,2,3} {1,0,1};
   4
 
+.. [#] 訳注： "matrix *comprehension*" （マトリクス内包）の話題で "As a slightly more *comprehensive* example" （もう少しわかりやすい例として）と出ているため、ダジャレ疑惑を否定している。故意ではない表現をシャレと解釈されたくない心境は文化を問わないらしい。
+
 The general matrix product now boils down to a simple matrix comprehension
 which just computes the dot product of all rows of ``x`` with all columns of
 ``y`` (the ``rows`` and ``cols`` functions are prelude operations found in
-matrices.pure)::
+matrices.pure):
+
+ここでマトリクスの一般的な積をシンプルなマトリクス内包へと煮詰めます。 ``x`` の全行と ``y`` の全列との積を計算するだけでよいのです（ ``rows`` 関数と ``cols`` 関数は prelude で定義される演算で、 matrices.pure 内にあります）::
 
   > x::matrix * y::matrix = {dot u v | u = rows x; v = cols y};
   > {0,1;1,0;1,1}*{1,2,3;4,5,6};
@@ -2245,11 +2274,15 @@ matrices.pure)::
 production code you'd check at least the conformance of matrix dimensions, of
 course.)
 
+（簡潔にするため、あまりエラーチェックを行っていません。実用するコードでは、少なくともマトリクスの大きさが一致していることをチェックすべきです）
+
 Well, that was easy. So let's take a look at a more challenging example,
 Gaussian elimination, which can be used to solve systems of linear
 equations. The algorithm brings a matrix into "row echelon" form, a
 generalization of triangular matrices. The resulting system can then be solved
 quite easily using back substitution.
+
+うん、簡単でした。ではもう少し骨の折れる例として、ガウスの消去法〔Gaussian elimination〕を見てみましょう。線型方程式系（連立一次方程式）を解くのに使われるものです。このアルゴリズムはマトリクスを階段行列〔"row echelon" form〕つまり三角行列を一般化したものへ変形します。その結果として得られる系は後退代入〔back substitution〕を使って簡単に解くことができます。
 
 Here is a Pure implementation of the algorithm. Note that the real meat is in
 the pivoting and elimination step (``step`` function) which is iterated over
@@ -2258,6 +2291,8 @@ all columns of the input matrix. In each step, ``x`` is the current matrix,
 track of the current permutation of the row indices performed during
 pivoting. The algorithm returns the updated matrix ``x``, row index ``i`` and
 row permutation ``p``.
+
+このアルゴリズムを Pure で実装したものを示します。真の要点はピボッティングと消去ステップ（ ``step`` 関数）にあり、入力されたマトリクスの全ての列に対して繰り返し適用され〔＝イテレートされ〕ると覚えておいて下さい。各ステップにおいて ``x`` は現在のマトリクスであり、 ``i`` は現在の行インデックス、 ``j`` は現在の列インデックス、 ``p`` は■ピボッティング中に実行される行インデックスの現在の順列■を記録します。このアルゴリズムは更新されたマトリクス ``x`` 、行インデックス ``i`` 、順列 ``p`` を返します。
 
 ::
 
@@ -2269,12 +2304,16 @@ row permutation ``p``.
   = if max_x==0 then p,i,x
     else
       // updated row permutation and index:
+      // 更新された行順列とインデックス
       transp i max_i p, i+1,
       {// the top rows of the matrix remain unchanged:
+       // 最上段の行は変更されないまま:
        x!!(0..i-1,0..m-1);
        // the pivot row, divided by the pivot element:
+       // ピボット要素によって分割されたピボット行:
        {x!(i,l)/x!(i,j)                 | l=0..m-1};
        // subtract suitable multiples of the pivot row:
+       // ピボット行の suitable multiples を引く
        {x!(k,l)-x!(k,j)*x!(i,l)/x!(i,j) | k=i+1..n-1; l=0..m-1}}
   when
     n,m = dim x; max_i, max_x = pivot i (col x j);
@@ -2296,9 +2335,13 @@ divide the pivot row by the pivot, and subtract suitable multiples of the
 pivot row to eliminate the elements of the pivot column in all subsequent
 rows. Finally we update ``i`` and ``p`` accordingly and return the result.
 
+このアルゴリズムの詳細な解説は numerical mathematics の良い参考書をあたって下さい。しかし、この例は各消去ステップで起きることの簡潔な要約になっています。まず、マトリクスの ``j`` 列からピボット要素を探します（ここでは部分ピボッティングを行っています。すなわち、 ``j`` 列のうちで最も大きい絶対値を持つ要素だけを、行 ``i`` から順に探します。通常、 numerical stability を保つにはこれで充分です）。もしピボットがゼロならば、完了です（残りのピボット列はすでにゼロとされています）。そうでない場合、 it をピボット位置へ移動し（行 ``i`` とピボット行を置き換える）、ピボット行をピボットで分割し、全後続行内のピボット列から要素を消去するため、適切な倍数をピボット行から引きます。
+
 In order to complete the implementation, we still need the following little
 helper functions to swap two rows of a matrix (this is used in the pivoting
-step) and to apply a transposition to a permutation (represented as a list)::
+step) and to apply a transposition to a permutation (represented as a list):
+
+実装を完了するには、まだ次の小さなヘルパー関数が必要です。この関数はマトリクスの行2つを入れ替え（ピボッティングステップで使われます）、また a transposition を a permutation (represented as a list) に適用するものです::
 
   swap x i j = x!!(transp i j (0..n-1),0..m-1) when n,m = dim x end;
   transp i j p = [p!tr k | k=0..#p-1]
@@ -2306,7 +2349,9 @@ step) and to apply a transposition to a permutation (represented as a list)::
 
 Finally, let us define a convenient print representation of double matrices a
 la Octave_ (the meaning of the ``__show__`` function is explained in the
-`Caveats and Notes`_ section)::
+`Caveats and Notes`_ section):
+
+最後に、便利な print representation of double matrices a la Octave_ を定義しましょう（ ``__show__`` 関数の意味は `Caveats and Notes`_ セクションで説明されています）::
 
   using system;
   __show__ x::matrix
@@ -2314,7 +2359,9 @@ la Octave_ (the meaning of the ``__show__`` function is explained in the
   with printd 0 = sprintf "\n%10.5f"; printd _ = sprintf "%10.5f" end
   when n,m = dim x end if dmatrixp x;
 
-Example::
+Example:
+
+具体例::
 
   > let x = dmatrix {2,1,-1,8; -3,-1,2,-11; -2,1,2,-3};
   > x; gauss_elimination x;
@@ -2473,7 +2520,7 @@ Macros are a special type of functions to be executed as a kind of
 define custom special forms and to perform inlining of function calls and
 other simple kinds of source-level optimizations.
 
-マクロは特別なタイプの関数であり、コンパイル時の一種の "preprocessing stage" （プリプロセス段階）で実行されます。 Pure においてこれらは典型的に、カスタム特別形を定義するためや、関数呼び出しの直列化（inlining）を実行するため、あるいは単純な類のソースレベルでの最適化を行うために使われます。
+マクロは特別なタイプの関数であり、コンパイル時の一種のプリプロセス段階〔"preprocessing stage"〕で実行されます。 Pure においてこれらは典型的に、カスタム特別形を定義するためや、関数呼び出しの直列化〔inlining〕を実行するため、あるいは単純な類のソースレベルでの最適化を行うために使われます。
 
 Whereas the macro facilities of most programming languages simply provide a
 kind of textual substitution mechanism, Pure macros operate on symbolic
@@ -2531,7 +2578,7 @@ Like in Haskell, this low-priority operator is handy to write cascading
 function calls. With the above macro rule, these will be "inlined" as ordinary
 function applications automatically. Example:
 
-Haskell で使うのと同じように、この優先度の低い演算子は、段になって流れ落ちる（cascading）関数呼び出しを書くのに便利です。上のマクロルールと合わせると、これらを通常の関数適用と同じようなものとして自動的に「インライン化」できます。具体例::
+Haskell で使うのと同じように、この優先度の低い演算子は、段になって流れ落ちる〔cascading〕関数呼び出しを書くのに便利です。上のマクロルールと合わせると、これらを通常の関数適用と同じようなものとして自動的に「インライン化」できます。具体例::
 
   > foo x = bar $ bar $ 2*x;
   > show foo
@@ -2541,7 +2588,7 @@ Here are two slightly more tricky rules from the prelude, which optimize the
 case of "throwaway" list comprehensions. This is useful if a list
 comprehension is evaluated solely for its side effects:
 
-次は prelude からもう少しトリッキーなルールを2つ。これらはリスト内包を「使い捨て」（throwaway）するケースを最適化します。副作用を利用したいためだけにリスト内包が評価される場合に役立ちます。
+次は prelude からもう少しトリッキーなルールを2つ。これらはリスト内包を「使い捨て」〔"throwaway"〕するケースを最適化します。副作用を利用したいためだけにリスト内包が評価される場合に役立ちます。
 
   def void (catmap f x) = do f x;
   def void (listmap f x) = do f x;
