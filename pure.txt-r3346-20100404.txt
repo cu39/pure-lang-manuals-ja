@@ -2385,6 +2385,8 @@ components are stored in which order, just knowing the keys of the required
 members is enough. In contrast, tuples, lists and other kinds of constructor
 terms quickly become unwieldy for such purposes.
 
+マトリクスはシンプルなレコードのようなデータを提供します。 ``key => value`` という形式の「ハッシュペア」から構成されるシンボリックベクトルとしてレコードをエンコードします。この種のデータ構造は、様々な異なる構成要素からなる集合体を表すのにとても便利です。キーの値をインデックスとしてレコードの要素にアクセスできるので、各要素がどの順番で保存されているか覚えておく必要はなく、必要なメンバーのキーさえわかっていれば充分です。対照的に、タプルやリストなど他の constructor terms はすぐにこうした目的で扱いにくいものとなってしまいます。
+
 .. _Record Functions: purelib.html#record-functions
 
 The keys used for indexing the record data must be either symbols or strings,
@@ -2393,7 +2395,9 @@ provides some operations on these special kinds of matrices, which let you
 retrieve vector elements by indexing and perform non-destructive updates, see
 the `Record Functions`_ section in the `Pure Library Manual`_ for
 details. Here are a few examples which illustrate how to create records and
-work with them::
+work with them:
+
+レコードデータの索引となるキーはシンボルか文字列である必要があります。それに対応する値は任意の Pure 値とすることができます。 prelude はこの特殊なマトリクスに対するいくつかの処理を提供します。インデックスによってベクトル要素を取り出したり、非破壊的な更新を行うことが可能となります。詳しくは `Pure Library Manual`_ 内の `Record Functions`_ セクションを参照して下さい。ここでは、レコードの作成と、それを使った作業を解説する例をいくつか示します::
 
   > let r = {x=>5, y=>12};
   > recordp r, member r x;
@@ -2415,7 +2419,9 @@ Manual`_. There's one caveat here, however. Since neither ``=>`` nor ``!``
 treat their key operand in a special way, symbols used as keys must not be
 bound to a value (to ensure this, you might want to declare them as
 ``nonfix``), or you'll have to protect them from being evaluated by quoting
-them. Thus, to be on the safe side, you should actually write::
+them. Thus, to be on the safe side, you should actually write:
+
+「ハッシュロケット」 ``=>`` が使われている部分に注意を向けて下さい。この記号がレコード内での ``key=>value`` の結びつきを示しています。ハッシュロケットは prelude 内で挿入演算子として定義されているコンストラクタです（ `Pure Library Manual`_ 内の Prelude_ セクションを参照）が、一つだけ注意点があります。 ``=>`` も ``!`` も、キーとなるオペランドを特別な方法で扱っているわけではないので、キーとして使われる複数のシンボルを一つの値に束縛してはいけません（このことを確実にするため、あなたは■それら■を ``nonfix`` として宣言したくなるかもしれません）。あるいは、■それらをクォートすることで評価されるのを防ぐ必要があるでしょう。したがって、安全な道を行くのなら、あなたは次のように書くべきです::
 
   > let r = {'x=>5, 'y=>12};
   > r!'y; r!!['y,'x];
@@ -2423,7 +2429,9 @@ them. Thus, to be on the safe side, you should actually write::
   {12,5}
 
 It's also possible to use strings as keys instead, which may actually be more
-convenient in some cases::
+convenient in some cases:
+
+代わりに文字列をキーとして使うこともできます。実際はこちらのほうが便利なケースも多いかもしれません::
 
   > let r = {"x"=>5, "y"=>12};
   > keys r; vals r;
@@ -2434,7 +2442,9 @@ convenient in some cases::
 
 You can also mix strings and symbols as keys in the same record (but note that
 strings and symbols are always distinct, so ``y`` and ``"y"`` are really two
-different keys here)::
+different keys here):
+
+同じレコードに文字列のキーとシンボルのキーを混在させることも可能です（ただし文字列とシンボルは常に区別されるので、 ``y`` と ``"y"`` はまったく異なる2つのキーとなることを忘れないで下さい）::
 
   > insert r (y=>99);
   {"x"=>5,"y"=>12,y=>99}
@@ -2442,7 +2452,9 @@ different keys here)::
 As records are in fact just special kinds of matrices, the standard matrix
 operations can be used on record values as well. For instance, the matrix
 constructor provides an alternative way to quickly augment a record with a
-collection of new ``key=>value`` associations::
+collection of new ``key=>value`` associations:
+
+実のところ、レコードは単なる特殊なマトリクスにすぎないので、標準的なマトリクス処理をレコード値に対して同様に使うことができます。例えば、マトリクスコンストラクタを ``key=>value`` 結合のまとまりと合わせて使うことで、レコードを素早く記述するもう一つの方法となります::
 
   > let r = {x=>5, y=>12};
   > let r = {r, x=>7, z=>3}; r;
@@ -2458,7 +2470,9 @@ As the example shows, this may produce duplicate keys, but these are handled
 gracefully; indexing and updates will always work with the *last* association
 for a given key in the record. If necessary, you can remove duplicate entries
 from a record as follows; this will only keep the last association for each
-key::
+key:
+
+上の例が示す通り、この方法では重複したキーを作ることも許されますが、重複したキーは上品に扱われます。索引〔＝indexing＝キーを指定して値を取得すること〕と更新は常に、与えられたキーを持つ結合のうち *最後に作られた* ものに対して動作するのです。もし必要なら、レコードの重複エントリーを次のように削除することができます。これは各キーの最後の結合だけを保存します::
 
   > record r;
   {x=>7,y=>12,z=>3}
@@ -2466,13 +2480,17 @@ key::
 In fact, the ``record`` operation not only removes duplicates, but also orders
 the record entries by keys. This produces a kind of normalized representation
 which is useful if you want to compare or combine two record values
-irrespective of the ordering of the fields. For instance::
+irrespective of the ordering of the fields. For instance:
+
+実のところ、 ``record`` 処理は重複を消去するだけでなく、レコードのエントリーをキーによって整列させることもします。これにより一種の正規化された姿が作り出されるので、2つのレコードの値を、フィールドの並び方に関係なく比較・結合したい場合に役立ちます。例えば::
 
   > record {x=>5, y=>12} === record {y=>12, x=>5};
   1
 
 The ``record`` function can also be used to construct a normalized record
-directly from a list or tuple of hash pairs::
+directly from a list or tuple of hash pairs:
+
+また ``record`` 関数は、リストやタプルのハッシュペアから、正規化されたレコードを直接構築するのにも使えます::
 
   > record [x=>5, x=>7, y=>12];
   {x=>7,y=>12}
@@ -2481,7 +2499,9 @@ Other matrix operations such as ``map``, ``foldl``, etc., and matrix
 comprehensions can be applied to records just as easily. This enables you to
 perform bulk updates of record data in a straightforward way. For instance,
 here's how you can define a function ``maprec`` which applies a function to
-all values stored in a record::
+all values stored in a record:
+
+``map`` や ``foldl`` などなど他のマトリクス処理や、マトリクス内包も簡単にレコードへ適用できます。これにより、レコードのデータを大量に更新する際もわかりやすい方法で実行できます。例えば、次の例では ``maprec`` 関数を定義する方法を示しています。これは、与えられた関数を、レコードに保存されている全ての値に適用します::
 
   > maprec f = map (\(u=>v) -> u=>f v);
   > maprec (*2) {x=>5,y=>12};
@@ -2489,7 +2509,9 @@ all values stored in a record::
 
 Another example: The following ``ziprec`` function collects pairs of values
 stored under common keys in two records (we also normalize the result here so
-that duplicate keys are always removed)::
+that duplicate keys are always removed):
+
+例をもうひとつ。次の ``ziprec`` 関数は、2つのレコードに共通するキーの下に保存されている値のペアを集めてくるものです::
 
   > ziprec x y = record {u=>(x!u,y!u) | u = keys x; member y u};
   > ziprec {a=>3,x=>5,y=>12} {x=>10,y=>24,z=>7};
@@ -2502,7 +2524,9 @@ constructing records and accessing or modifying their components. Note that
 since the values stored in records can be arbitrary Pure values, you can also
 have mutable records by making use of Pure's expression references (see
 `Expression References`_ in the library manual). And of course records can be
-nested, too::
+nested, too:
+
+このように、ジェネリックなマトリクス処理のフルパワーをレコードに対して使うことができ、レコードを万能な〔versatile〕データ構造に変えてくれます。従来のプログラミング言語に備わっているレコードは、構築するにも、構成要素に対してアクセスや更新をするにも、しばしば制限があります。Pure のレコードはそれよりはるかに強力です。レコードには任意の Pure 値を保存することができるので、 Pure の式リファレンスを使えば、 mutable なレコードを使うこともできることを忘れないで下さい。もちろんレコードはネストすることもできます::
 
   > let r = {a => {b=>1,c=>2}, b => 2};
   > r!a, r!b, r!a!b;
