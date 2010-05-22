@@ -6024,7 +6024,7 @@ kinds of name capture which may occur in unhygienic macro systems:
 * A free symbol in the macro *call* inadvertently becomes bound to the value
   of a local symbol in the macro body.
 
-* マクロ呼び出し側の自由シンボルが、マクロ本体内にあるローカルシンボルの値と、意図せず束縛されてしまう。
+* マクロ *呼び出し* 側の自由シンボルが、マクロ本体内にあるローカルシンボルの値と、意図せず束縛されてしまう。
 
 Pure's hygienic macros avoid both pitfalls. Here is an example for the first
 form of name capture:
