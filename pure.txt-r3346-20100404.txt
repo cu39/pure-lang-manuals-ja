@@ -2883,6 +2883,8 @@ function you want to trace.
 Macro Hygiene
 -------------
 
+マクロの衛生学
+
 Pure macros are lexically scoped, i.e., the binding of symbols in the
 right-hand-side of a macro definition is determined statically by the text of
 the definition, and macro parameter substitution also takes into account
@@ -2893,11 +2895,15 @@ capture," which makes macros in less sophisticated languages bug-ridden and
 hard to use. (This is explained in more detail in the `Hygienic Macros`_
 section.)
 
+Pure のマクロはレキシカルスコープです。すなわち、マクロ定義の右辺にあるシンボルの束縛は定義のテキストによって静的に決定されます。そしてマクロパラメータの代入もまた、定義右辺にある束縛構造（ ``with`` や ``when`` 節など）を考慮に入れます。これら pleasant properties によるマクロのfacilitiesは `hygienic macros` としても知られています。Theyは、いわゆる "name capture" に感染することがありません。 "name capture" は、あまり洗練されていない言語のマクロを、バグを含みやすく、扱いづらいものにします（ `Hygienic Macros`_ セクションではもっと細かく説明しています）。
+
 Pure macros also have their limitations. Specifically, the left-hand side of a
 macro rule must be a simple expression, just like in ordinary function
 definitions. This restricts the kinds of expressions which can be rewritten by
 a macro. But Pure macros are certainly powerful enough for most common
 preprocessing purposes, while still being robust and easy to use.
+
+Pure のマクロもその制限を持っています。特に、通常の関数定義と同じく、マクロルールの左辺はシンプルな式でなければなりません。このことにより、マクロが書き換えることのできる式の種類は限定されます。しかしそれでも Pure のマクロは普通の処理を書くために充分に強力であり、しかも強靱で使いやすいものです。
 
 Declarations
 ============
