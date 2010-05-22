@@ -2736,7 +2736,7 @@ the real work is done by ``quasiquote``, using ``foldl`` at runtime to
 actually perform the splicing. (Putting off the splicing until runtime makes
 it possible to splice argument lists computed at runtime.)
 
-上の例の最初のルールは "unquoting" embedded subterms に配慮したものです。2番目のルールは引数リストを enclosing function application へと "splice" します。3番目のルールは function application の下位項へ再帰します。そして最後となる4番目のルールは "atomic" な下位項をクオートする面倒を見ます。 ``unquote`` と ``splice`` が実のところ消極的なコンストラクタシンボルにすぎないことを覚えておいて下さい。実際の仕事は ``quasiquote`` によって行われます。 ``quasiquote`` は runtime に ``foldl を使って splicing を実施します（runtimeまでsplicingをputting off することで、実行時に計算される引数リストをspliceすることが可能になります）。
+上の例の最初のルールは "unquoting" embedded subterms に配慮したものです。2番目のルールは引数リストを enclosing function application へと "splice" します。3番目のルールは function application の下位項へ再帰します。そして最後となる4番目のルールは "atomic" な下位項をクオートする面倒を見ます。 ``unquote`` と ``splice`` が実のところ消極的なコンストラクタシンボルにすぎないことを覚えておいて下さい。実際の仕事は ``quasiquote`` によって行われます。 ``quasiquote`` は runtime に ``foldl`` を使って splicing を実施します（runtimeまでsplicingをputting off することで、実行時に計算される引数リストをspliceすることが可能になります）。
 
 If we want, we can also add some syntactic sugar for Lisp weenies. (Note that
 we cannot have '``,``' for unquoting, so we use '``,$``' instead.)
@@ -2959,7 +2959,7 @@ be declared private, meaning that the symbol is visible only in the namespace
 it belongs to. This is explained in more detail under `Private Symbols`_ in
 the Namespaces_ section below.
 
-こうして、リストされたシンボルを public または private なものとしてそれぞれ宣言します。各シンボルは、識別子であるか、ひとつながりの句読点文字である必要があります。後者は使用前に *必ず* 宣言されなければ *なりません* 。それに対して、普通の識別子は前もって宣言する必要はなく、その場合は暗黙のうちに宣言され、デフォルトで public スコープとなり、プログラム内のどこからでも見えるものとなります。そのため、通常の識別子を明示的に public 宣言する必要はほとんどありません（特定の名前空間のメンバーとして変数を宣言したい場合は別です。下部 `Namespaces`_ を参照して下さい）。また、シンボルを private として宣言することもできます。このシンボルは属する名前空間の中からしか見えません。これに関して下部 Namespaces_ セクション内 `Private Symbols`_ で詳細に説明されています。
+これはリストされたシンボルを public または private なものとしてそれぞれ宣言しています。各シンボルは、識別子であるか、ひとつながりの句読点文字である必要があります。後者は使用前に *必ず* 宣言されなければ *なりません* 。それに対して、普通の識別子は前もって宣言する必要はなく、その場合は暗黙のうちに宣言され、デフォルトで public スコープとなり、プログラム内のどこからでも見えるものとなります。そのため、通常の識別子を明示的に public 宣言する必要はほとんどありません（特定の名前空間のメンバーとして変数を宣言したい場合は別です。下部 `Namespaces`_ を参照して下さい）。また、シンボルを private として宣言することもできます。このシンボルは属する名前空間の中からしか見えません。これに関して下部 Namespaces_ セクション内 `Private Symbols`_ で詳細に説明されています。
 
 Note that to declare several symbols in a single declaration, you can list
 them all with whitespace in between. The same syntax applies to the other
@@ -2992,7 +2992,7 @@ Operator declarations: ``infix level symbol ...;``
     symbols at low, high or intermediate precedences.)
 
 演算子宣言: ``infix level symbol ...;``
-    Pure は理論的には無数の異なる優先レベルを、挿入・前置・後置演算子に対して提供します。優先レベルは 0 から始まり、大きい数値ほど優先度が高いことを示します（実用上の理由から、現在の実装では優先度の数値を 24 ビット符号なし machine integer でエンコードされ、 0 から 16777215 までの範囲を使うことができます。しかしアプリケーションにおいて事実上制限なく使えるほどの大きさではあるでしょう。また、 prelude における演算子宣言は「標準」レベル同士の間に十分な「余地」を残して行われます。そのため、優先度が低・高・中間いずれレベルにおいても〔「標準」演算子の隙間に〕新しい演算子を簡単にすべり込ませることができます）。
+    Pure は理論的には無数の異なる優先レベルを、挿入・前置・後置演算子に対して提供します。優先レベルは 0 から始まり、大きい数値ほど優先度が高いことを示します（実用上の理由から、現在の実装では優先度の数値は 24 ビット符号なし machine integer でエンコードされ、 0 から 16777215 までの範囲を使うことができます。しかしアプリケーションにおいて事実上制限なく使えるほどの大きさではあるでしょう。また、 prelude における演算子宣言は「標準」レベル同士の間に十分な「余地」を残して行われます。そのため、優先度が低・高・中間のどのレベルにおいても新しい演算子を〔「標準」演算子の隙間に〕簡単にすべり込ませることができます）。
 
     On each precedence level, you can declare (in order of increasing
     precedence) ``infix`` (binary non-associative), ``infixl`` (binary
@@ -3102,10 +3102,12 @@ parsed as ``(-x)+y``, whereas ``-x*y`` is the same as ``-(x*y)``. Also note
 that the notation ``(-)`` always denotes the binary minus operator; the unary
 minus operation can be denoted using the built-in ``neg`` function.
 
-ここに書いておくべき最後の一つは、単項のマイナスが文法上持つ特別な意味についてです。 Haskell と同じように、また数学の伝統を踏襲して、単項のマイナスは挿入演算子としても使われる唯一の前置演算子であり、二項のマイナスと常に同じ優先レベルとなります。二項マイナス演算子の優先度は prelude 内で自由に選ぶことができます（この特別扱いを受けるのはマイナス演算子だけです。他の全演算子は異なるlexical representationsを持たなければなりません）。したがって、標準 prelude を使う場合、 ``-x+y`` は ``(-x)+y`` として解析されます。それに対して ``-x*y`` は ``-(x*y)`` と同じです。また ``(-)`` が常に二項演算子を表すことも覚えておいて下さい。単項マイナス演算は ``neg`` 組み込み関数を使って表すことができます。
+ここに書いておくべき最後の一つは、単項のマイナスが文法上持つ特別な意味についてです。 Haskell と同じように、また数学の伝統を踏襲して、単項のマイナスは挿入演算子としても使われる唯一の前置演算子であり、二項のマイナスと常に同じ優先レベルとなります。二項マイナス演算子の優先度は prelude 内で自由に選ぶことができます（この特別扱いを受けるのはマイナス演算子だけです。他の全演算子は異なるlexical representationsを持たなければなりません）。したがって、標準 prelude を使う場合、 ``-x+y`` は ``(-x)+y`` として解析されます。それに対して ``-x*y`` は ``-(x*y)`` と同じです。また ``(-)`` が常に二項演算子を表すことも覚えておいて下さい。単項マイナス演算は組み込み関数 ``neg`` を使って表すことができます。
 
 Modules and Imports
 -------------------
+
+モジュールとインポート
 
 While Pure doesn't offer separate compilation, the ``using`` declaration
 provides a simple but effective way to assemble a Pure program from several
@@ -6004,20 +6006,30 @@ E.g., this call retrieves information about all defined macros::
 Hygienic Macros
 ---------------
 
+衛生的なマクロ
+
 As mentioned in the `Macro Hygiene`_ section, Pure macros are lexically scoped
 and thus "hygienic". Macro hygiene is a somewhat esoteric topic for most
 programmers, so let us take a brief look at what it's all about. The problem
 avoided by hygienic macros is that of *name capture*. There are actually two
 kinds of name capture which may occur in unhygienic macro systems:
 
+`Macro Hygiene`_ セクションで述べた通り、 Pure のマクロはレキシカルスコープであり、したがって「衛生的」〔"hygienic"〕です。ほとんどのプログラマーにとって Macro hygiene はいくらか難解なトピックなので、どういうことなのか詳細に見ていきましょう。衛生的なマクロによって避けられるのは *name capture* の問題です。実際には2種類の name capture があり、どちらも衛生的でないマクロシステムで起こりうるものです:
+
 * A free symbol in the macro *body* inadvertently becomes bound to the value
   of a local symbol in the context in which the macro is called.
+
+* マクロ *本体* 内の自由シンボルが、マクロが呼び出されたコンテキスト内にあるローカルシンボルの値と、意図せず束縛されてしまう。
 
 * A free symbol in the macro *call* inadvertently becomes bound to the value
   of a local symbol in the macro body.
 
+* マクロ呼び出し側の自由シンボルが、マクロ本体内にあるローカルシンボルの値と、意図せず束縛されてしまう。
+
 Pure's hygienic macros avoid both pitfalls. Here is an example for the first
-form of name capture::
+form of name capture:
+
+Pure の衛生的なマクロは両方の落とし穴を回避します。ここで、最初の方の name capture の例を示します::
 
   > def G x = x+y;
   > G 10 when y = 99 end;
@@ -6030,8 +6042,12 @@ order to make the macro use the binding of the symbol which is active at the
 point of the macro call. This never works in Pure, hence in such cases you
 will have to explicitly pass such symbols to the macro.)
 
+``G`` マクロが展開されたとき、マクロの呼び出し側で ``y`` がローカル宣言されていてもなお、グローバルインスタンスの ``y`` が正しく使われていることに注意を向けて下さい（この形のname captureはときどき故意に使われています。マクロが呼び出された位置で有効なシンボル束縛を使うようにするためです。 Pure は決してこのような動作をしません。したがって、そのような場合にはマクロに対してそうしたシンボルを確実に渡す必要があります）。
+
 In contrast, the second form of name capture is usually not intended, and is
-therefore more dangerous. Consider the following example::
+therefore more dangerous. Consider the following example:
+
+対照的に、二つ目のname captureはたいてい意図されることはなく、したがってもっと危険です。次の例を考えてみてください::
 
   > def F x = x+y when y = x+1 end;
   > F y;
@@ -6041,16 +6057,22 @@ Pure again gives the correct result here. You'd have to be worried if you got
 ``(y+1)+(y+1)`` instead, which would result from the literal expansion ``y+y
 when y = y+1 end``, where the (free) variable ``y`` passed to ``F`` gets
 captured by the local binding of ``y``. In fact, that's exactly what you get
-with C macros::
+with C macros:
+
+ここでも Pure は正しい結果を与えています。この代わりに ``(y+1)+(y+1)`` という結果を得たら、あなたは心配しなければならないでしょう。その場合 ``y+y when y = y+1 end`` という式の結果ということになり、そこでは ``F`` 関数に渡された（自由）変数 ``y`` がローカル束縛の ``y`` により捕らえられているわけです。実際、それは C マクロで起こることです::
 
   #define F(x) { int y = x+1; return x+y; }
 
 Here ``F(y)`` expands to ``{ int y = y+1; return y+y; }`` which is usually
 *not* what you want.
 
+ここでは ``F(y)`` が ``{ int y = y+1; return y+y+}`` へと展開され、それは通常あなたの望むことでは *ない* でしょう。
+
 There is also one Pure-related caveat here. The expression printer currently
 doesn't check for different bindings of the same variable identifier when it
-prints a (compile time) expression. E.g.::
+prints a (compile time) expression. E.g.:
+
+ここで Pure に関する注意点がもう一つあります。式プリンターはいまのところ、コンパイル時の式を出力する際、同じ変数識別子の異なる束縛についてのチェックを行いません。例えば::
 
   > foo y = F y;
   > show foo
@@ -6061,7 +6083,9 @@ This *looks* as if ``y`` got captured, but in fact it's not, it's just the
 add the ``-e`` option to ``show`` which prints the deBruijn indices of locally
 bound symbols, then you see that the actual bindings are all right anyway
 (note that the number before the colon is the actual deBruijn index, the
-sequence of bits behind it is the subterm path)::
+sequence of bits behind it is the subterm path):
+
+これは ``y`` が捕らえられているかのように *見える* のですが、実際は違います。単に ``show`` コマンドが正しい方法で定義を表示しているだけなのです。 ``show`` コマンドに ``-e`` オプションを追加し、ローカル束縛のシンボルの deBruijn インデックスを表示させることができますが、そうすると、すべての束縛が正しく表示されるのを確認できます（コロンの前の数字が実際の deBruijn インデックスであることに注意して下さい。背後にある一連のビットシーケンスはsubterm pathです）::
 
   > show -e foo
   foo y/*0:1*/ = y/*1:1*/+y/*0:*/ when y/*0:*/ = y/*0:1*/+1 end;
@@ -6069,6 +6093,8 @@ sequence of bits behind it is the subterm path)::
 Alas, this means that if you use ``dump`` to write such a definition to a text
 file and read it back with ``run`` later, then you'll get the wrong
 definition. Currently you will have to correct this manually.
+
+ああ、もしあなたが ``dump`` を使ってこうした定義をファイルに書き込み、後から読み込んで ``run`` しようとしたら、誤った定義を得てしまうことでしょう。今のところそれは手作業で治すしかありません。
 
 Stack Size and Tail Recursion
 -----------------------------
