@@ -2940,7 +2940,9 @@ Symbol Declarations
 
 シンボル宣言
 
-Scope declarations take the following form::
+Scope declarations take the following form:
+
+スコープ宣言は次のような形式をとります::
 
   public symbol ...;
   private symbol ...;
@@ -2957,6 +2959,8 @@ be declared private, meaning that the symbol is visible only in the namespace
 it belongs to. This is explained in more detail under `Private Symbols`_ in
 the Namespaces_ section below.
 
+こうして、リストされたシンボルを public または private なものとしてそれぞれ宣言します。各シンボルは、識別子であるか、ひとつながりの句読点文字である必要があります。後者は使用前に *必ず* 宣言されなければ *なりません* 。それに対して、普通の識別子は前もって宣言する必要はなく、その場合は暗黙のうちに宣言され、デフォルトで public スコープとなり、プログラム内のどこからでも見えるものとなります。そのため、通常の識別子を明示的に public 宣言する必要はほとんどありません（特定の名前空間のメンバーとして変数を宣言したい場合は別です。下部 `Namespaces`_ を参照して下さい）。また、シンボルを private として宣言することもできます。このシンボルは属する名前空間の中からしか見えません。これに関して下部 Namespaces_ セクション内 `Private Symbols`_ で詳細に説明されています。
+
 Note that to declare several symbols in a single declaration, you can list
 them all with whitespace in between. The same syntax applies to the other
 types of symbol declarations discussed below. (Commas are *not* allowed as
@@ -2966,10 +2970,14 @@ in any of the special symbol declarations discussed below, to specify the
 scope of the declared symbols (if the scope prefix is omitted, it defaults to
 ``public``).
 
+ホワイトスペースを間に入れてシンボルを並べると、一つの宣言文内で複数のシンボルを宣言できることを覚えておいて下さい。同じ文法は、以下で議論される別種のシンボル宣言にも適用されます（ここでカンマは区切り文字として許され *ません* 。シンボルを構成する合法な要素としてカンマがシンボルリスト内に表れる可能性があるからです）。また ``public`` と ``private`` キーワードは、以下で議論される特別シンボル宣言のプレフィクスとして使うこともでき、宣言されるシンボルのスコープを決定します（スコーププレフィクスが省略された場合は ``public`` がデフォルトとなります）。
+
 The following "fixity" declarations are available for introducing special
 operator and constant symbols. This changes the way that these symbols are
 parsed and thus provides you with a limited means to extend the Pure language
 at the lexical and syntactical level.
+
+次の "fixity" 宣言は、特別な演算子シンボルや定数シンボルを導入するためのものです。これはシンボルが解析される方法を変え、 Pure 言語をlexicalおよびsyntacticalなレベルにおいて拡張するための限定された手段を提供します。
 
 Operator declarations: ``infix level symbol ...;``
     Pure provides you with a theoretically unlimited number of different
@@ -2983,12 +2991,17 @@ Operator declarations: ``infix level symbol ...;``
     between the "standard" levels so that you can easily sneak in new operator
     symbols at low, high or intermediate precedences.)
 
+演算子宣言: ``infix level symbol ...;``
+    Pure は理論的には無数の異なる優先レベルを、挿入・前置・後置演算子に対して提供します。優先レベルは 0 から始まり、大きい数値ほど優先度が高いことを示します（実用上の理由から、現在の実装では優先度の数値を 24 ビット符号なし machine integer でエンコードされ、 0 から 16777215 までの範囲を使うことができます。しかしアプリケーションにおいて事実上制限なく使えるほどの大きさではあるでしょう。また、 prelude における演算子宣言は「標準」レベル同士の間に十分な「余地」を残して行われます。そのため、優先度が低・高・中間いずれレベルにおいても〔「標準」演算子の隙間に〕新しい演算子を簡単にすべり込ませることができます）。
+
     On each precedence level, you can declare (in order of increasing
     precedence) ``infix`` (binary non-associative), ``infixl`` (binary
     left-associative), ``infixr`` (binary right-associative), ``prefix``
     (unary prefix) and ``postfix`` (unary postfix) operators. For instance,
     here is a typical excerpt from the prelude (the full table can be found in
-    the Prelude_ section of the `Pure Library Manual`_)::
+    the Prelude_ section of the `Pure Library Manual`_):
+
+    各優先レベルにおいて、あなたは（優先度昇順に） ``infix`` （二項、結合なし）、 ``infixl`` （二項、左結合）、 ``infixr`` （二項、右結合）、 ``prefix`` （一項、前置）、 ``postfix`` （一項、後置） 演算子を宣言できます。例えば、これは prelude から抜粋した典型的な例です（完全なテーブルは `Pure Library Manual`_ の Prelude_ セクションにあります）::
 
       infix  1700 < > <= >= == ~= ;
       infixl 2100 + - ;
@@ -3001,7 +3014,9 @@ Operator declarations: ``infix level symbol ...;``
     Instead of denoting the precedence by an explicit integer value, you can
     also specify an existing operator symbol enclosed in parentheses. Thus the
     following declaration gives the ``++`` operator the same precedence as
-    ``+``::
+    ``+``:
+
+    整数で優先度を明示する代わりに、すでに存在する演算子シンボルを丸括弧で囲ったものを指定に使うこともできます。したがって次の宣言では、 ``++`` 演算子に ``+`` と同じ優先度を与えています::
 
       infixl (+) ++ ;
 
@@ -3009,7 +3024,9 @@ Operator declarations: ``infix level symbol ...;``
     must have a proper precedence level (i.e., it must be an infix, prefix or
     postfix symbol). E.g., the following declaration gives ``^^`` the same
     precedence level as the infix ``^`` symbol, but turns it into a postfix
-    operator::
+    operator:
+
+    与えられたシンボルが宣言と異なる fixity となることも可能ですが、しかしそれでも適切な優先度レベル〔a proper precedence level〕を持たなければなりません（つまり infix か prefix か postfix のどれかでなければなりません）。例えば、次の宣言では ``^^`` に挿入演算子シンボル ``^`` と同じ優先度を与えていますが、 ``^^`` を後置演算子に変えています::
 
       postfix (^) ^^ ;
 
@@ -3017,7 +3034,10 @@ Outfix symbol declarations: ``outfix left right ...;``
     Pure also provides unary outfix operators, which work like in Wm Leler's
     constraint programming language Bertrand_. Outfix operators let you define
     your own bracket structures. The operators must be given as pairs of
-    matching left and right symbols (which must be distinct). For instance::
+    matching left and right symbols (which must be distinct). For instance:
+
+アウトフィクスシンボル宣言: ``outfix left right ...;``
+    Pure は単項のアウトフィクス演算子〔unary outfix operators〕を定義する機能も提供します。これは Wm Leler のconstraint programming language Bertrand_ に似た動作を行います。あなたはアウトフィクス演算子を使って独自のブラケット構造を定義できます。演算子は、左右対応する記号のペア（それぞれ別の記号でなければならない）として与えられる必要があります。例えば::
 
       outfix |: :| BEGIN END;
 
@@ -3028,10 +3048,15 @@ Outfix symbol declarations: ``outfix left right ...;``
     by enclosing them in parentheses, but you have to specify the symbols in
     matching pairs, such as ``(BEGIN END)``.
 
+    この宣言の後、あなたは ``|:x:|`` や ``BEGIN foo, bar END`` のように括弧型の演算子を書くことができます。これらは常に最高の優先レベルとなります（すなわち、統語的には丸括弧で囲われた式のように動作します）。他の演算子と同じように、アウトフィクス演算子を丸括弧で囲うと、それを通常の関数へと変えることができますが、このときのシンボルは ``(BEGIN END)`` のようにペアを対応させて書かなければいけません。
+
 Constant symbol declarations: ``nonfix symbol ...;``
     Pure also has a notation for "nullary" operators, i.e., "operators without
     operands", which are used to denote special constants. These are
-    introduced using a ``nonfix`` declaration, e.g.::
+    introduced using a ``nonfix`` declaration, e.g.:
+
+定数シンボル宣言: ``nonfix symbol ...;``
+    Pure はまた「無項」演算子〔"nullary" operators〕を持っています。すなわち「オペランドのない演算子」であり、特別な定数を表すのに使われます。これらは ``nonfix`` 宣言を使って導入されます。例えば::
 
       nonfix red green blue;
 
@@ -3040,7 +3065,9 @@ Constant symbol declarations: ``nonfix symbol ...;``
     "escape" them). The difference to ordinary identifiers is that nonfix
     symbols are always interpreted as literals, even if they occur in a
     variable position on the left-hand side of a rule. So, with the above
-    declaration, you can write something like::
+    declaration, you can write something like:
+
+    統語上は、これらは通常の演算子と同じように動作します。なので、通常の識別子を置ける場所ならどこにでも置けます（「エスケープ」するのに丸括弧は必要ありません）。通常の識別子との違いは、ノンフィクスシンボルが常にリテラルとして解釈され、たとえルール左辺の変数の位置に表れてもそう解釈されるという点です。なので、上の宣言を行うとこんな風に書けます::
 
       > foo x = case x of red = green; green = blue; blue = red end;
       > map foo [red,green,blue];
@@ -3049,7 +3076,9 @@ Constant symbol declarations: ``nonfix symbol ...;``
     Thus nonfix symbols are pretty much like nullary constructor symbols in
     languages like Haskell. Non-fixity is just a syntactic attribute,
     however. Pure doesn't enforce that such values are really "constant", so
-    you can still write a "constructor equation" like the following::
+    you can still write a "constructor equation" like the following:
+
+    したがってノンフィクスシンボルは、 Haskell のような言語における無項コンストラクタシンボルとかなり似たものです。しかし Non-fixity は単に統語上の属性です。 Pure はそうした値が本当に "constant" なものであることを強制しません。なので、あなたはまだ "constructor equation" を次のように書くことができます::
 
       > red = blue;
       > map foo [red,green,blue];
@@ -3059,6 +3088,8 @@ Examples for all types of symbol declarations can be found in the prelude
 which declares a bunch of standard (arithmetic, relational, logical) operator
 symbols as well as the list and pair constructors '``:``' and '``,``', and a
 few nonfix symbols (mostly for denoting different kinds of exceptions).
+
+全タイプのシンボル宣言の例を prelude 内で見つけることができます。 prelude では一連の標準（算術／関係／論理）演算子や、リストコンストラクタ '``:``' 、 ペアコンストラクタ '``,``' 、さらにいくつかのノンフィクスシンボルが（たいていは異なる種類の例外を示すために）定義されています。
 
 One final thing worth noting here is that unary minus plays a special role in
 the syntax. Like in Haskell and following mathematical tradition, unary minus
@@ -3070,6 +3101,8 @@ lexical representations.) Thus, with the standard prelude, ``-x+y`` will be
 parsed as ``(-x)+y``, whereas ``-x*y`` is the same as ``-(x*y)``. Also note
 that the notation ``(-)`` always denotes the binary minus operator; the unary
 minus operation can be denoted using the built-in ``neg`` function.
+
+ここに書いておくべき最後の一つは、単項のマイナスが文法上持つ特別な意味についてです。 Haskell と同じように、また数学の伝統を踏襲して、単項のマイナスは挿入演算子としても使われる唯一の前置演算子であり、二項のマイナスと常に同じ優先レベルとなります。二項マイナス演算子の優先度は prelude 内で自由に選ぶことができます（この特別扱いを受けるのはマイナス演算子だけです。他の全演算子は異なるlexical representationsを持たなければなりません）。したがって、標準 prelude を使う場合、 ``-x+y`` は ``(-x)+y`` として解析されます。それに対して ``-x*y`` は ``-(x*y)`` と同じです。また ``(-)`` が常に二項演算子を表すことも覚えておいて下さい。単項マイナス演算は ``neg`` 組み込み関数を使って表すことができます。
 
 Modules and Imports
 -------------------
