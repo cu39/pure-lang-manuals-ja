@@ -3112,7 +3112,9 @@ Modules and Imports
 While Pure doesn't offer separate compilation, the ``using`` declaration
 provides a simple but effective way to assemble a Pure program from several
 source modules. It takes the following form (note that in contrast to symbol
-declarations, the comma is used as a delimiter symbol here)::
+declarations, the comma is used as a delimiter symbol here):
+
+Pure は分割コンパイルを提供していませんが、 ``using`` 宣言は複数のソースモジュールを一つのプログラムへまとめ上げるシンプルかつ効果的な方法を提供します。 ``using`` 宣言は次のような形式をとります（シンボル宣言とは対照的に、ここではカンマを区切り文字として使うことに注意して下さい）::
 
   using name, ...;
 
@@ -3126,26 +3128,40 @@ concatenation of all the source modules given as command line arguments, with
 other modules listed in ``using`` clauses inserted at the corresponding source
 locations.
 
+この節は、与えられた各スクリプトを、そのプログラムの宣言が置かれた位置にインクルードします（その前ですでに組み込まれていない場合）。これにより、インクルードされたスクリプトの全定義をあなたのプログラム内で使用できるようになります。インクルードされる各スクリプトは、そのスクリプトが指定された ``using`` 節が初めて現れたときの *一度だけ* しか読み込まれない [#]_ ことを忘れないで下さい。ネストされたインポートを使うこともできます。すなわち、インポートされたモジュールが内部で別のモジュールをインポートすることなどが可能です。そして Pure プログラムは基本的に、コマンドライン引数で与えられたソースモジュールがすべて連結され、 ``using`` 節にリストされた他のモジュールがソース内の指定された位置に挿入されたもの、ということになります。
+
+.. [#] 訳注：同じスクリプトを複数回 using しようとしても、読み込まれるのは最初の一度だけ。
+
 (The ``using`` clause also has an alternative form which allows dynamic
 libraries to be loaded, this will be discussed in the `C Interface`_ section.)
 
+（ ``using`` 節は、動的ライブラリを読み込むための形式も持っています。これについては `C Interface`_ セクションで詳しく議論されています）
+
 For instance, the following declaration causes the math.pure script from the
-standard library to be included in your program::
+standard library to be included in your program:
+
+例えば、次の宣言節は math.pure スクリプトを標準ライブラリからあなたのスクリプトへインクルードします::
 
   using math;
 
-You can also import multiple scripts in one go::
+You can also import multiple scripts in one go:
+
+一度に複数のモジュールスクリプトをインポートすることもできます::
 
   using array, dict, set;
 
 Moreover, Pure provides a notation for qualified module names which can be
-used to denote scripts located in specific package directories, e.g.::
+used to denote scripts located in specific package directories, e.g.:
+
+さらに、 Pure は修飾されたモジュール名を指定する機能も提供しています。これは、特定のパッケージディレクトリ内に置かれたスクリプトを指定するために使うものです。例えば::
 
   using examples::libor::bits;
 
 In fact this is equivalent to the following ``using`` clause which spells out
 the real filename of the script between double quotes (the ``.pure`` suffix
-can also be omitted in which case it is added automatically)::
+can also be omitted in which case it is added automatically):
+
+実のところ、この指定は次の ``using`` 節と等価です。次の ``using`` 節では、ダブルクォートの間に実際のスクリプトファイル名を正確に書き記しています（ ``.pure`` サフィックスは省略することができます。省略時は自動的に付加されます）::
 
   using "examples/libor/bits.pure";
 
@@ -3153,9 +3169,15 @@ Both notations can be used interchangeably; the former is usually more
 convenient, but the latter allows you to denote scripts whose names aren't
 valid Pure identifiers.
 
+両記法の間には互換性があります。普段使うには前者のほうが便利ですが、後者の場合は、有効な Pure 識別子ではない名前 [#]_ を持っているスクリプトを指定することができます。
+
+.. [#] ".pure" で終わっていないファイル名ということだろう。
+
 Script identifiers are translated to the corresponding filenames by replacing
 the '``::``' symbol with the pathname separator '``/``' and tacking on the
 '``.pure``' suffix. The following table illustrates this with a few examples.
+
+スクリプト識別子は、それに対応するファイル名へと変換されます。その際は '``::``' 記号をパスセパレータ '``/``' に置換し、末尾に '``.pure``' サフィックスを付加します。次の表でいくつかの例を示します。
 
 ===========================  ===============================
 Script identifier            Filename
@@ -3168,27 +3190,41 @@ Script identifier            Filename
 Note the last example, which shows how an absolute pathname can be denoted
 using a qualifier starting with '``::``'.
 
+最後の例では、 '``::``' から始まる修飾子を使って絶対パス名を指定する方法を示しています。
+
 Unless an absolute pathname is given, the interpreter performs a search to
 locate the script. The search algorithm considers the following directories in
 the given order:
+
+絶対パス名が指定された場合を除き、インタープリタはスクリプトが置かれている位置で検索を行います。検索アルゴリズムは次のディレクトリを、以下に並ぶ順に考慮します:
 
 * the directory of the current script, which is the directory of the script
   containing the ``using`` clause, or the current working directory if the
   clause was read from standard input (as is the case, e.g., in an interactive
   session);
 
+* 現在のスクリプトがあるディレクトリ。これには ``using`` 節で指定されたディレクトリを含む。 ``using`` 節が標準入力から読み込まれた場合にはカレントワーキングディレクトリを含む（as is the case, 例えば対話セッションにおいて）。
+
 * the directories named in -I options on the command line (in the given
   order);
+
+* コマンドラインの -I オプションで指定されたディレクトリ（与えられた順に検索）。
 
 * the colon-separated list of directories in the PURE_INCLUDE environment
   variable (in the given order);
 
+* 環境変数 PURE_INCLUDE 内で指定された、コロン区切りのディレクトリリスト（与えられた順に検索）。
+
 * finally the directory named by the PURELIB environment variable.
+
+* 最後に、環境変数 PURELIB で指定されたディレクトリ。
 
 Note that the current working directory is not searched by default (unless the
 ``using`` clause is read from standard input), but of course you can force
 this by adding the option -I. to the command line, or by including '.' in the
 PURE_INCLUDE variable.
+
+カレントワーキングディレクトリはデフォルトでは検索されないことに注意して下さい（ただし ``using`` 節が標準入力から読まれた場合は別）。しかし -I. オプションをコマンドラインで指定した場合は、もちろん検索を強制することができます。
 
 The directory of the current script (the first item above) can be skipped by
 specifying the script to be loaded as a filename in double quotes, prefixed
@@ -3197,7 +3233,9 @@ directories (-I, PURE_INCLUDE and PURELIB) instead. This is useful, e.g., if
 you want to provide your own custom version of a standard library script which
 in turn imports that library script. For instance, a custom version of
 math.pure might employ the following ``using`` clause to load the math.pure
-script from the Pure library::
+script from the Pure library:
+
+カレントスクリプトのディレクトリ（上のリストの最初のもの）読み込みをスキップすることも可能です。そのスクリプトのファイル名に特別タグ ``sys:`` をプレフィクスとして付加し、ダブルクォートで囲って指定するようにします。すると、検索が "system" ディレクトリ（ -I 、 PURE_INCLUDE 、 PURELIB ）から開始されます。この動作は、例えば、あなたが独自カスタム版の標準ライブラリスクリプトを提供したいと思い、そのライブラリ内で標準ライブラリスクリプトをインポートしたい場合に便利です。具体例として、カスタム版の math.pure は次の ``using`` 節を使い、 Pure ライブラリから math.pure を読み込みます::
 
   using "sys:math";
   // custom definitions go here
@@ -3210,19 +3248,31 @@ different scripts with the same basename, such as foo/utils.pure and
 bar/utils.pure can both be included in the same program (unless they link to
 the same file).
 
+インタープリタはスクリプト名を（2つのスクリプトがまったく同じかどうか判断するため）比較します。その際は、シンボリックリンクを追って（ただし1段階のみ）対象ファイル名を探し、スクリプトの *正規化された* フルパス名〔canonicalized full pathname of the script〕を使って判断します。したがって、同じbasenameを持った異なるスクリプト（例えば foo/utils.pure と bar/utils.pure ）の両者を、同じプログラムにインクルードすることができます（両者が同じファイルへとリンクされていれば別です）。
+
 More precisely, canonicalizing a pathname involves the following steps:
+
+もっと正確に言うと、パス名を正規化する過程は以下のステップを含んでいます:
 
 * relative pathnames are expanded to absolute ones, using the search rules
   discussed above;
 
+* 相対パスを絶対パスへ展開する。その際は上で議論したルールが使われる。
+
 * the directory part of the pathname is normalized to the form returned by the
   ``getcwd`` system call;
 
+* パス名の一部となるディレクトリは ``getcwd`` システムコールが返す形式へと正規化される。
+
 * the ".pure" suffix is added if needed;
+
+* 必要ならば ".pure" サフィックスが付加される。
 
 * if the resulting script name is actually a symbolic link, the interpreter
   follows that link to its destination, albeit only one level. (This is only
   done on Unix-like systems.)
+
+* 結果として得られたスクリプト名がシンボリックリンクであれば、インタープリタはそのリンクを追って対象ファイル名を得る。ただし1段階しか追わない。（これは Unix-like なシステムでのみ行われる）
 
 The directory of the canonicalized pathname is also used when searching other
 scripts included in a script. This makes it possible to have an executable
@@ -3232,6 +3282,8 @@ performed in ``using`` clauses will use the real script directory and thus
 other required scripts can be located there. This is the recommended practice
 for installing standalone Pure applications in source form which are to be run
 directly from the shell.
+
+正規化されたパス名のディレクトリは、あるスクリプト内でインクルードされる他のスクリプトを検索する際にも使われます。これにより、 shebang 行を持つ実行可能なスクリプトを its own directory に置いておき、システムの PATH に置かれたシンボリックリンクを通じてそのファイルを実行することも可能になります。この場合、 ``using`` 節で行われるスクリプト検索は実際にスクリプトが置かれているディレクトリを使うようになり、したがって必要な他のスクリプトも同じ場所に置くことができます。これは、ソースのままシェルから実行されるスタンドアローンの Pure アプリケーションをインストールする場合に推奨されるプラクティスです。
 
 Namespaces
 ----------
