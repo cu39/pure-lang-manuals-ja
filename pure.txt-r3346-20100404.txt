@@ -565,7 +565,7 @@ Currently, the following code generation options are recognized:
     that constant expressions involving int and double values and the usual
     arithmetic and logical operations on these are precomputed at compile
     time. (This is mostly for cosmetic purposes; the LLVM backend will perform
-    this optimization anyway when generating machine code.) For instance::
+    this optimization anyway when generating machine code.) For instance:
 
 ``--fold``, ``--nofold``
     コンパイラフロントエンドでの定数の折りたたみを有効・無効にします。 int と double の値を持つ定数式および、それらに対する算術・論理演算を、コンパイル時に事前計算します（これはほぼ表面を取り繕うためだけのものです。いずれにしても LLVM バックエンドはマシンコード生成時にこの最適化を実施します）。例えば::
