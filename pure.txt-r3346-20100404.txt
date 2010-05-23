@@ -752,7 +752,11 @@ beginning with ``#!`` are treated as comments, too; as already discussed
 above, on Unix-like systems this allows you to add a "shebang" to your main
 script in order to turn it into an executable program.
 
-There are a few reserved keywords which cannot be used as identifiers::
+コメントは C++ と同じ文法を持っています（ ``//`` を一行コメントに使い、 ``/* ... */`` を複数行コメントに使用。後者はネスト可能）。 ``#!`` で始まる行もまたコメント扱いで、すでに上で議論した通り、 Unix-like なシステム上では、メインスクリプトにこの "shebang" を追加して実行可能なプログラムへと変えることができます。
+
+There are a few reserved keywords which cannot be used as identifiers:
+
+識別子に使うことができない予約語がいくつかあります::
 
   case const def else end extern if infix infixl infixr let namespace
   nonfix of otherwise outfix postfix prefix private public then using
