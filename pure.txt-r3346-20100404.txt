@@ -402,7 +402,7 @@ the `Interactive Usage`_ section. To exit the interpreter, just type the
 ``quit`` command or the end-of-file character (``^D`` on Unix) at the
 beginning of the command line.
 
-インタープリタが対話モードで実行されている場合、インタープリタは繰り返しあなたに入力を促し（入力は Pure のコードでも、対話モード専用のコマンドでもかまいません）、計算結果を表示します。これは `read-eval-print` ループとしても知られ、 `Interactive Usage` セクションでより詳細に説明されます。インタープリタを終了するには、ただ ``quit`` コマンドを打ち込むか、コマンドラインの先頭で end-of-file 文字（Unix では ``^D`` ）を入力します。
+インタープリタが対話モードで実行されている場合、インタープリタは繰り返しあなたに入力を促し（入力は Pure のコードでも、対話モード専用のコマンドでもかまいません）、計算結果を表示します。これは `read-eval-print` ループとしても知られ、 `Interactive Usage`_ セクションでより詳細に説明されます。インタープリタを終了するには、ただ ``quit`` コマンドを打ち込むか、コマンドラインの先頭で end-of-file 文字（Unix では ``^D`` ）を入力します。
 
 The interpreter may also source a few additional interactive startup files
 immediately before entering the interactive loop, unless the --norc option is
@@ -508,6 +508,8 @@ definitions along with additional debugging information.
 Code Generation Options
 -----------------------
 
+コード生成オプション
+
 Besides the options listed above, the interpreter also understands some
 additional command line switches and corresponding environment variables to
 control various code generation options. The options take the form ``--opt``
@@ -519,19 +521,29 @@ for each option ``opt`` there is also a corresponding environment variable
 the option by default. (Setting this variable to any value will do, the
 interpreter only checks whether the variable exists in the environment.)
 
+上でリストされたオプションに加えて、インタープリタは、追加的なコマンドラインスイッチとそれに対応する環境変数をもう少し理解します。これらは様々なコード生成オプションを制御するためのもので、それぞれ ``--opt`` と ``--noopt`` という形式をとります。このとき ``opt`` 部分はオプション名を示しています（サポートされるオプションは下にあるリストを参照して下さい）。デフォルトでは、これらのオプションの全てが有効です。 ``--noopt`` はオプションを無効にし、 ``--opt`` はそれを再び有効にします。加えて、各オプション ``opt`` には、それぞれ対応する環境変数 ``PURE_NOOPT`` （OPT 部分に大文字のオプション名を指定する）があります。これが設定されている場合、そのオプションはデフォルトで無効となります（変数にいかなる値が設定されていても動作します。インタープリタは環境にその変数が存在するかどうかだけをチェックします）。
+
 For instance, the ``checks`` option controls stack and signal checks. Thus
 ``--nochecks`` on the command line disables the option, and setting the
 ``PURE_NOCHECKS`` environment variable makes this the default, in which case
 you can use ``--checks`` on the command line to reenable the option.
 
+例えば、 ``checks`` オプションはスタックとシグナルのチェックを制御します。したがって ``--nochecks`` をコマンドラインで指定すると、このオプションは無効となります。また、環境変数 ``PURE_NOCHECKS`` を設定した場合は無効な状態をデフォルトとします。この場合、コマンドラインで ``--checks`` を指定すると、オプションが再び有効となるわけです。
+
 Each code generation option can also be used as a *pragma* (compiler
 directive) in source code so that you can control it on a per-rule basis. The
 pragma must be on a line by itself, starting in column 1, and takes the
-following form (using ``--nochecks`` as an example)::
+following form (using ``--nochecks`` as an example):
 
   #! --nochecks // line-oriented comment may go here
 
+各コード生成オプションは、ソース内で *プラグマ* （コンパイラディレクティブ）として使うこともでき、ルール単位でオプションを制御することができます。プラグマはそれだけで単独行を占める必要があり、行の1文字目から始まり、次のような形式をとります（例として ``--nochecks`` を使います::
+
+  #! --nochecks // ここに一行コメントを書けます
+
 Currently, the following code generation options are recognized:
+
+今のところ、次のコード生成オプションが認識されます:
 
 ``--checks``, ``--nochecks``
     Enable or disable various extra stack and signal checks. By default, the
@@ -545,6 +557,9 @@ Currently, the following code generation options are recognized:
     option. (Even then, a minimal amount of checking will be done, usually on
     entry to every global function.)
 
+``--checks``, ``--nochecks``
+    様々な追加スタックチェックと追加シグナルチェックを有効・無効にします。デフォルトでは、インタープリタがチェックするのはスタックオーバーフロー（ ``PURE_STACK`` 環境変数が設定されている場合）と、関数へのエントリー時の保留シグナルです。詳しくは `Stack Size and Tail Recursion`_ と `Handling of Asynchronous Signals`_ を参照して下さい。Thisはtheseを確実な方法でキャッチするために必要なもので、thisを有効なままにしておくことを推奨します。しかし、これらのチェックはプログラムの実行速度を少し遅くします（典型的には 5% ほどですが、異なる意見もあります）。パフォーマンスが非常に重要ならば、 ``--nochecks`` オプションを使ってこのチェックを無効にすることができます（その場合でも、通例としてグローバル関数へのエントリー時に、最小限のチェックが行われます）。
+
 ``--fold``, ``--nofold``
     Enable or disable constant folding in the compiler frontend. This means
     that constant expressions involving int and double values and the usual
@@ -552,12 +567,17 @@ Currently, the following code generation options are recognized:
     time. (This is mostly for cosmetic purposes; the LLVM backend will perform
     this optimization anyway when generating machine code.) For instance::
 
+``--fold``, ``--nofold``
+    コンパイラフロントエンドでの定数の折りたたみを有効・無効にします。 int と double の値を持つ定数式および、それらに対する算術・論理演算を、コンパイル時に事前計算します（これはほぼ表面を取り繕うためだけのものです。いずれにしても LLVM バックエンドはマシンコード生成時にこの最適化を実施します）。例えば::
+
       > foo x = 2*3*x;
       > show foo
       foo x = 6*x;
 
     Disabling constant folding in the frontend causes constant expressions to
-    be shown as you entered them::
+    be shown as you entered them:
+
+    フロントエンドでの定数折りたたみを無効にすると、あなたが入力したままの形で定数式が表示されます::
 
       > #! --nofold
       > bar x = 2*3*x;
@@ -573,8 +593,13 @@ Currently, the following code generation options are recognized:
     compiling the Pure interpreter, in which case these options have no
     effect; see the installation documentation for details.)
 
+``--tc``, ``--notc``
+    末尾呼び出し最適化〔tail call optimization (TCO)〕を有効・無効にします。 TCO は一定のスタック領域内で末尾再帰関数を実行できるようにするため必要なものであり、このオプションを有効なままにすることを推奨します。しかし、このドキュメントを書いている段階では、 LLVM の TCO サポートはいくつかのプラットフォーム上でまだバグが多く残っている状態なので、 ``--notc`` オプションを無効にすることが可能なままにしてあります（ TCO は Pure インタープリタをコンパイルするときも無効にできます。その場合、このオプションは効果を持ちません。詳しくはインストールドキュメントを参照して下さい）。
+
 Besides these, there's also a special pragma for telling the batch compiler
 about "required" functions:
+
+これらに加えて、 "required" な関数をバッチコンパイラに伝えるための特別なプラグマもあります:
 
 ``--required fun``
     Inform the batch compiler (cf. `Compiling Scripts`_) that the given
@@ -583,9 +608,14 @@ about "required" functions:
     ``eval``. Adding a ``--required`` pragma for the function then makes sure
     that the function is always linked into the program.
 
+``--required fun``
+    バッチコンパイラ（cf. `Compiling Scripts`_ ）に対して、与えられた関数シンボル ``fun`` をプログラムから決して取り除かないよう伝えます。このオプションが便利なのは、例えば、ある関数が明示的に呼ばれることは一度もないが、 ``eval`` を通して呼ばれることがある場合です。その関数のために ``--required`` プラグマを追加してやると、その関数が常に確実にプログラムへリンクされるようになります。
+
 Note that the ``--required`` pragma can only be used in source code, there's
 no command line option for it. An example showing how to use this option can
 be found in the `Batch Compilation`_ section.
+
+``--required`` プラグマはソースコード内だけでしか使えないことに注意して下さい。コマンドラインオプションは存在しません。このオプションの使い方を示した例は `Batch Compilation`_ セクションにあります。
 
 Startup Files
 -------------
