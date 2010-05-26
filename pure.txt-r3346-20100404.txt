@@ -3700,7 +3700,9 @@ operations which shouldn't be accessed directly outside the namespace in which
 they are declared. The scope of a private symbol is confined to its namespace,
 i.e., the symbol is only visible when its "home" namespace is current. Symbols
 are declared private by using the ``private`` keyword in the symbol
-declaration::
+declaration:
+
+Pure ではプライベートなシンボルを持つことも許されます。シンボルが属する名前空間の外から直接アクセスされてはいけない処理を隠す手段となっています。プライベートシンボルのスコープは、それが属す名前空間内に限定されます。すなわち、そのシンボルの「ホーム」名前空間がカレント状態であるときだけ可視となります。シンボルをプライベートなものとして宣言するには、宣言時に ``private`` キーワードを使います::
 
   > namespace secret;
   > private baz;
@@ -3712,7 +3714,9 @@ declaration::
   > namespace;
 
 Note that, at this point, ``secret::baz`` is now invisible, even if you have
-``secret`` in the search namespace list::
+``secret`` in the search namespace list:
+
+この段階で、 ``secret::baz`` は不可視の状態です。たとえ ``secret`` が検索対象の名前空間リストに入っていても、見えません::
 
   > using namespace secret;
   > // this actually creates a 'baz' symbol in the default namespace:
@@ -3722,7 +3726,9 @@ Note that, at this point, ``secret::baz`` is now invisible, even if you have
   <stdin>, line 27: symbol 'secret::baz' is private here
 
 The only way to bring the symbol back into scope is to make the ``secret``
-namespace current again::
+namespace current again:
+
+このシンボルをスコープ内へと戻すには、 ``secret`` 名前空間を再びカレントにするしかありません::
 
   > namespace secret;
   > baz 99;
