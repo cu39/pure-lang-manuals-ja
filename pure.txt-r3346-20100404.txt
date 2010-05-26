@@ -286,7 +286,7 @@ intermediate representation, it just acts as a frontend to the compiler,
 taking care of compiling source code to native machine code before it gets
 executed.
 
-インタープリタはスクリプトだけでなく、あなたが対話的に入力する定義をも自動的にコンパイルします。このコンパイルはコードが必要となるにつれてインクリメント式に行われます。つまりJIT（`just in time`）として知られているものです。したがってインタープリタはソースプログラムや他の何らかの表現〔representation〕を「解釈する」〔interprets〕ことはなく、単にコンパイラのフロントエンドとして振る舞い、ソースコードが実行される前にネイティブコードへとコンパイルする世話をしてくれます。
+インタープリタはスクリプトだけでなく、あなたが対話的に入力する定義をも自動的にコンパイルします。このコンパイルはコードが必要となるにつれてインクリメント式に行われます。つまり JIT （`just in time`）として知られているものです。このように、インタープリタはソースプログラムや他の何らかの中間的な表現〔some intermediate representation〕を「解釈する」〔"interprets"〕ことはなく、単にコンパイラのフロントエンドとして振る舞い、ソースコードが実行される前にネイティブコードへとコンパイルする世話をしてくれます。
 
 Pure's LLVM backend does "lazy JIT compilation" by default, meaning that each
 function (global or local) is compiled no sooner than it is run for the first
@@ -343,7 +343,7 @@ library is required on the target system). On the other hand, compiled scripts
 also have some limitations, mostly concerning the use of the built-in ``eval``
 function. Please see the `Batch Compilation`_ section for details.
 
--c オプションは Pure スクリプトをスタンドアローンな実行ファイルへと素早く変える便利な方法です。この実行ファイルはシェルから直接実行できます。スクリプトをコンパイルすることの利点のひとつは、JITコンパイルにかかる時間を排除し、プログラムの起動時間をかなり短縮できることにあります。スタンドアローンな実行ファイルを好むべきもう一つの理由は、Pureをフルインストールしなくてもプログラムをシステム上に配置できる点です（しばしば対象システムに合わせたラインタイムライブラリは必要になります）。その一方で、コンパイルされたスクリプトにはいくつかの制限があります。最も重大なのは、組み込み ``eval`` 関数に関する制限です。詳しくは `Batch Compilation`_ セクションを参照して下さい。
+-c オプションは Pure スクリプトをスタンドアローンな実行ファイルへと素早く変える便利な方法です。この実行ファイルはシェルから直接実行できます。スクリプトをコンパイルすることの利点のひとつは、 JIT コンパイルにかかる時間を排除し、プログラムの起動時間をかなり短縮できることにあります。スタンドアローンな実行ファイルを好むべきもう一つの理由は、 Pure をフルインストールしなくてもプログラムをシステム上に配置できる点です（しばしば対象システムに合わせたラインタイムライブラリは必要になります）。その一方で、コンパイルされたスクリプトにはいくつかの制限があります。最も重大なのは、組み込み ``eval`` 関数に関する制限です。詳しくは `Batch Compilation`_ セクションを参照して下さい。
 
 The -v64 (or -v0100) verbosity option can be used to have the interpreter
 print the commands it executes during compilation, see `Verbosity and
@@ -875,7 +875,7 @@ are forbidden in these languages. In Pure such definitions are just normal
 business, which makes the language directly usable as a tool for symbolic
 algebra.
 
-これに対して、 Haskell や ML のような言語がいわゆる「コンストラクタ原則」を常に強制することに注意して下さい。「コンストラクタ原則」の規定では、純粋なコンストラクタシンボル（いかなる等式定義も伴わない）だけしか定義左辺内の下位項〔subterm〕として現れることを許されません。したがって、これらの言語では上のような等式定義が許されません。しかしこのような定義は Pure では普通のことです。こうした特徴により、 Pure は記号代数のツールとして直接使えるものになっています。
+これに対して、 Haskell や ML のような言語がいわゆる「コンストラクタ原則」を常に強制することに注意して下さい。「コンストラクタ原則」の規定では、純粋なコンストラクタシンボル（いかなる定義的な等式も伴わない）だけしか定義左辺内の下位項〔subterm〕として現れることを許されません。したがって、これらの言語では上のような等式定義が許されません。しかしこのような定義は Pure では普通のことです。こうした特徴により、 Pure は記号代数のツールとして直接使えるものになっています。
 
 Parameters in Equations
 -----------------------
@@ -1276,7 +1276,7 @@ these operations work as if they were defined by the following equations (but
 note that the second operand is indeed passed "by name", so that it isn't
 evaluated unless its value is actually needed):
 
-すでに述べた通り、いくつかの演算は実際には特別形として実装されています。特に、条件式 ``if x then y else z`` は名前呼出しの引数 ``y`` と ``z`` を伴う特別形です。 ``x`` の値によって、枝の片方だけが実際に評価されます。同じように、論理結合子 ``&&`` と ``||`` はオペランドを短絡モードで評価します。従って、例えば ``x&&y`` は ``x`` が偽と評価されるとただちに偽となり、 ``y`` が評価されることはありません。この処理の組み込み定義は、あたかも次のように定義された等式のように動作します（しかし2番目のオペランドは実のところ "by name" で渡されることを覚えておいて下さい。その結果として、2番目のオペランドの値は実際に必要とされない限り評価されないわけです）::
+すでに述べた通り、いくつかの演算は実際には特別形として実装されています。特に、条件式 ``if x then y else z`` は名前呼出しの引数 ``y`` と ``z`` を伴う特別形です。 ``x`` の値によって、枝の片方だけが実際に評価されます。同じように、論理結合子 ``&&`` と ``||`` はオペランドを短絡モードで評価します。したがって、例えば ``x&&y`` は ``x`` が偽と評価されるとただちに偽となり、 ``y`` が評価されることはありません。この処理の組み込み定義は、あたかも次のように定義された等式のように動作します（しかし2番目のオペランドは実のところ "by name" で渡されることを覚えておいて下さい。その結果として、2番目のオペランドの値は実際に必要とされない限り評価されないわけです）::
 
   x::int && y = if x then x else y;
   x::int || y = if x then y else x;
@@ -1297,7 +1297,7 @@ specified by the programmer, which allows you to extend the definitions of
 ``&&`` and ``||`` just as with other builtins. Also note that if the result
 term is in normal form then it is returned as is, thus ``&&`` and ``||`` can
 be used in symbolic evaluations as usual. For instance, the following
-equations let you compute the disjunctive normal form of logical expressions::
+equations let you compute the disjunctive normal form of logical expressions:
 
 ``&&`` と ``||`` の組み込み定義が fail した場合、両方のオペランドが評価され、プログラマーにより定義された等式を使って the resulting symbolic term is reduced. このことにより、あなたは ``&&`` と ``||`` の定義を、他の組み込み演算子と同じように拡張することができます。また、結果の項が正規形である場合、そのまま返されます。したがって ``&&`` と ``||`` を普通通り記号代数評価に使うことができます。例えば、次の等式を使うと論理式の選言的な正規形を計算することができます。::
 
@@ -1744,7 +1744,7 @@ strings, matrices and pointers) there is no way to spell out all
 primitives, but are otherwise "opaque" at the Pure level). As a remedy, an
 appropriate type tag makes it possible to match these values.
 
-型タグは "as" パターンの特別な形、以外の何者でもありません。つまり、変数を、指定されたデータ"ドメイン"に限定します。Pure は Lisp と同じように型のない言語で、「データ型」の記法はありません。すべてのデータは同じ universe of terms に属しています。そのため、ある変数によってマッチされうる値の型を制限するには "as" パターンを与えるしかありません。"as" パターンを持つ値は、求めるドメインを持つオブジェクトにのみマッチし、他とはしません。しかし、組み込み型の特別なケース（machine and big integers, double 値, 文字列、マトリクス、ポインタ）では、全ての "constructors" を spell out する方法はありません。なぜならそれは無限に多いからです（または、マトリクスとポインタが construct され、special primitives を使って inspect された場合は、何もないことになります。しかしそうでない場合は Pure レベルでは "opaque" です）。改善策としては、適切な型タグを付けることでそうした値にマッチさせることができます。
+型タグは "as" パターンの特別な形、以外の何者でもありません。つまり、変数を、指定されたデータ「ドメイン」に限定します。 Pure は Lisp と同じように型のない言語で、「データ型」の記法はありません。すべてのデータは同じ universe of terms に属しています。そのため、ある変数によってマッチされうる値の型を制限するには "as" パターンを与えるしかありません。 "as" パターンを持つ値は、求めるドメインを持つオブジェクトにのみマッチし、他とはしません。しかし、組み込み型の特別なケース（machine and big integers, double 値, 文字列、マトリクス、ポインタ）では、全ての "constructors" を spell out する方法はありません。なぜならそれは無限に多いからです（または、マトリクスとポインタが construct され、special primitives を使って inspect された場合は、何もないことになります。しかしそうでない場合は Pure レベルでは "opaque" です）。改善策としては、適切な型タグを付けることでそうした値にマッチさせることができます。
 
 In order to generalize this to user-defined domains of data, Pure adopts the
 convention that any other tagged variable ``x::bar`` is just a shorthand for
@@ -2953,7 +2953,7 @@ Pure は設計から非常に簡潔な言語です。たいてい、たくさん
 
 * symbol declarations determine "scope" and "fixity" of a symbol;
 
-* シンボル宣言はシンボルの "scope" と "fixity" を決定します。
+* シンボル宣言はシンボルの「スコープ」と "fixity" を決定します。
 
 * ``extern`` declarations specify external C functions (described in the
   `C Interface`_ section);
@@ -3521,7 +3521,7 @@ that ``bar::foo`` has to be denoted with a qualified symbol now.
 Symbol Lookup and Creation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-シンボル探索と作成
+シンボル検索と作成
 
 Pure's rules for looking up and creating symbols are fairly straightforward
 and akin to those in other languages featuring namespaces. However, there are
@@ -3529,6 +3529,8 @@ some intricacies involved, because the rewriting rule format of definitions
 allows "referential" use of symbols not only in the "body" (right-hand side)
 of a definition, but also in the left-hand side patterns. We discuss this in
 detail below.
+
+Pure がシンボルを検索・作成するルールはとても素直なもので、名前空間を備える他の言語とも似ています。しかし、いくらか複雑な部分もあります。というのは、定義における書き替えルールのフォーマットはシンボルを "referential" に使うことができ、それは定義の "body" （右辺）内だけでなく、左辺のパターン内でも同じだからです。この点を以下で詳しく議論します。
 
 The compiler searches for symbols first in the current namespace (if any),
 then in the currently active search namespaces (if any), and finally in the
@@ -3540,12 +3542,16 @@ the default namespace, while ``::foo::bar`` denotes the symbol ``bar`` in the
 you have to deal with nested namespaces, see `Hierarchical Namespaces`_
 below.)
 
+コンパイラはまず（もしあるなら）カレント名前空間のシンボルを探します。その後、（もしあるなら）現在アクティブな名前空間を探します。最後に、デフォルト名前空間（＝グローバル名前空間）を探します。この自動探索は ``::foo::bar`` 形式の *絶対* 名前空間修飾子を使ってバイパスすることができます。特に ``::bar`` は常にデフォルト名前空間のシンボル ``bar`` を示し、 ``::foo::bar`` は ``foo`` 名前空間内の ``bar`` を示します（通常、後者の記法はネストされた名前空間を扱う場合のみ必要となるものです。詳しくは下部 Namespaces_ を参照）。
+
 If no existing symbol is found, a new symbol is created automatically, by
 implicitly declaring a public symbol with default attributes. New
 *unqualified* symbols are always created in the current namespace, while new
 *qualified* symbols are created in the namespace given by the namespace prefix
 of the symbol. However, note that in the latter case the compiler always
-checks that the given namespace prefix matches the current namespace::
+checks that the given namespace prefix matches the current namespace:
+
+もしシンボルが存在しなかったら、新しいシンボルが自動的に作られます。このとき、デフォルトの属性を持つ public なシンボルが暗黙のうちに宣言されます。 *修飾子なしの* 新しいシンボルは常にカレント名前空間に作られ、 *修飾子つきの* 新しいシンボルはシンボルの名前空間プレフィクスで与えられた名前空間に作られます。しかし後者の場合、コンパイラは、与えられた名前空間がカレント名前空間にマッチするかどうか常にチェックするということを覚えておいて下さい::
 
   > namespace foo;
   > namespace;
@@ -3559,26 +3565,38 @@ and prevent you from accidentally clobbering the contents of other
 namespaces. To make these errors go away it's enough to just declare the
 symbols in their proper namespaces.
 
+したがって、与えられた名前空間に新しいシンボルを導入することができるのは、その名前空間がカレント名前空間である場合だけだということです。この種のラーメッセージはいささかわずらわしいですが、少なくともミスタイプなどのバカバカしい間違いや、他の名前空間の中身を意図せずぶん殴ってしまうことを防いでくれます。このエラーを遠ざけるには、そのシンボルにとって適切な名前空間をきちんと宣言するだけで充分なのです。
+
 New symbols are also created if a global unqualified (and yet undeclared)
 symbol is being "defined" in a rewriting rule or ``let``/``const`` definition,
 even if a symbol with the same print name from another namespace is already
 visible in the current scope. To distinguish "defining" from "referring" uses
 of a global symbol, Pure uses the following (purely syntactic) notions:
 
+また、修飾子なしのグローバルな（かつ未宣言の）シンボルが、書き替えルール内や ``let``/``const`` 定義内で「定義され」ている場合、新しいシンボルが作られます。他の名前空間に属しながら同じ表示名を持つシンボルが現在のスコープ内でvisibleであったとしても、作られます。グローバルシンボルの「定義する」ことと「参照する」ことを区別するため、 Pure では次のような（純粋に統語的な）記法を使います:
+
 * A `defining occurrence` of a global *function* or *macro symbol* is any
   occurrence of the symbol as the *head symbol* on the left-hand side of a
   rewriting rule.
+
+* グローバルな *関数* またはグローバルな *マクロシンボル* の `定義の出現` 〔 `defining occurrence` 〕は、書き替えルール左辺において、シンボルが *先頭シンボル* 〔 *head symbol* 〕として出現することである。
 
 * A `defining occurrence` of a global *variable* or *constant symbol* is any
   occurrence of the symbol in a *variable position* (as given by the "head =
   function" rule, cf. `Parameters in Equations`_) on the left-hand side of a
   ``let`` or ``const`` definition.
 
+* グローバル *変数* またはグローバル *定数シンボル* の `定義の出現` は、 ``let`` または ``const`` 定義の左辺において、シンボルが *変数の位置* に現れることである（「先頭＝関数」ルールに従っている。 cf. `Parameters in Equations`_ ）。
+
 * All other occurrences of global symbols on the left-hand side, as well as
   *all* symbol occurrences on the right-hand side of a definition are
   `referring occurrences`.
 
-The following example illustrates these notions::
+* 定義左辺における他のあらゆるグローバルシンボルの出現、および定義右辺における *あらゆる* シンボルの発生は、 `参照的な出現` である。
+
+The following example illustrates these notions:
+
+次の例がこれらの記法を説明してくれます::
 
   namespace foo;
   bar (bar x) = bar x;
@@ -3595,11 +3613,17 @@ the former case, ``bar`` refers to the ``bar`` symbol defined by the rule,
 while in the latter case the '\ ``,``\ ' operator is actually declared in the
 prelude and thus imported from the global namespace.
 
+この場合、最初のルールの左辺 ``bar (bar x)`` 内にある最初の ``bar`` は *定義的な* 出現であり、 ``let`` 定義内にある ``x`` と ``y`` も同様です。したがって、これらのシンボルは新たなシンボルとして名前空間 ``foo`` 内に作られます。それに対して、最初のシンボルで現れているもう一つの ``bar`` は、 ``let`` 定義の左辺にある '\ ``,``\ ' と同様、 *参照的な* 出現です。前者 [#]_ の場合、 ``bar`` はそのルールによって定義された ``bar`` シンボルを指示しています。後者の場合、 '\ ``,``\ ' 演算子が実際に定義されているのは prelude 内であり、グローバル名前空間からインポートされています。
+
+.. [#] 最初のルール左辺にある3つの bar のうち2番目の（＝丸括弧内にある） ``bar`` のこと。
+
 Note that special operator (and nonfix) symbols *always* require an explicit
 declaration. This works as already discussed in the `Symbol Declarations`_
 section, except that you first switch to the appropriate namespace before
 declaring the symbols. For instance, here is how you can create a new ``+``
-operation which multiplies its operands rather than adding them::
+operation which multiplies its operands rather than adding them:
+
+特別な演算子の（およびノンフィクスの）シンボルは *常に* 明示的な宣言を必要とすることを忘れないで下さい。この動作については `Symbol Declarations`_ セクションですでに述べた通りですが、シンボル宣言を行う前にまずappropriateな名前空間へと変更を行った場合は話が別です。例として、新しく ``+`` 演算を作り、それが加算でなく乗算を行うようにする方法を示します::
 
   > namespace my;
   > infixl 2100 +;
@@ -3609,7 +3633,9 @@ operation which multiplies its operands rather than adding them::
 
 Note that the new ``+`` operation really belongs to the namespace we
 created. The ``+`` operation in the default namespace works as before, and in
-fact you can use qualified symbols to pick the version that you need::
+fact you can use qualified symbols to pick the version that you need:
+
+この新しい ``+`` 演算が、私たちの作った名前空間に所属していることに注意を向けて下さい。デフォルト名前空間に属する ``+`` 演算も今まで通り動作するので、修飾子つきシンボルを使えば、実際にあなたの求めに応じたバージョンの ``+`` 演算を使い分けることができます::
 
   > namespace;
   > 5+7;
@@ -3620,7 +3646,9 @@ fact you can use qualified symbols to pick the version that you need::
   35
 
 Here's what you get if you happen to forget the declaration of the ``+``
-operator::
+operator:
+
+``+`` 演算子を定義し忘れてしまったら、こういうことになります::
 
   > namespace my;
   > x+y = x*y;
@@ -3629,9 +3657,13 @@ operator::
 Thus the compiler will never create a new instance of an operator symbol on
 the fly, an explicit declaration is always needed in such cases.
 
+このように、コンパイラが演算子シンボルの新しいインスタンスをオン・ザ・フライで作成することは決してありません。こうした場合には明示的な宣言が必要なのです。
+
 Note that if you *really* wanted to redefine the global ``+`` operator, you
 can do this even while the ``my`` namespace is current. You just have to use a
-qualified identifier in this case, as follows::
+qualified identifier in this case, as follows:
+
+もしグローバルな ``+`` 演算子を再定義することが *本当に* 必要なら、可能ではあります。 ``my`` 名前空間がカレントであるときでさえも、です。このような場合、修飾子つき識別子を使う必要があります。次のように::
 
   > namespace my;
   > x ::+ y = x*y;
@@ -3643,7 +3675,9 @@ enter this rule while in the global namespace), but it can be useful in some
 circumstances.  Specifically, you might want to "overload" a global function
 or operator with a definition that makes use of private symbols of a namespace
 (which are only visible inside that namespace; see `Private Symbols`_
-below). For instance::
+below). For instance:
+
+これが必要になることはほとんどないでしょう（上の例を実際に使うなら、グローバル名前空間内でこのルールを入力するほうがよいでしょう）が、時と場合によっては便利でもあります。特に、グローバル関数やグローバル演算子を「オーバーロード」し、ある名前空間内のプライベートなシンボルとして使うのに役立てたいと思うことはあるかもしれません（その演算子はその名前空間内だけで見えるものです。下部 `Private Symbols`_ 参照）。例えば::
 
   > namespace my;
   > private bar;
@@ -3655,6 +3689,8 @@ below). For instance::
 (The above is a rather contrived example, since the very same functionality
 can be accomplished much easier, but there are some situations where this
 approach is necessary.)
+
+（上の例はやや不自然です。なぜなら、ほぼ同じ機能をもっと簡単に実現できるからです。しかし、このようなアプローチが必要となる状況もあります）
 
 Private Symbols
 ~~~~~~~~~~~~~~~
