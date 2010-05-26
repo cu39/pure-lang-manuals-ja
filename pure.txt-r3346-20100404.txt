@@ -3739,9 +3739,13 @@ namespace current again:
 Hierarchical Namespaces
 ~~~~~~~~~~~~~~~~~~~~~~~
 
+階層状の名前空間
+
 Namespace identifiers can themselves be qualified identifiers in Pure, which
 enables you to introduce a hierarchy of namespaces. This is useful, e.g., to
-group related namespaces together under a common "umbrella" namespace::
+group related namespaces together under a common "umbrella" namespace:
+
+Pure では、名前空間識別子は、それ自身が修飾子つき識別子であることも可能です。これにより、名前空間の階層を導入することができるようになっています。これが便利なのは、例えば、関連する複数の名前空間を、共通の "umbrella" 名前空間の下にまとめる場合です::
 
   namespace my;
   namespace my::old;
@@ -3755,6 +3759,8 @@ contain any symbols of its own. After these declarations, the ``my::old`` and
 ``my::new`` namespaces are part of the ``my`` namespace and will be considered
 in name lookup accordingly, so that you can write::
 
+名前空間 ``my`` は、親の名前空間となっていますが、 ``my::old`` や ``my::new`` よりも前に作成されなければならないことを忘れないで下さい。親となる名前空間がシンボルを一つも持っていない場合でもです。これらの宣言の後、 ``my::old`` と ``my::new`` 名前空間は ``my`` 名前空間の一部となり、名前探索の際にもそれに応じた考慮が行われます。なので、次のように書くことができます::
+
   > using namespace my;
   > old::foo 99;
   100
@@ -3767,10 +3773,14 @@ root directory), the symbols in each namespace correspond to the files in a
 directory, and the ``using namespace`` declaration functions similar to the
 shell's ``PATH`` variable.
 
+この動作は、ディレクトリやファイルの階層構造ととてもよく似ています。この場合、各名前空間はディレクトリ（デフォルト名前空間をルートディレクトリとする）の役割を果たし、名前空間内の各シンボルはディレクトリ内のファイルに対応します。 ``using namespace`` 宣言はシェルの ``PATH`` 変数と同じように機能します。
+
 Sometimes it is necessary to tell the compiler to use a symbol in a specific
 namespace, bypassing the usual symbol lookup mechanism. For instance, suppose
 that we introduce another *global* ``old`` namespace and define yet another
-version of ``foo`` in that namespace::
+version of ``foo`` in that namespace:
+
+ときどき、通常のシンボル検索手順を避けて、特定の名前空間内のシンボルを使うようコンパイラに伝える必要が生じます。例えば、 *グローバルな* ``old`` 名前空間をもう一つ導入し、その名前空間内に別バージョンの ``foo`` を定義することを考えます::
 
   namespace old;
   foo x = 2*x;
@@ -3782,7 +3792,9 @@ since this name will resolve to ``my::old::foo`` instead. As a remedy, the
 compiler accepts an `absolute` qualified identifier of the form
 ``::old::foo``. This bypasses name lookup and thus always yields exactly the
 symbol in the given namespace (if it exists; as mentioned previously, the
-compiler will complain about an undeclared symbol otherwise)::
+compiler will complain about an undeclared symbol otherwise):
+
+今、この関数へアクセスしたいとして、しかも ``my`` 名前空間がまだ検索対象として有効であるとしても、単純に ``old::foo`` としただけでは新しい関数へアクセスできません。代わりに ``my::old::foo`` と解決されてしまうからです。改善策として、コンパイラは ``::old::foo`` という形式の `絶対指定` 修飾子つき識別子を受け入れます。これは名前空間検索を迂回するので、与えられた名前空間をいつでも正確にもたらしてくれます（もし存在するならば、ですが。前でも述べましたが、存在しない場合、コンパイラは未宣言のシンボルだと文句を言ってきます）::
 
   > old::foo 99;
   100
@@ -3792,6 +3804,8 @@ compiler will complain about an undeclared symbol otherwise)::
 Also note that, as a special case of the absolute qualifier notation,
 ``::foo`` always denotes the symbol ``foo`` in the default namespace.
 
+また、絶対指定修飾子記法の特別ケースとして、 ``::foo`` は常にデフォルト名前空間内のシンボルを指示するものであることを覚えておいて下さい。
+
 Scoped Namespaces
 ~~~~~~~~~~~~~~~~~
 
@@ -3799,18 +3813,24 @@ Pure also provides an alternative scoped ``namespace`` construct which makes
 nested namespace definitions more convenient. This construct takes the
 following form::
 
+また Pure は、もう一つ別のスコープを持つ ``namespace`` 構造を提供します。これはネストされた名前空間定義を便利に行う方法です。この構造は次のような形式をとります::
+
   namespace name with ... end;
 
 The part between ``with`` and ``end`` may contain arbitrary declarations and
 definitions, using the same syntax as the toplevel. These are processed in the
-context of the given namespace, as if you had written::
+context of the given namespace, as if you had written:
+
+``with`` から ``end`` までの間には、任意の宣言と定義を入れてかまいません。トップレベルと同じ文法を使えます。それらは与えられた名前空間の文脈で処理され、以下のように書いた場合と同じ効果を持ちます::
 
   namespace name;
   ...
   namespace;
 
 However, the scoped namespace construct always returns you to the namespace
-which was active before, and thus these declarations may be nested::
+which was active before, and thus these declarations may be nested:
+
+しかし、スコープを持つ名前空間構造は、その直前にアクティブであった名前空間へと常に戻ります。なので、このように宣言を重箱のようにする〔＝ネストする〕ことができます::
 
   namespace foo with
     // declarations and definitions in namespace foo
@@ -3822,7 +3842,9 @@ which was active before, and thus these declarations may be nested::
 
 Note that this kind of nesting does not necessarily imply a namespace
 hierarchy as discussed in `Hierarchical Namespaces`_. However, you can achieve
-this by using the appropriate qualified namespace names::
+this by using the appropriate qualified namespace names:
+
+この種のネスティングは、 `Hierarchical Namespaces`_ で議論したような階層状の名前空間を必ずしも伴うものではないことに注意して下さい。階層状の名前空間を実現するには適切な修飾子つき名前空間名を使います::
 
   namespace foo with
     // ...
@@ -3835,25 +3857,35 @@ this by using the appropriate qualified namespace names::
 Another special feature of the scoped namespace construct is that ``using
 namespace`` declarations are always local to the current namespace scope (and
 other nested namespace scopes inside it). Thus the previous setting is
-restored at the end of each scope::
+restored at the end of each scope:
+
+もうひとつ、スコープを持つ名前空間構造には特色があります。 ``using namespace`` 宣言は常にカレント名前空間スコープへと（かつ、その内側に含まれる入れ子の名前空間スコープへと）ローカルであるということです。したがって、さきほどの設定は各スコープの末尾で復旧されます::
 
   using namespace foo;
   namespace foo with
     // still using namespace foo here
+    // ここではまだ foo 名前空間を使用中
     using namespace bar;
     // now using namespace bar
+    // 今は bar 名前空間を使用中
     namespace bar with
       // still using namespace bar here
+      // まだ bar
       using namespace foo;
       // now using namespace foo
+      // foo を使用中
     end;
     // back to using namespace bar
+    // bar に戻った
   end;
   // back to using namespace foo at toplevel
+  // トップレベルの foo に戻った
 
 Finally, here's a more concrete example which shows how scoped namespaces
 might be used to declare two namespaces and populate them with various
-functions and operators::
+functions and operators:
+
+最後に、もっと具体的な例を示します。この例は、スコープを持つ名前空間内を使って、2つの名前空間を宣言し、それらを様々な関数や演算子とともに住まわせる方法を示しています::
 
   namespace foo with
     infixr (::^) ^;
@@ -3886,11 +3918,15 @@ can be brought into scope in a controlled way by making judicious use of
 since internal operations and data structures can be hidden away employing
 private symbols.
 
+Pure の名前空間はこのように、 Ada や Modula-2 の「モジュール」や「パッケージ」ととてもよく似た使い方ができます。それらは、複数のプログラム構成要素を構造的に記述する手段であり、関連するデータと処理をまとめた状態で提供できるようにしてくれます。 ``using namespace`` 宣言を賢明に使えば、それらを適切に管理しながらスコープ内へ導くことができます。また、 ``using namespace`` 宣言は抽象的な仕切りをも提供します。プライベートシンボルを使うことで内部処理や内部データ構造を隠蔽することができるからです。
+
 Please note that these facilities are not Pure's main focus and thus they are
 somewhat limited compared to programming languages specifically designed for
 big projects and large teams of developers. Nevertheless they should be useful
 if your programs grow beyond a small collection of simple source modules, and
 enable you to manage most Pure projects with ease.
+
+ただし、こうした機能は Pure の主要な焦点ではなく、そのため、大きなプロジェクトや大規模なチーム開発に特化してデザインされたプログラミング言語と比較すればいくらか制限されたものであることを、どうか忘れないで下さい。とはいっても、あなたのプログラムがシンプルなソースモジュールの小さな集まりであることを超えて育っていく際には役立つものでしょうし、たいていの Pure プロジェクトを容易に管理する助けにもなるはずです。
 
 Exception Handling
 ==================
@@ -3904,7 +3940,7 @@ the argument. To catch an exception, you use the built-in special form
 exception value) as the first and the expression to be evaluated as the second
 (call-by-name) argument. For instance:
 
-Pure はまた、便利な例外処理法を提供します。例外を起こすには、ただ組み込み関数 ``throw`` を、一緒に投げられる値を引数として呼び出すだけです。例外をキャッチするには、組み込み特別形 ``catch`` を呼び出します。 ``catch`` の第一引数は例外ハンドラ（例外の値に適用される関数）、第二引数は評価されるべき式（値呼び出し）とします。例えば::
+Pure は便利な例外処理機能も提供します。例外を起こすには、ただ組み込み関数 ``throw`` を、一緒にスローされる値を引数として呼び出すだけです。例外をキャッチするには、組み込み特別形 ``catch`` を呼び出します。 ``catch`` の第一引数は例外ハンドラ（例外の値に適用される関数）、第二引数は評価されるべき式（値呼び出し）とします。例えば::
 
   > catch error (throw hello_world);
   error hello_world
