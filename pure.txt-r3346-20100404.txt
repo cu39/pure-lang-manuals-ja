@@ -4406,11 +4406,15 @@ run command (see the description of the run command below for the differences
 between these). Or you can just start typing away, entering your own
 definitions and expressions to be evaluated.
 
+対話モードにおいて、インタープリタは定義と式を読み込み、通常通りそれを処理します。 -i オプションを使うと、スクリプトファイルと同時にインタープリタを起動した際でも対話モードを強制することができます。対話モードで追加スクリプトを読み込むには、 using 宣言を使うか、対話モード用の run コマンドを使います（両者の違いについては下部 run コマンドの説明を参照して下さい）。あるいは、すぐにタイピングを始め、あなたの好きな定義や式を評価させてもかまいません。
+
 The input language is just the same as for source scripts, and hence
 individual definitions and expressions must be terminated with a semicolon
 before they are processed. For instance, here is a simple interaction which
 defines the factorial and then uses that definition in some evaluations. Input
-lines begin with '``>``', which is the interpreter's default command prompt::
+lines begin with '``>``', which is the interpreter's default command prompt:
+
+入力言語はソーススクリプトとまったく同じです。したがって個々の定義や式はセミコロンで終わっていなければ処理が行われません。例えば、次の対話サンプルでは、階乗を定義し、その定義をいくつかの評価に使っています。入力行は '``>``' で始まりますが、これがインタープリタのデフォルトコマンドプロンプトです::
 
   > fact 1 = 1;
   > fact n = n*fact (n-1) if n>1;
@@ -4429,6 +4433,8 @@ syntax and will be printed in the format ``#<``\ object description\ ``>``
 by default. It is also possible to override the print representation of any
 kind of expression by means of the ``__show__`` function, see the `Caveats and
 Notes`_ section for details.
+
+上に示されているように、対話モードでは、式が入力された後、正規形のトップレベル式が出力されます。私たちはこれを `read-eval-print` ループ〔読み込み-評価-出力ループ〕とも呼んでいます。通常、正規形の式は、あなたが入力したものとまったく同じ形で出力されます。しかし特殊オブジェクトもいくつか存在しており、無名クロージャ、サンク（必要になったとき「遅延評価される」〔＝怠惰な／lazy〕値）、ポインタなどは、 Pure 文法における文字表現がありません。そのため、デフォルトでの出力は ``#<``\ object description\ ``>`` といった形式で行われます。また、 ``__show__`` 関数を使うと、いかなる式の出力表現でもオーバーライド〔上書き〕することができます。詳しくは `Caveats and Notes`_ セクションを参照して下さい。
 
 Online Help
 -----------
