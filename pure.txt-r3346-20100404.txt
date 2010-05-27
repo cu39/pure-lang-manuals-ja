@@ -4439,18 +4439,26 @@ Notes`_ section for details.
 Online Help
 -----------
 
+オンラインヘルプ
+
 Online help is available in the interpreter with the interactive ``help``
 command, see `Interactive Commands`_ below. You need to have a html browser
 installed for that. By default, the ``help`` command uses w3m(1), but you can
 change this by setting either the PURE_HELP or the BROWSER environment
 variable accordingly.
 
-When invoked without arguments, the ``help`` command displays this manual::
+インタープリタ内で対話コマンド ``help`` を使うとオンラインヘルプを利用できます。詳しくは下部 `Interactive Commands`_ を参照して下さい。 html ブラウザがインストールされている必要があります。デフォルトでは、 ``help`` コマンドは w3m(1) を使います。しかし環境変数 PURE_HELP または BROWSER のいずれかを使って設定を変更できます。
+
+When invoked without arguments, the ``help`` command displays this manual:
+
+`` help`` コマンドが引数なしで実行されると、このマニュアルが表示されます::
 
   > help
 
 The ``help`` command also accepts a parameter which lets you specify a topic
-to show in the accompanying Pure Library manual, e.g.::
+to show in the accompanying Pure Library manual, e.g.:
+
+また ``help`` コマンドは、パラメータとして Pure Library Manual に付いているトピックを受け入れます。例えば::
 
   > help foldl
 
@@ -4459,31 +4467,41 @@ library directory (/usr/local/lib/pure by default). You can install additional
 documentation in html format in this directory, and look up topics in those
 help files with a command like the following::
 
+ヘルプファイルは Pure インタープリタとともに配布されており、 Pure のライブラリディレクトリ（デフォルトでは /usr/local/lib/pure ）に置かれています。 html フォーマットの追加ドキュメントをこのディレクトリにインストールすることができ、そのヘルプファイル内のトピックをコマンドラインから、次のようにして探せます::
+
   > help mydoc#foo
 
 Here ``mydoc`` is the basename of your help file (library path and .html
 suffix are supplied automatically), and ``foo`` can be any link target in the
 document (as specified with a ``<a name=...>`` tag or an ``id`` attribute in
 the html source). To just read the mydoc.html file without specifying a
-target, type the following::
+target, type the following:
+
+ここで ``mydoc`` はヘルプファイルの基礎名（ライブラリのパスと拡張子 .html は自動的に付加されます）で、 ``foo`` はファイル内のどのリンクターゲットでもかまいません（ html ソース内 ``<a name=...>`` タグまたは ``id`` 属性での指定に従う）。ただ mydoc.html を読みたいだけでターゲットは必要ないなら、次のようにタイプします::
 
   > help mydoc#
 
 Note that just ``help mydoc`` wouldn't work, since it would look for an entry
 ``mydoc`` in the standard library documentation.
 
+ただ ``help mydoc`` とするだけでは動作しないことを覚えておいて下さい。その場合は標準ライブラリドキュメント内の ``mydoc`` 部分を探してしまいます。
+
 If the basename of the help file is missing, it defaults to the library
 manual, so ``help #foldl`` does the same as ``help foldl``, and just ``help
 #`` is a convenient shorthand to bring up the library manual without a
 specific topic. Of course, this syntax also works for looking up sections in
-the Pure manual::
+the Pure manual:
+
+基礎名がヘルプファイルに見つからない場合、ライブラリマニュアルがデフォルトとなります。なので ``help #foldl`` は ``help foldl`` と同じことであり、単に ``help #`` とすると、特定トピックを指定せずライブラリマニュアルを表示する速記法となります。もちろん、この文法は Pure マニュアル内のセクションを参照する際にも機能します::
 
   > help pure#declarations
 
 Note that the docutils_ tools used to generate the html source of the Pure
 manual mangle the section titles so that they are in lowercase and blanks are
 replaced with hyphens. So to look up the present section in this manual you'd
-have to type::
+have to type:
+
+Pure マニュアルの html ソースを生成するのに使われている docutils_ ツールは、セクションタイトルを切り分け、小文字化し、スペースをハイフンで置き換えます。なので、このマニュアルに存在するセクションを参照するには次のようにタイプします::
 
   > help pure#online-help
 
@@ -4492,6 +4510,8 @@ have to type::
 You can also point the help browser to a proper URL, either a local file or
 some website (provided that your browser program can handle these). For
 instance::
+
+ヘルプブラウザに対して、ローカルファイルもしくはウェブサイトへの厳密な URL を指定することもできます（ブラウザプログラムがそれらを扱える場合）。例えば::
 
   > help file:mydoc.html#foo
   > help http://pure-lang.googlecode.com
