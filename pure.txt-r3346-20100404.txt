@@ -1188,7 +1188,7 @@ Lambdas: ``\x -> y``
     raised if the actual lambda arguments do not match the given patterns.
 
 ラムダ: ``\x -> y``
-    これらは無名関数を表しており、 Haskell とまったく同じように動作します。 Pure は複数の引数を取るラムダ（例えば ``\x y -> x*y`` ）やパターンマッチを行うラムダ抽出〔lambda abstraction〕をサポートします。ラムダ抽出は、ラムダの引数に対して1つ以上のパターンマッチを、例えば ``\(x,y) -> x*y`` のようなかたちで行います。与えられたパターンにラムダの実際の引数がマッチしない場合、例外が起きます。
+    これらは無名関数を表しており、 Haskell とまったく同じように動作します。 Pure は複数の引数を取るラムダ（例えば ``\x y -> x*y`` ）やパターンマッチを行うラムダ抽象〔ラムダ抽出／lambda abstractions〕をサポートします。ラムダ抽出は、ラムダの引数に対して1つ以上のパターンマッチを、例えば ``\(x,y) -> x*y`` のようなかたちで行います。与えられたパターンにラムダの実際の引数がマッチしない場合、例外が起きます。
 
 Case expressions: ``case x of rule; ... end``
     Matches an expression, discriminating over a number of different cases,
@@ -3757,7 +3757,7 @@ Note that the namespace ``my``, which serves as the parent namespace, must be
 created before the ``my::old`` and ``my::new`` namespaces, even if it does not
 contain any symbols of its own. After these declarations, the ``my::old`` and
 ``my::new`` namespaces are part of the ``my`` namespace and will be considered
-in name lookup accordingly, so that you can write::
+in name lookup accordingly, so that you can write:
 
 名前空間 ``my`` は、親の名前空間となっていますが、 ``my::old`` や ``my::new`` よりも前に作成されなければならないことを忘れないで下さい。親となる名前空間がシンボルを一つも持っていない場合でもです。これらの宣言の後、 ``my::old`` と ``my::new`` 名前空間は ``my`` 名前空間の一部となり、名前探索の際にもそれに応じた考慮が行われます。なので、次のように書くことができます::
 
@@ -3811,7 +3811,7 @@ Scoped Namespaces
 
 Pure also provides an alternative scoped ``namespace`` construct which makes
 nested namespace definitions more convenient. This construct takes the
-following form::
+following form:
 
 また Pure は、もう一つ別のスコープを持つ ``namespace`` 構造を提供します。これはネストされた名前空間定義を便利に行う方法です。この構造は次のような形式をとります::
 
@@ -3940,7 +3940,7 @@ the argument. To catch an exception, you use the built-in special form
 exception value) as the first and the expression to be evaluated as the second
 (call-by-name) argument. For instance:
 
-Pure は便利な例外処理機能も提供します。例外を起こすには、ただ組み込み関数 ``throw`` を、一緒にスローされる値を引数として呼び出すだけです。例外をキャッチするには、組み込み特別形 ``catch`` を呼び出します。 ``catch`` の第一引数は例外ハンドラ（例外の値に適用される関数）、第二引数は評価されるべき式（値呼び出し）とします。例えば::
+Pure は便利な例外処理機能も提供します。例外を起こすには、ただ組み込み関数 ``throw`` を、一緒にスローされる値を引数として呼び出すだけです。例外をキャッチするには、組み込み特別形 ``catch`` を呼び出します。 ``catch`` の第一引数は例外ハンドラ（例外の値に適用される関数）、第二引数は評価されるべき式（名前呼び出し）とします。例えば::
 
   > catch error (throw hello_world);
   error hello_world
@@ -3952,7 +3952,9 @@ abstraction, or a ``let``, ``case`` or ``when`` construct. These types of
 exceptions are reported using the symbols ``stack_fault``, ``failed_cond`` and
 ``failed_match``, respectively, which are declared as constant symbols in the
 standard prelude. You can use ``catch`` to handle these kinds of exceptions
-just like any other. For instance::
+just like any other. For instance:
+
+例外はランタイムシステムにより生成されることもあります。プログラムがスタックスペースを使い切った場合や、ガードでの評価が真にならなかった場合、そしてsubject termが、パターンマッチを行うラムダ抽象内や、 ``let``, ``case``, ``when`` 構造内で、パターンマッチに失敗した場合です。こうした種類の例外は、それぞれ ``stack_fault`` 、 ``failed_cond`` 、 ``failed_match`` というシンボルを使ってレポートされます（標準 prelude 内で定数シンボルとして宣言されます）。この種の例外を取り扱うときも他と同じく ``catch`` を使うことができます。例えば::
 
   > fact n = if n>0 then n*fact(n-1) else 1;
   > catch error (fact foo);
@@ -3964,8 +3966,12 @@ just like any other. For instance::
 checks, see the discussion of the PURE_STACK environment variable in the
 `Caveats and Notes`_ section.)
 
+（後者の例外を受け取るのは、インタープリタがスタックチェックを行う場合だけです。詳しくは `Caveats and Notes`_ セクション内の PURE_STACK 環境変数に関する議論を参照して下さい）
+
 Note that unhandled exceptions are reported by the interpreter with a
-corresponding error message::
+corresponding error message:
+
+ハンドルされない例外は、対応するメッセージとともにインタープリタがレポートしてきます::
 
   > fact foo;
   <stdin>, line 2: unhandled exception 'failed_cond' while evaluating 'fact foo'
@@ -3974,14 +3980,18 @@ Exceptions also provide a way to handle asynchronous signals. Pure's system
 module provides symbolic constants for common POSIX signals and also defines
 the operation ``trap`` which lets you rebind any signal to a signal
 exception. For instance, the following lets you handle the ``SIGQUIT``
-signal::
+signal:
+
+また、例外は、非同期シグナルを取り扱う方法を提供します。 Pure のシステムモジュールは共通 POSIX シグナルの記号定数を提供し、また ``trap`` 処理を定義しています。 ``trap`` 処理では、あらゆるシグナルをシグナル例外と再び結びつけることができます。例えば、次の手順で ``SIGQUIT`` シグナルを扱うことができます::
 
   > using system;
   > trap SIG_TRAP SIGQUIT;
 
 You can also use ``trap`` to just ignore a signal or revert to the system's
 default handler (which might take different actions depending on the type of
-signal, see signal(7) for details)::
+signal, see signal(7) for details):
+
+``trap`` を使ってシグナルを単純に無視したり、システムのデフォルトハンドラへ復帰することもできます（シグナル種別により異なるアクションを起こす可能性があります。詳しくは signal(7) を参照して下さい）::
 
   > trap SIG_IGN SIGQUIT; // signal is ignored
   > trap SIG_DFL SIGQUIT; // reinstalls the default signal handler
@@ -3993,6 +4003,8 @@ up to produce corresponding Pure exceptions of the form ``signal SIG`` where
 you'll have to do this yourself (otherwise most signals will terminate the
 program).
 
+インタープリタが対話的に実行されているときは、便宜のため、標準的な終了シグナルのほとんど（ ``SIGINT`` や ``SIGTERM`` などなど）が、それぞれ対応する Pure 例外を引き起こすようあらかじめ設定されています。この例外は ``signal SIG`` という形式で、 ``SIG`` にはシグナル番号が入ります。もし、あるスクリプトが非対話的に実行される場合、こうした処理を自分で設定する必要があります（でなければ、ほとんどのシグナルはプログラムを終了させます）。
+
 Last but not least, exceptions can also be used to implement non-local value
 returns. For instance, here's a variation of our n queens algorithm which only
 returns the first solution. Note the use of ``throw`` in the recursive search
@@ -4002,6 +4014,8 @@ second equation of ``search``. This effectively turns the list comprehension
 into a simple loop which suppresses the normal list result and just returns
 ``()`` instead. Thus, if no value gets thrown then the function regularly
 returns with ``()`` to indicate that there is no solution.
+
+最後になりましたが、例外はローカルではない値を持つ返値〔non-local value returns〕を実装するためにも使えます。例えば、次に示すのは、私たちの n クイーンアルゴリズムのバリエーションで、最初に見つかった解答だけを返します。再帰検索ルーチンで ``throw`` を使い、最初の解答を見つけるとそれを持ってすぐさま脱出していることに注目して下さい。そのとき投げられる値はメインルーチンでキャッチされます。また、 ``search`` の2番目の等式での ``void`` の使い方にも注目して下さい。これはリスト内包を一回のループへと効果的に変化させるものです。これにより通常のリスト結果を抑制し、代わりに単なる ``()`` を返します。したがって、もし値が投げられなかった場合、関数は難度も ``()`` を返し、解答がないことを示します。
 
 ::
 
@@ -4021,36 +4035,46 @@ E.g., let's compute a solution for a standard 8x8 board::
 C Interface
 ===========
 
-Cインターフェース
+C インターフェース
 
 Accessing C functions from Pure programs is dead simple. You just need an
 ``extern`` declaration of the function, which is a simplified kind of C
 prototype. The function can then be called in Pure just like any other. For
 instance, the following commands, entered interactively in the interpreter,
 let you use the ``sin`` function from the C library (of course you could just
-as well put the ``extern`` declaration into a script)::
+as well put the ``extern`` declaration into a script):
+
+Pure プログラムから C 関数へアクセスするのは全く簡単です。関数の ``extern`` 宣言だけでよいのです。これは単純化された類の C プロトタイプです。するとその関数は、他のいろいろなものと同じように、 Pure で呼び出せるようになります。例えば、次のコマンド（対話式インタープリタで入力されています）は、 C ライブラリから ``sin`` 関数を使えるようにしてくれます（もちろん、スクリプトの場合でも ``extern`` 宣言を書くことはできます）::
 
   > extern double sin(double);
   > sin 0.3;
   0.29552020666134
 
 An ``extern`` declaration can also be prefixed with a ``public``/``private``
-scope specifier::
+scope specifier:
+
+``extern`` 宣言の前に ``public``/``private`` を置いてスコープを定義することもできます::
 
   private extern double sin(double);
 
 Multiple prototypes can be given in one ``extern`` declaration, separating
-them with commas::
+them with commas:
+
+カンマで分割して、 ``extern`` 宣言内で複数のプロトタイプを与えることもできます::
 
   extern double sin(double), double cos(double), double tan(double);
 
 For clarity, the parameter types can also be annotated with parameter names,
-e.g.::
+e.g.:
+
+パラメータ名に型を注記して明確にすることもできます。例えば::
 
   extern double sin(double x);
 
 Parameter names in prototypes only serve informational purposes and are for
 the human reader; they are effectively treated as comments by the compiler.
+
+プロトタイプ内のパラメータ名は単に伝達目的で、人間の読者のために働くものです。実際のところ、コンパイラはコメントとして扱います。
 
 The interpreter makes sure that the parameters in a call match; if not, the
 call is treated as a normal form expression by default, which gives you the
@@ -4061,8 +4085,12 @@ well as arbitrary pointer types, i.e.: ``void*``, ``char*``, etc.), but in
 practice these should cover most kinds of calls that need to be done when
 interfacing to C libraries.
 
+インタープリタはパラメータが呼び出し内でマッチするかどうかを確認します。マッチしない場合、デフォルトでは、呼び出しは通常型の式として扱われます。これにより、外部関数をあなた独自の Pure 等式で拡張する機会が得られます（下部参照）。 C の型をサポートする範囲は今のところやや限られています（ ``void``, ``bool``, ``char``, ``short``, ``int``, ``long``, ``float``, ``double``, さらに任意のポインタ型: ``void*``, ``char*``, etc.）。しかし実用上、 C インターフェースとの仲介を行う際に必要な種類をほぼカバーしているでしょう。
+
 Single precision float arguments and return values are converted from/to
 Pure's double precision floating point numbers automatically.
+
+単精度浮動小数点〔float〕型の引数と返値は Pure の倍精度浮動小数点数〔double〕型から／へと自動的に変換されます。
 
 A variety of C integer types (``char``, ``short``, ``int``, ``long``) are
 provided which are converted from/to the available Pure integer types in a
@@ -4077,9 +4105,13 @@ performed as needed, so that the C interface behaves as if the argument was
 capable of holding the result, i.e., int for the C ``char``, ``short`` and
 ``int`` types, bigint for ``int64``.
 
+C の様々な整数型（ ``char``, ``short``, ``int``, ``long`` ）は、利用可能な Pure の整数型から／へと素直な方法で変換されます。加えて、同義語の ``int8``, ``int16``, ``int32`` が、それぞれ ``char``, ``short``, ``int`` に対応するものとして提供されます。 ``int64`` は 64 ビット整数を表します（つまり ISO C99 の ``long long`` です）。32 ビットシステムにおいて ``long`` は ``int32`` と等価であり、ほとんどの 64 ビットシステムでは ``int64`` と等価だということに注意して下さい。整数型のパラメータはすべて、 Pure の int と bigint を実際の引数とすることができます。切り詰め〔truncation〕や符号拡張〔sign extension〕は必要に応じて実行されるので、 C インターフェースはあたかも引数が対象の C 型へと「キャスト」されているかのように振る舞います。返された整数は、結果を保持するのに最低限必要な Pure 型を使います。すなわち int が C の ``char``, ``short``, ``int`` 型のために、 bigint が ``int64`` 型のために使われるわけです。
+
 To make it easier to interface to various system routines, there's also a
 special ``size_t`` integer type which usually is 4 bytes on 32 bit and 8 bytes
 on 64 bit systems.
+
+様々なシステムのルーチンへのインターフェースを容易にするため、特別な ``size_t`` 整数もあります。これは通常、 32 ビットシステム上で 4 バイト、 64 ビットシステム上では 8 バイトです。
 
 Pure considers all integers as signed quantities, but it is possible to pass
 unsigned integers as well (if necessary, you can use a bigint to pass positive
@@ -4090,6 +4122,8 @@ negative. In this case, depending on the target type, you can use the
 ``ubyte``, ``ushort``, ``uint``, ``ulong`` and ``uint64`` functions provided
 by the prelude to convert the result back to an unsigned quantity.
 
+Pure は全ての整数型を符号つきの量として考えます。しかし符号なし整数を渡すことも可能です（必要なら、 bitint を使って machine int には入りきらない正の数を渡すこともできます）。また、符号なし整数が C ルーチンから戻ってきたとき、その数は "wrap around" され、負の数になることを忘れないで下さい。この場合、対象の型に応じて、 prelude が提供する ``ubyte``, ``ushort``, ``uint``, ``ulong``, ``uint64`` 関数を使って符号なしの数量へ変換することができます。
+
 Concerning the pointer types, ``char*`` is for string arguments and return
 values which need translation between Pure's internal utf-8 representation and
 the system encoding, while ``void*`` is for any generic kind of pointer
@@ -4099,12 +4133,16 @@ pointer types, which are discussed below) is effectively treated as ``void*``
 right now, although in a future version the interpreter may keep track of the
 type names for the purpose of checking parameter types.
 
+ポインタ型に関してですが、 ``char*`` は文字列引数と文字列返値のためのもので、 Pure 内部の utf-8 表現とシステムエンコーディングとの間で翻訳が必要です。それに対して ``void*`` はあらゆるジェネリックなポインタに使えます（文字列を含みます。文字列ポインタが ``void*`` として渡され／返されたときは翻訳されません）。いかなる種類のポインタであっても（ただし ``expr*`` および GSL マトリクスポインタだけは別で、下で議論します）、いまのところ ``void*`` として実際に扱うことができますが、将来のバージョンのインタープリタではパラメータ型をチェックするために型の名前を記録する可能性があります。
+
 The ``expr*`` pointer type is special; it indicates a Pure expression
 parameter or return value which is just passed through unchanged. All other
 types of values have to be "unboxed" when they are passed as arguments (i.e.,
 from Pure to C) and "boxed" again when they are returned as function results
 (from C to Pure). All of this is handled by the runtime system in a
 transparent way, of course.
+
+``expr*`` ポインタ型は特別なものです。これは Pure の式パラメータや返値を指し示すもので、変更されずそのまま渡されます。その他の値型は引数として（つまり、 Pure から C へ）渡される際に「箱から出す」ことが必要で、さらに関数の結果として（つまり、 C から Pure へ）再び返される際には「箱詰めする」ことが必要です。もちろん、この手順はすべてランタイムシステムにより透過的な方法で扱われます。
 
 The matrix pointer types ``dmatrix*``, ``cmatrix*`` and ``imatrix*`` can be
 used to pass double, complex double and int matrices to GSL functions taking
@@ -4118,7 +4156,9 @@ existing matrix. The prelude provides various operations for that purpose (in
 particular, see the ``dmatrix``, ``cmatrix``, ``imatrix`` and ``pack``
 functions in matrices.pure). For instance, here is how you can quickly wrap up
 GSL's double matrix addition function in a way that preserves value
-semantics::
+semantics:
+
+マトリクスポインタ型 ``dmatrix*``, ``cmatrix*`` および ``imatrix*`` は double, complex double および int matrices のマトリクスから GSL 関数へ渡すことができます。この関数は、それぞれ対応する GSL 型（ ``gsl_magrix``, ``gsl_magrix_complex`` および ``gls_magrix_int`` ）へのポインタを引数にとり、あるいは結果として返します。 Pure の記号マトリクス型のマーシャリングは行われないので注意して下さい。これらはいずれにせよ GSL でサポートされないからです。また、マトリクスは常に参照渡しであることも忘れないで下さい。もしマトリクスを GSL マトリクスルーチンの出力パラメータとして渡すことが必要なら、ゼロマトリクスか既存のマトリクスのコピーを作る方法があります。 prelude はこの目的に使える様々な処理を提供します（詳しくは matrices.pure 内の ``dmatrix, ``cmatrix``, ``imatrix`` および ``pack`` 関数を参照して下さい）。例えば次の例では、 GSL の double マトリクス加算関数を、 value semantics を保ったまま素早く wrap up する方法を示します::
 
   > using "lib:gsl";
   > extern int gsl_matrix_add(dmatrix*, dmatrix*);
@@ -4132,10 +4172,14 @@ Most GSL matrix routines can be wrapped in this fashion quite easily. A
 ready-made GSL interface providing access to all of GSL's numeric functions is
 in the works; please check the Pure website for details.
 
+GSL のマトリクスルーチンのほとんどは、こんな風に手早く簡単に wrap することができます。 GSL の全数値関数へのアクセスを提供する出来合いの GSL インターフェースは、現在作成中です。詳しくは Pure のウェブサイトをチェックしてみて下さい。
+
 For convenience, it is also possible to pass a numeric matrix for a
 ``short*``, ``int*``, ``float*`` or ``double*`` parameter. The required
 conversions are done automatically, on the fly, and the matrix data is copied
 to temporary storage in order to preserve value sematics.
+
+便宜のため、数値マトリクスを ``short*`` や ``int*``, ``float*``, ``double*`` パラメータへ渡すことができます。必要な変換は、自動的にオン・ザ・フライで行われ、マトリクスデータは value semantics を保つため一時領域にコピーされます。
 
 In addition, any kind of matrix (including symbolic matrices) can also be
 passed for a generic ``void*`` pointer. In this case no conversions are done
@@ -4144,10 +4188,14 @@ modified in-place. Similarly, ``void*`` also allows you to pass a bigint
 argument as a raw ``mpz_t`` value. This makes it possible to call most GMP
 integer routines directly from Pure.
 
+それに加え、あらゆる種類のマトリクス（記号マトリクスを含む）を、ジェネリックな ``void*` ポインタへ渡すことができます。この場合、変換はまったく行われず、生のマトリクスデータ〔raw matrix data〕が渡されます。この場合はデータを直接書き替えることができます。同じように、 ``void*`` を使うと、 bigint 引数を生の ``mpz_t`` の値として渡すことができます。これにより、ほとんどの GMP 整数ルーチンを Pure から直接呼び出すことができるようになっています。
+
 As already mentioned, it is possible to augment an external C function with
 ordinary Pure equations, but in this case you have to make sure that the
 ``extern`` declaration of the function comes first. For instance, we might
-want to extend our imported ``sin`` function with a rule to handle integers::
+want to extend our imported ``sin`` function with a rule to handle integers:
+
+すでに述べた通り、外部 C 関数を通常の Pure 等式で増大させる〔拡張する〕ことができます。しかしこの場合、関数の ``extern`` 宣言を確実に最初に置くようにしてください。例として、インポートした ``sin`` 関数に整数型を扱うルールを拡張したいとしましょう::
 
   > extern double sin(double);
   > sin 0.3;
@@ -4162,7 +4210,9 @@ Sometimes it is preferable to replace a C function with a wrapper function
 written in Pure. In such a case you can specify an `alias` under which the
 original C function is known to the Pure program, so that you can still call
 the C function from the wrapper. An alias is introduced by terminating the
-extern declaration with a clause of the form ``= alias``. For instance::
+extern declaration with a clause of the form ``= alias``. For instance:
+
+ときどき、 C 関数を Pure で書いたラッパー関数で置き換えたほうがよいこともあります。そのような場合、 `alias` を設定し、 Pure プログラム側は C 関数をその名前で使うものとします。結果、あなたは C 関数をラッパーから呼び出せるようになります。エイリアス〔＝別名〕を導入するには extern 宣言を ``= alias`` という節で終えます。例えば::
 
   > extern double sin(double) = c_sin;
   > sin x::double = c_sin x;
@@ -4172,7 +4222,9 @@ extern declaration with a clause of the form ``= alias``. For instance::
   0.0
 
 As an alternative, you can also declare the C function in a special namespace
-(cf. Namespaces_ in the Declarations_ section)::
+(cf. Namespaces_ in the Declarations_ section):
+
+もう一つのやり方として、特別な名前空間の内部で C 関数を宣言する方法もあります（cf. Declarations_ セクション内 Namespaces_ ）::
 
   > namespace c;
   > extern double sin(double);
@@ -4184,7 +4236,9 @@ underlying C function is still called under the unqualified name as usual. The
 way in which such qualified externs are accessed is the same as for ordinary
 qualified symbols. In particular, the ``using namespace`` declaration applies
 as usual, and you can declare such symbols as ``private`` if needed. It is
-also possible to combine a namespace qualifier with an alias::
+also possible to combine a namespace qualifier with an alias:
+
+ただし、名前空間の修飾部分は Pure 側にのみ影響することを忘れないで下さい。その下にある C 関数は前のまま修飾子なしの名前で呼び出されます。修飾子つき extern 関数は通常の修飾子つきシンボルと同じ方法でアクセスされます。特に ``using namespace`` 宣言も通常通り適用され、必要ならばそうしたシンボルを ``private`` にすることもできます。名前空間修飾子をエイリアスと混在させることも可能です::
 
   > namespace c;
   > extern double sin(double) = mysin;
@@ -4197,18 +4251,24 @@ executable, if the interpreter was linked statically). Thus all C library and
 Pure runtime functions are readily available in Pure programs. Other functions
 can be provided by adding them to the runtime, or by linking them into the
 runtime or the interpreter executable. Better yet, you can just "dlopen"
-shared libraries at runtime with a special form of the ``using`` clause::
+shared libraries at runtime with a special form of the ``using`` clause:
+
+外部 C 関数は LLVM ランタイムによっても解決されます。 LLVM ランタイムはまず、シンボルを C ライブラリと Pure ランタイムライブラリから探します（あるいは Pure インタープリタが静的にリンクされていた場合、インタープリタ実行ファイルから探します）。したがって、全ての C ライブラリと Pure ランタイム関数は Pure プログラム内で簡単に利用可能なのです。他の関数を提供することも、ランタイムにそれを追加したり、ランタイムやインタープリタ実行ファイルにそれをリンクしたりすることで可能です。もっとよい方法は、ランタイムの共有ライブラリを "dlopen" することです。これには特別な形式の ``using`` 節を使います::
 
   using "lib:libname[.ext]";
 
 For instance, if you want to call the functions from library libxyz directly
-from Pure::
+from Pure:
+
+例えば、ライブラリ libxyz 内の関数を Pure から直接呼び出したいなら::
 
   using "lib:libxyz";
 
 After this declaration the functions from the given library will be ready to
 be imported into your Pure program by means of corresponding ``extern``
 declarations.
+
+この宣言の後、指定されたライブラリ内の関数は Pure プログラムへインポートされる準備が整った状態となります。インポートの際は適切な ``extern`` 宣言を行います。
 
 Shared libraries opened with using clauses are searched for in the same way as
 source scripts (see section `Modules and Imports`_ above), using the -L option
@@ -4221,6 +4281,8 @@ automatically when needed. Of course you can also specify a full pathname for
 the library if you prefer that. If a library file cannot be found, or if an
 ``extern`` declaration names a function symbol which cannot be resolved, an
 appropriate error message is printed.
+
+using 節を使ってオープンされた共有ライブラリはソーススクリプトと同じ方法で検索されます（上部 `Modules and Imports`_ 参照）。つまり -L オプションと PURE_LIBRARY 環境変数を -I と PURE_INCLUDE の代わりに使った場合と同じ方法です。そのライブラリがこの方法で見つからなかった場合、インタープリタは、プラットフォーム固有の他の場所（動的リンカにより検索される場所）を考慮に入れます（例えば Linux 上でのシステムライブラリディレクトリと LD_LIBRARY_PATH など）。ファイル名サフィックス（例えば Linux 上での .so や Windows 上での .dll など）は必要に応じて自動的に付加されます。もちろん、お好みならばライブラリのフルパス名を指定することもできます。ライブラリファイルが見つからない場合、あるいは ``extern`` 宣言で命名された関数シンボルが解決できない場合、それぞれに対応するメッセージが出力されます。
 
 Standard Library
 ================
