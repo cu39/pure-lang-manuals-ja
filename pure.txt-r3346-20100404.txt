@@ -4300,20 +4300,31 @@ the provided operations. Here is a very brief summary of some of the prelude
 operations which, besides the usual arithmetic and logical operators, are
 probably used most frequently:
 
+Pure には Pure ライブラリモジュール一式が付属します。ライブラリモジュール一式には標準 prelude （起動時に自動ロードされる）と他のいくつかのモジュール（ ``using`` 節で明示的にロードする）が含まれています。 prelude が提供するのは、組み込み型を扱う際に必要となる関数（算術処理や論理処理を含む）や、 ML 的／ Haskell 的な言語が備えているようなたいていのリスト処理などです。 prelude はさらに、基本的な文字列処理とマトリクス処理の一式も提供します。詳しいことは `Pure Library Manual`_ の各項目を参照して下さい。ここでは、 prelude に含まれる処理のいくつかについて、とても簡単な要約を示します。お決まりの算術・論理演算子に加えて、おそらく最もよく使うであろう処理を紹介します::
+
 ``x+y``
     The arithmetic ``+`` operation is also used to denote list and string
     concatenation in Pure.
+
+``x+y``
+    算術 ``+`` 処理は、 Pure において、リストや文字列の結合を示すのにも使えます。
 
 ``x:y``
     This is the list-consing operation. ``x`` becomes the head of the list,
     ``y`` its tail. As '``:``' is a constructor symbol, you can use it in
     patterns on the left hand side of rewriting rules.
 
+``x:y``
+    これは「リストを cons する」処理です。 ``x`` はリストの先頭要素となり、 ``y`` は尾となります。 '``:``' はコンストラクタシンボルなので、書き換えルールの左辺パターン内で使うことができます。
+
 ``x..y``
     Constructs arithmetic sequences. ``x:y..z`` can be used to denote
     sequences with arbitrary stepsize ``y-x``. Infinite sequences can be
     constructed using an infinite bound (i.e., ``inf`` or ``-inf``). E.g.,
     ``1:3..inf`` denotes the stream of all odd integers starting at 1.
+
+``x..y``
+    等差数列を構成します。 ``x:y..z`` と書いて、任意の差〔＝ステップサイズ〕 ``y-x`` を持つ数列を示すことができます。無限長の数列を構成するには、無限大束縛（すなわち ``inf`` または ``-inf`` ）を使います。例えば ``1:3..inf`` は、 1 から始まりすべての奇数からなるストリームを示しています。
 
 ``x,y``
     This is the pair constructor, used to create tuples of arbitrary
@@ -4322,10 +4333,16 @@ probably used most frequently:
     ``(x,y),z`` and ``x,(y,z)`` denote the same triple ``x,y,z``. (This is
     explained in more detail in the `Pure Overview`_ section.)
 
+``x,y``
+    これはペアコンストラクタです。任意のサイズのタプルを作成するのに使います。タプルは Pure において集合値を表現するもう一つの方法です。リストと異なり、タプルは常に「フラット」です。なので、 ``(x,y),z`` と ``x,(y,z)`` はどちらも同じく ``x,y,z`` という3要素を示しています（この点については `Pure Overview`_ セクション内で詳しく説明されています）。
+
 ``#x``
     The size (number of elements) of the list, tuple, matrix or string
     ``x``. In addition, ``dim x`` yields the dimensions (number of rows and
     columns) of a matrix.
+
+``#x``
+    リスト、タプル、マトリクス、文字列 ``x`` それぞれのサイズ（要素数）を示しています。さらに ``dim x`` はマトリクスの次元（行と列の数）をもたらします。
 
 ``x!y``
     This is Pure's indexing operation, which applies to lists, tuples,
@@ -4333,6 +4350,9 @@ probably used most frequently:
     ``x!0`` and ``x!(#x-1)`` are the first and last element of ``x``. In the
     case of matrices, the subscript may also be a pair of row and column
     indices, such as ``x!(1,2)``.
+
+``x!y``
+    これは Pure のインデックス処理で、リスト、タプル、マトリクス、文字列に適用できます。 Pure のインデックスは全てゼロから始まり、 ``x!0`` と ``x!(#x-1)`` はそれぞれ ``x`` の先頭要素と最終要素を表します。マトリクスの場合、添字は行と列のインデックスのペアとすることもできます。例えば ``x!(1,2)`` のような形式です。
 
 ``x!!ys``
     This is the "slicing" operation, which returns the list, tuple, matrix or
@@ -4347,6 +4367,9 @@ probably used most frequently:
     contain two-dimensional subscripts, or the index range itself may be
     specified as a pair of row/column index lists such as ``x!!(i..j,k..l)``.
 
+``x!!ys``
+    これは「スライス」処理です。リスト、タプル、マトリクス、文字列から ``x!y`` の範囲の要素すべてを返します、 while ``y`` runs through the (list or matrix) ``ys``. したがって、例えば ``x!!(i..j)`` は ``i`` から ``j`` にかけての全要素（ ``i`` と ``j`` を含む）を返します。有効なインデックス範囲を出た分のインデックスは黙って〔エラーなどは出さず〕捨てられます。インデックス範囲 ``ys`` はいかなる数のインデックスを含んでいても（また重複があっても）かまわず、順序も問いません。したがって ``x!![0|i=1..n]`` は、最初の要素 ``x`` を ``n`` 回繰り返します。 ``ys`` が ``0..#x-1`` の順列であるとき、 ``x!!ys`` はその順列に対応する ``x`` 要素の順列を産み出します。マトリクスの場合、インデックス範囲に2次元の添字を使うこともできます。あるいは、インデクス範囲そのものを行／列のインデックスリストのペアとして指定することもできます。たとえば ``x!!(i..j,k..l)`` のような形式です。
+
 The prelude also offers support operations for the implementation of list and
 matrix comprehensions, as well as the customary list operations like ``head``,
 ``tail``, ``drop``, ``take``, ``filter``, ``map``, ``foldl``, ``foldr``,
@@ -4354,6 +4377,8 @@ matrix comprehensions, as well as the customary list operations like ``head``,
 much fun in modern FPLs. In Pure, these also work on strings as well as
 matrices, although, for reasons of efficiency, these data structures are
 internally represented as arrays.
+
+prelude はリスト内包とマトリクス内包の実装に対する処理のサポートも提供します。もちろん、お決まりのリスト処理である ``head``, ``tail``, ``drop``, ``take``, ``filter``, ``map``, ``foldl``, ``foldr``, ``scanl``, ``scanr``, ``zip``, ``unzip`` などなど、現代的関数型プログラミング言語でのリスト処理が楽しくなるものが揃っています。 Pure では、文字列やマトリクスに対しても動作しますが、効率の面から、これらの構造は内部的に配列として表現されています。
 
 Besides the prelude, Pure's standard library also comprises a growing number
 of additional library modules which we can only mention in passing here. In
@@ -4365,6 +4390,8 @@ interface can be found in the system.pure module. In particular, this module
 also provides operations to do basic C-style I/O, including ``printf`` and
 ``scanf``. These are all described in much more detail in the `Pure Library
 Manual`_.
+
+prelude に加えて、 Pure の標準ライブラリには他にもたくさんの追加ライブラリモジュールが含まれており、その数は増え続けていますが、ここではざっと触れることしかできません。特に math.pure モジュールは、追加的な数学関数だけでなく、 Pure の複素数・有理数データ型をも提供します。 set や dictionary のような共通コンテナデータ構造も set.pure や dict.pure などなどで実装されています。さらには、 (beginnings of a) システムインターフェースを system.pure モジュール内で発見できます。特に、このモジュールは、 ``printf`` や ``scanf`` を含め、 C スタイルの基本的な I/O を行う処理も提供しています。これらの全ては `Pure Library Manual`_ 内でもっと詳しく説明されています。
 
 Interactive Usage
 =================
