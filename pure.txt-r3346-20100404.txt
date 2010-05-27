@@ -2,9 +2,9 @@
 The Pure Manual
 ===============
 
-:Author: Albert Graf <Dr.Graef@t-online.de>
-:Translator: cu39 <cu393uc@gmail.com>
-:Date: |date|
+:著者: Albert Graf <Dr.Graef at t-online.de>
+:訳者: cu39 <cu393uc at gmail.com>
+:日付: |date|
 
 .. Note: This document is formatted using docutils. The Makefile has rules
 .. to build the documentation in html and pdf format. The latter needs TeX
@@ -43,27 +43,30 @@ This manual describes the Pure programming language and how to invoke the Pure
 interpreter program. To read the manual inside the interpreter, just type
 ``help`` at the command prompt. See the `Online Help`_ section for details.
 
-このマニュアルは Pure プログラミング言語と Pure インタープリタプログラムを動かす方法を説明します。インタープリタを使っている最中にこのテキストを読むには、ただ ``help`` とタイプするだけです。詳しくは `Online Help`_ セクションを参照。
+このマニュアルは Pure プログラミング言語と Pure インタープリタプログラムを動かす方法を説明します。インタープリタを使っている最中にこのテキストを読むには、ただ ``help`` とタイプして下さい。詳しくは `Online Help`_ セクションを参照。
 
 There is a companion to this manual, the `Pure Library Manual`_ which contains
 the description of the standard library operations. More information about
 Pure can be found under the following URLs:
 
-このマニュアルには `Pure Library Manual`_ という仲間もいて、標準ライブラリの働きを解説しています。以下のURLではさらに Pure に関する情報を見つけることができます。
+このマニュアルには `Pure Library Manual`_ という仲間もいて、標準ライブラリの働きを解説しています。以下のURLではさらに Pure に関する情報を見つけることができます:
 
 * Pure website: http://pure-lang.googlecode.com
 * Pure mailing list: http://groups.google.com/group/pure-lang
 
-.. contents::
-.. sectnum::
-
 翻訳版に関する注意
-==================
+
+この文書は pure.txt (r3346, Apr. 4, 2010) を日本語へ翻訳したものです。
+
+この翻訳版も原典に基づき |FDL|_ の下で公開されています。
 
 「〔」 [#]_ と「〕」 [#]_ に囲まれた語句は原典の表現を注記したものです。
 
 .. [#] U+3014 始め亀甲括弧／LEFT TORTOISE SHELL BRACKET
 .. [#] U+3015 終わり亀甲括弧／RIGHT TORTOISE SHELL BRACKET
+
+.. contents::
+.. sectnum::
 
 Introduction
 ============
@@ -4238,7 +4241,7 @@ qualified symbols. In particular, the ``using namespace`` declaration applies
 as usual, and you can declare such symbols as ``private`` if needed. It is
 also possible to combine a namespace qualifier with an alias:
 
-ただし、名前空間の修飾部分は Pure 側にのみ影響することを忘れないで下さい。その下にある C 関数は前のまま修飾子なしの名前で呼び出されます。修飾子つき extern 関数は通常の修飾子つきシンボルと同じ方法でアクセスされます。特に ``using namespace`` 宣言も通常通り適用され、必要ならばそうしたシンボルを ``private`` にすることもできます。名前空間修飾子をエイリアスと混在させることも可能です::
+ただし、名前空間の修飾部分は Pure 側にのみ影響することを忘れないで下さい。その下にある C 関数は前のまま修飾子なしの名前で呼び出されます。 修飾子つき extern 関数は通常の修飾子つきシンボルと同じ方法でアクセスされます。特に ``using namespace`` 宣言も通常通り適用され、必要ならばそうしたシンボルを ``private`` にすることもできます。名前空間修飾子をエイリアスと混在させることも可能です::
 
   > namespace c;
   > extern double sin(double) = mysin;
@@ -4300,7 +4303,7 @@ the provided operations. Here is a very brief summary of some of the prelude
 operations which, besides the usual arithmetic and logical operators, are
 probably used most frequently:
 
-Pure には Pure ライブラリモジュール一式が付属します。ライブラリモジュール一式には標準 prelude （起動時に自動ロードされる）と他のいくつかのモジュール（ ``using`` 節で明示的にロードする）が含まれています。 prelude が提供するのは、組み込み型を扱う際に必要となる関数（算術処理や論理処理を含む）や、 ML 的／ Haskell 的な言語が備えているようなたいていのリスト処理などです。 prelude はさらに、基本的な文字列処理とマトリクス処理の一式も提供します。詳しいことは `Pure Library Manual`_ の各項目を参照して下さい。ここでは、 prelude に含まれる処理のいくつかについて、とても簡単な要約を示します。お決まりの算術・論理演算子に加えて、おそらく最もよく使うであろう処理を紹介します::
+Pure には Pure ライブラリモジュール一式が付属します。ライブラリモジュール一式には標準 prelude （起動時に自動ロードされる）と他のいくつかのモジュール（ ``using`` 節で明示的にロードする）が含まれています。 prelude が提供するのは、組み込み型を扱う際に必要となる関数（算術処理や論理処理を含む）や、 ML 的／ Haskell 的な言語が備えているようなたいていのリスト処理などです。 prelude はさらに、基本的な文字列処理とマトリクス処理の一式も提供します。詳しいことは `Pure Library Manual`_ の各項目を参照して下さい。ここでは、 prelude に含まれる処理のいくつかについて、とても簡単な要約を示します。お決まりの算術・論理演算子に加えて、おそらく最もよく使うであろう処理を紹介します:
 
 ``x+y``
     The arithmetic ``+`` operation is also used to denote list and string
@@ -4465,7 +4468,7 @@ to show in the accompanying Pure Library manual, e.g.:
 The help files distributed with the Pure interpreter are located in the Pure
 library directory (/usr/local/lib/pure by default). You can install additional
 documentation in html format in this directory, and look up topics in those
-help files with a command like the following::
+help files with a command like the following:
 
 ヘルプファイルは Pure インタープリタとともに配布されており、 Pure のライブラリディレクトリ（デフォルトでは /usr/local/lib/pure ）に置かれています。 html フォーマットの追加ドキュメントをこのディレクトリにインストールすることができ、そのヘルプファイル内のトピックをコマンドラインから、次のようにして探せます::
 
@@ -4509,7 +4512,7 @@ Pure マニュアルの html ソースを生成するのに使われている do
 
 You can also point the help browser to a proper URL, either a local file or
 some website (provided that your browser program can handle these). For
-instance::
+instance:
 
 ヘルプブラウザに対して、ローカルファイルもしくはウェブサイトへの厳密な URL を指定することもできます（ブラウザプログラムがそれらを扱える場合）。例えば::
 
@@ -4519,12 +4522,18 @@ instance::
 Interactive Commands
 --------------------
 
+対話コマンド
+
 When running interactively, the interpreter accepts a number of special
 commands useful for interactive purposes. Here is a quick rundown of the
 currently supported operations:
 
+対話モードで実行されているとき、インタープリタは様々な目的に適したたくさんの特別コマンドを受け入れます。ここでは現在サポートされている処理を簡単にまとめます:
+
 ``! command``
     Shell escape.
+
+    シェルエスケープ。
 
 ``break [symbol ...]``
     Sets breakpoints on the given function or operator symbols. All symbols
@@ -4533,14 +4542,20 @@ currently supported operations:
     requires that the interpreter was invoked with the -g option to enable
     debugging support. See Debugging_ below for details.
 
+    与えられた関数または演算子シンボルに対してブレークポイントを設定します。シンボルは全て完全な修飾子つき形式で定義される必要があります。詳しくは下部を参照してください。もし引数なしで実行された場合、現在設定されているブレークポイントをすべて表示します。こうした動作には、インタープリタを -g オプション付きで起動し、デバッグサポートを有効にしておく必要があります。詳しくは下部 Debugging_ を参照して下さい。
+
 ``bt``
     Prints a full backtrace of the call sequence of the most recent evaluation,
     if that evaluation ended with an unhandled exception. This requires
     that the interpreter was invoked with the -g option to enable debugging
     support. See Debugging_ below for details.
 
+    最も直近に行われた評価が、処理されないままの例外で終了した場合、その評価に関する呼び出しシーケンスの完全なバックトレースを出力します。この動作には、インタープリタを -g オプション付きで起動し、デバッグサポートを有効にしておく必要があります。詳しくは下部 Debugging_ を参照して下さい。
+
 ``cd dir``
     Change the current working dir.
+
+    カレントワーキングディレクトリを変更します。
 
 ``clear [option ...] [symbol ...]``
     Purge the definitions of the given symbols (functions, macros, constants
@@ -4556,11 +4571,15 @@ currently supported operations:
     description of the common options accepted by the ``clear``, ``dump`` and
     ``show`` commands can be found in `Specifying Symbol Selections`_ below.
 
+    与えられたシンボルの定義を除去します（関数、マクロ、定数、グローバル変数）。シンボルは全て完全な修飾子つき形式で定義される必要があります。詳しくは下部の説明を参照してください。 ``clear ans`` として実行された場合、 ``ans`` 値がクリアされます（下部 `Last Result`_ 参照）。 ``clear`` が引数なしで実行された場合、現在の対話「レベル」にある全定義を（確認手続きの後に）除去します（実行前にまず ``show`` コマンドで現在の定義をチェックするか、または ``dump`` コマンドでバックアップしておくのは良い考えでしょう）。必要なレベルを設定するには -t オプションを使います。より詳しい説明は下部 ``save`` コマンド解説や `Definition Levels`_ を参照して下さい。 ``clear``, ``dump``, ``show`` コマンドが受け入れる共通オプションは下部 `Specifying Symbol Selections`_ に載っています。
+
 ``del [symbol ...]``
     Deletes breakpoints on the given function or operator symbols. All symbols
     must be specified in fully qualified form, see the remarks below. If
     invoked without arguments, clears all currently defined breakpoints (after
     confirmation). See Debugging_ below for details.
+
+    与えられた関数または演算子シンボルに対するブレークポイントを削除します。シンボルは全て完全な修飾子つき形式で定義される必要があります。詳しくは下部を参照してください。引数なしで実行された場合、設定されている全ブレークポイントを（確認手続きの後に）除去します。詳しくは下部 Debugging_ を参照して下さい。
 
 ``dump [-n filename] [option ...] [symbol ...]``
     Dump a snapshot of the current function, macro, constant and variable
@@ -4578,6 +4597,8 @@ currently supported operations:
     you'll probably have to prepare a corresponding .purerc file yourself, see
     `Interactive Startup`_ below.
 
+    現在の関数・マクロ・定数・変数の Pure 文法での定義をスナップショットとしてテキストファイルにダンプします。シンボルは全て完全な修飾子つき形式で定義される必要があります。詳しくは下部を参照してください。これは ``show`` コマンド（下を参照）と同じように動作しますが、定義をファイルへ書き込む点が違います。デフォルトの出力ファイルはカレントディレクトリの .pure となります。このファイルは、次回インタープリタが同じディレクトリ内で対話モードとして起動された際に自動的に読み込まれます。これは対話セッションを保存し後で復旧するための quick-and-dirty な方法を提供しています。ただし、完全に保存・復旧できるわけではないことも覚えておいて下さい。特に、 ``extern`` シンボル宣言は、明示的に指定しない限り行われません。また、いくつかのオブジェクト（クロージャ、サンク、ポインタなど）はテキストでの表現手段を持たないので、そこから再構築することもできません。これらを扱うには、目的に応じて .purerc を用意しなければなりません。下部 `Interactive Startup`_ を参照して下さい。
+
     A different filename can be specified with the -n option, which expects
     the name of the script to be written in the next argument, e.g: ``dump -n
     myscript.pure``. You can then edit that file and use it as a starting
@@ -4585,13 +4606,19 @@ currently supported operations:
     file with the ``run`` command (see below) to restore the definitions in a
     subsequent interpreter session.
 
+    異なるファイル名を定義するには -n オプションを使います。このオプションは、引数として保存するスクリプト名を想定します。例えば ``dump -n myscript.pure`` といった形です。保存した後、そのファイルを編集し、通常のスクリプト用や .purerc ファイル用のスターティングポイントとすることができます。あるいは、単に ``run`` コマンド（下を参照）を使ってファイルを実行させ、保存した定義をその後のインタープリタセッション内に復旧することもできます。
+
 ``help [target]``
     Display the Pure manual or some other bit of documentation. In particular,
     ``help foo`` looks up the symbol ``foo`` in the Pure Library manual. See
     `Online Help`_ above for details.
 
+    Pure マニュアルや、他のドキュメントの一部を表示します。特に ``help foo`` は Pure Library Manual 内から ``foo`` シンボルを調べます。詳しくは上部 `Online Help`_ を参照して下さい。
+
 ``ls [args]``
     List files (shell ls(1) command).
+
+    ファイルをリストします（シェルの ls(1) コマンドを利用）。
 
 ``mem``
     Print current memory usage. This reports the number of expression cells
@@ -4602,16 +4629,24 @@ currently supported operations:
     Also, this figure does not reflect other heap-allocated memory in use by
     the program, such as strings or malloc'ed pointers.
 
+    現在のメモリ消費量を表示します。プログラムが使用している expression cells の数をレポートします along with the size of the freelist （割り当てられてはいるが使用されていない expression cells）。 expression storage の実際のサイズはこれよりも若干大きくなります。なぜならランタイムは常に expression memory をやや大きな塊で割り当てるからです。また、この数値は、プログラムが使用している他のヒープ割り当てメモリ（文字列や malloc されているポインタなど）を反映していません。
+
 ``override``
     Enter "override" mode. This allows you to add equations "above" existing
     definitions in the source script, possibly overriding existing
     equations. See `Definition Levels`_ below for details.
 
+    「上書き」モードに入ります。このモードでは、ソーススクリプト内の既存定義の「上に」等式を追加することができます。既存の定義を上書きする可能性があります。詳しくは下部 `Definition Levels`_ を参照して下さい。
+
 ``pwd``
     Print the current working dir (shell pwd(1) command).
 
+    カレントワーキングディレクトリを表示します（シェルの pwd(1) を使用）。
+
 ``quit``
     Exits the interpreter.
+
+    インタープリタを終了します。
 
 ``run script``
     Loads the given script file and adds its definitions to the current
@@ -4624,6 +4659,8 @@ currently supported operations:
     start out from a clean environment, with no scripts loaded on the command
     line.)
 
+    スクリプトファイルを読み込み、現在の環境に定義を追加します。これは多かれ少なかれ ``using`` 節のように機能しますが、検索されるのはカレントディレクトリ内のスクリプトだけで、そのスクリプト内の定義を at the current temporary level に置きます。その結果、再び ``clear`` を使ってその定義を消去することもできます。特に、 ``clear`` を発行した後に ``run`` を実行することで、インタープリタを一度終了させなくてもスクリプトを素早く再読み込みすることができます（これは、コマンドラインで何もスクリプトを読み込ませず、きれいな状態で起動した環境では最高に機能します）。
+
     Also note that namespace and pragma settings of scripts loaded with
     ``run`` stick around after loading the script. This allows you to quickly
     set up your environment by just running a script containing the necessary
@@ -4631,10 +4668,14 @@ currently supported operations:
     also use the interpreter's startup files for that purpose, see
     `Interactive Startup`_ below.)
 
+    また、 ``run`` コマンドで読み込まれたスクリプト内の、名前空間およびプラグマの設定は、スクリプトを読み込んだ後も付いて回ります。これにより、必要な名前空間定義ととコンパイラディレクティブを書き込んだスクリプトを実行するだけで、あなたの環境を素早く設定することができます（他にも、インタープリタのスタートアップファイルをこの目的で使うこともできます。下部 `Interactive Startup`_ を参照）。
+
 ``save``
     Begin a new level of temporary definitions. A subsequent ``clear`` command
     (see above) will purge the definitions made since the most recent ``save``
     command. See `Definition Levels`_ below for details.
+
+    temporary definitions の新しいレベルを開始します。これに続く ``clear`` コマンド（上を参照）は、直近の ``save`` コマンド以降の定義を除去します。詳しくは下部 `Definition Levels`_ を参照して下さい。
 
 ``show [option ...] [symbol ...]``
     Show the definitions of symbols in various formats. See `The show
@@ -4642,6 +4683,8 @@ currently supported operations:
     qualified form, see the remarks below. A description of the common options
     accepted by the ``clear``, ``dump`` and ``show`` commands can be found in
     `Specifying Symbol Selections`_ below.
+
+    シンボルの定義を様々なフォーマットで表示します。詳しくは `The show Command`_ を参照して下さい。シンボルは全て完全な修飾子つき形式で定義される必要があります。詳しくは下部を参照してください。 ``clear``, ``dump``, ``show`` コマンドが受け入れる共通オプションは下部 `Specifying Symbol Selections`_ に載っています。
 
 ``stats [-m] [on|off]``
     Enables (default) or disables "stats" mode, in which some statistics are
@@ -4653,20 +4696,28 @@ currently supported operations:
     disables stats mode, while ``stats -m off`` just disables the printing of
     the memory usage statistics.
 
+    "stats" モードの有効・無効を切り替えます（デフォルトでは有効）。 "stats" モードでは、式が評価された後にいくつかの統計が表示されます。 ``stats`` または ``stats on`` と入力すると、各評価にかかった CPU 時間（秒）が表示されます。もし ``-m`` オプションが定義されると、 CPU 時間とともにメモリ使用量が表示されます。このメモリ使用量は、計算中に使われた expression memory （セル単位）の最大量を示します。 ``stats off`` を実行すると stats モードを無効にします。 ``stats -m off`` とした場合はメモリ使用統計の表示だけを無効にします。
+
 ``underride``
     Exits "override" mode. This returns you to the normal mode of operation,
     where new equations are added "below" previous rules of an existing
     function. See `Definition Levels`_ below for details.
+
+    「上書き」モードを終了します。このコマンドにより通常モードの処理へ戻ります。通常モードでは新たな等式は既存関数の前のルールの「下に」追加されます■。詳しくは下部 `Definition Levels`_ を参照して下さい。
 
 Note that these special commands are only recognized at the beginning of the
 interactive command line (they are not reserved keywords of the Pure
 language). Thus it's possible to "escape" identifiers looking like commands by
 entering a space at the beginning of the line.
 
+これらの特別コマンドは、対話モードプロンプト行の先頭でのみ認識されることに注意して下さい（コマンドは Pure 言語の予約語ではありません）。したがって、行の先頭にスペースを入力することで、コマンドのように見える識別子を "エスケープ" できます。
+
 Also note that symbols (identifiers, operators etc.) must always be specified
 in fully qualified form. No form of namespace lookup is performed by these
 commands, so they always work the same no matter what ``namespace`` and
 ``using namespace`` declarations are currently in effect.
+
+また、シンボル（識別子、演算子などなど）は常に完全な修飾子つき形式で指定されなければなりません。これらのコマンドでは名前空間検索が行われません。そのため、シンボルを引数に取るコマンドは、 ``namespace`` や ``using namespace`` 宣言が有効なときでも常に関係なく同じ動作となります。
 
 Last Result
 -----------
