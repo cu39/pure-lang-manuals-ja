@@ -4723,7 +4723,9 @@ Last Result
 -----------
 
 Another convenience for interactive usage is the ``ans`` function, which
-retrieves the most recent result printed in interactive mode. For instance::
+retrieves the most recent result printed in interactive mode. For instance:
+
+もう一つ対話モードで便利なのが ``ans`` 関数で、最も最近表示された結果を引き出します。例えば::
 
   > fact n = if n<=1 then 1 else n*fact (n-1);
   > map fact (1..10);
@@ -4736,6 +4738,8 @@ a special command. However, there is a special ``clear ans`` command which
 purges the ``ans`` value. This is useful, e.g., if you got a huge result
 which you want to erase from memory before starting the next computation.
 
+``ans`` は普通の関数の一つであり、 prelude で定義されているもので、特別なコマンドではないことを覚えておいて下さい。しかし対話モードには ``clear ans`` という特別コマンドがあり、 ``ans`` の値を消去できます。このコマンドは例えば、メモリ上に巨大な結果を持っていて、次の計算へ移る前にそれを消しておきたい場合に便利です。
+
 ::
 
   > clear ans
@@ -4745,6 +4749,8 @@ which you want to erase from memory before starting the next computation.
 Specifying Symbol Selections
 ----------------------------
 
+シンボル選択を定義する
+
 The ``clear``, ``dump`` and ``show`` commands all accept the following options
 for specifying a subset of symbols and definitions on which to operate. All
 symbols must be specified in fully qualified form. Options may be combined,
@@ -4752,23 +4758,35 @@ thus, e.g., ``show -mft`` is the same as ``show -m -f -t``. Some options
 specify optional numeric parameters; these must follow immediately behind the
 option character if present, as in ``-t0``.
 
+``clear``, ``dump``, ``show`` コマンドは次のコマンドを共通して受け入れます。これらのコマンドで、処理したいシンボルや定義のサブセットを定義することができます。
+
 -c
     Selects defined constants.
 
+    定義済み定数を選択します。
+
 -f
     Selects defined functions.
+
+    定義済み関数を選択します。
 
 -g
     Indicates that the following symbols are actually shell glob patterns and
     that all matching symbols should be selected.
 
+    この後に続くシンボルがシェルグロブパターンであり、それにマッチするシンボルが選択されるべきであることを示します。
+
 -m
     Select defined macros.
+
+    定義済みマクロを選択します。
 
 -pflag
     Select only private symbols if *flag* is nonzero (the default), otherwise
     (*flag* is zero) select only public symbols. If this option is omitted
     then both private and public symbols are selected.
+
+    *flag* 部分が非ゼロ（デフォルト）である場合、 private なシンボルだけを選択します。そうでない（ *flag* がゼロである）場合、 public なシンボルだけを選択します。このオプションが省略された場合、 private および public なシンボルが選択されます。
 
 -tlevel
     Select symbols and definitions at the given "level" of definitions and
@@ -4780,15 +4798,23 @@ option character if present, as in ``-t0``.
     everything, including the prelude). If *level* is omitted, it defaults to
     the current definitions level.
 
+    与えられた "level" 以上の階層にあるシンボルと定義を選択します。これについては下部に詳しい説明があります。簡単に言うと、実行中のプログラムとインポートされているモジュール（ prelude を含む）がレベル 0 であり、対話モードのインタープリタで作られた「一時的な」定義はレベル 1 以上となります。したがってレベルを 1 と指定した場合、選択対象は全ての一時的定義までに制限されます。それに対して、 0 を指定すると、全定義（すなわち、 prelude を含めたあらゆるもの）を対象とすることになります。もし *level* が省略された場合、現在の定義レベルがデフォルトとなります。
+
 -v
     Select defined variables.
+
+    定義済み変数を選択します。
 
 In addition, the -h option prints a short help message describing all
 available options of the command at hand.
 
+加えて、 -h オプションは、利用可能な全コマンドオプションの簡単なヘルプメッセージを出力します。
+
 If none of the -c, -f, -m and -v options are specified, then all kinds of
 symbols (constants, functions, macros and variables) are selected, otherwise
 only the specified categories will be considered.
+
+-c, -f, -m, -v のいずれも指定されない場合、全種類のシンボル（定数、関数、マクロ、変数）が選択されます。いずれかが指定された場合、指定されたカテゴリーだけが考慮されます。
 
 A reasonable default is used if the -t option is omitted. By default, if no
 symbols are specified, only temporary definitions are considered, which
@@ -4796,6 +4822,8 @@ corresponds to -t1. Otherwise the command applies to all corresponding
 definitions, no matter whether they belong to the executing program, the
 prelude, or some temporary level, which has the same effect as -t0. This
 default choice can be overridden by specifying the desired level explicitly.
+
+-t オプションが省略された場合、 reasonable なオプションが使用されます。デフォルトでは、シンボルが指定されていない場合、 一時的な定義だけが考慮されます（ -t1 を指定したのと同じ）。何らかの指定がある場合、コマンドはその指定に対応する全ての定義に対して適用されます。その対象が属しているのが実行中のプログラムであろうと、 prelude であろうと、いずれかの一時的レベルであろうと関係ありません。これは -t0 指定と同じ効果にあたります。必要なレベルを明示的に指定することで、このデフォルト指定を上書きすることができます。
 
 As a special case, just ``clear`` (without any other options or symbol
 arguments) always backs out to the previous definitions level (instead of
@@ -4806,6 +4834,8 @@ instead. When used in this way, the ``clear`` command will only remove
 temporary definitions; if you need to remove definitions at level #0, you must
 specify those symbols explicitly.
 
+特別なケースとして、ただ ``clear`` と入力する（他にオプションやシンボル引数を何も付けない）と、常に直前の定義レベルが返されます（ level #1 の代わりに）。これは上のルールセットと相反することですが、便利さと後方互換性のためにこのように実装されています。したがって、もし一時的な定義を全て削除したいなら、代わりに ``clear -t1`` を使って下さい。こうすると、 ``clear`` コマンドは一時的な定義だけを消去します。 level #0 の定義を消去する必要があるなら、それらのシンボルを明示的に指定しなければなりません。
+
 Note that ``clear -g *`` will have pretty much the same disastrous
 consequences as the Unix command ``rm -rf *``, so don't do that. Also note
 that a macro or function symbol may well have defining equations at different
@@ -4813,6 +4843,8 @@ levels, in which case a command like ``clear -tn foo`` might only affect some
 part of ``foo``'s definition. The ``dump`` and ``show`` commands work
 analogously (albeit less destructively). See `Definition Levels`_ below for
 some examples.
+
+``clear -g *`` は Unix コマンド ``rm -rf *`` とよく似た破滅的な結果となりますので、実行しないよう注意して下さい。また、マクロや関数のシンボルは、異なるレベルにある定義等式を持っている可能性がかなりあり、その場合 ``clear -tn foo`` は ``foo`` の定義の一部だけにしか効果が及ばないことにも注意して下さい。 ``dump`` と ``show`` コマンドの動作は似ています（albeit less destructively）。下部 `Definition levels`_ にいくつか具体例があります。
 
 The show Command
 ----------------
