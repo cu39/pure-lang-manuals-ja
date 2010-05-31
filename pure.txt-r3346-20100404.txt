@@ -4774,7 +4774,7 @@ option character if present, as in ``-t0``.
     Indicates that the following symbols are actually shell glob patterns and
     that all matching symbols should be selected.
 
-    この後に続くシンボルがシェルグロブパターンであり、それにマッチするシンボルが選択されるべきであることを示します。
+    この後に続くシンボルがシェルグロブパターンであることを示し、それにマッチするシンボルが選択されるよう指定します。
 
 -m
     Select defined macros.
@@ -4854,38 +4854,56 @@ in various formats. Besides the common selection options discussed above, this
 command recognizes the following additional options for specifying the content
 to be listed and the format to use.
 
+``show`` コマンドを使うと、定義済みシンボルに関する情報を様々なフォーマットで取得できます。このコマンドは、上で議論された選択オプションに加えて、次のような追加オプションを認識します。これらのオプションは、リストされる内容や表示フォーマットを指定するためのものです。
+
 -a
     Disassembles pattern matching automata. Works like the -v4 option of the
     interpreter.
 
+    パターンマッチングオートマトンを逆アセンブルします。インタープリタの -v4 オプションと同じように機能します。
+
 -d
     Disassembles LLVM IR, showing the generated LLVM assembler code of a
     function. Works like the -v8 option of the interpreter.
+
+    LLVM IR を逆アセンブルし、ある関数の LLVM アセンブラコードを表示します。インタープリタの -v8 オプションと同じように機能します。
 
 -e
     Annotate printed definitions with lexical environment information (de
     Bruijn indices, subterm paths). Works like the -v2 option of the
     interpreter.
 
+    表示される定義に、レキシカル環境情報（ de Bruijn インデックス、下位項パス）を注記します。インタープリタの -v2 オプションと同じように機能します。
+
 -l
     Long format, prints definitions along with the summary symbol
     information. This implies -s.
 
+    ロングフォーマットで、つまり定義とともに summary symbol information を出力します。 -s の意味を含みます。
+
 -s
     Summary format, print just summary information about listed symbols.
+
+    サマリーフォーマット、つまりリストされるシンボルの summary information を出力します。
 
 Symbols are always listed in lexicographic order. Note that some of the
 options (in particular, -a and -d) may produce excessive amounts of
 information. By setting the PURE_MORE environment variable, you can specify a
 shell command to be used for paging, usually more(1) or less(1).
 
+シンボルは常に lexicographic な順序でリストされます。オプションのうちいくつか（特に -a と -d ）はとても多量の情報を生み出す可能性がありますので、気をつけて下さい。 PURE_MORE 環境変数を使って、ページングに使うシェルコマンド（たいていは more(1) か less(1) ）を指定できます。
+
 For instance, to list all temporary definitions made in an interactive
-session, simply say::
+session, simply say:
+
+例えば、ある対話セッション中に作った一時的定義をすべてリストするには、次のようにします::
 
   > show
 
 You can also list a specific symbol, no matter whether it comes from the
-interactive command line, the executing script or the prelude::
+interactive command line, the executing script or the prelude:
+
+また、特定のシンボルをリストすることもできます。そのシンボルが対話コマンドで作られたものか、あるいは実行中のスクリプトや prelude で作られたかは関係ありません::
 
   > show foldl
   foldl f a x::matrix = foldl f a (list x);
@@ -4894,7 +4912,9 @@ interactive command line, the executing script or the prelude::
   foldl f a (x:xs) = foldl f (f a x) xs;
 
 Wildcards can be used with the -g option, which is useful if you want to print
-an entire family of related functions, e.g.::
+an entire family of related functions, e.g.:
+
+-g オプションとともにワイルドカードを指定することもできます。関連する関数ファミリーの全体を出力したいときに便利です::
 
   > show -g foldl*
   foldl f a x::matrix = foldl f a (list x);
@@ -4906,7 +4926,9 @@ an entire family of related functions, e.g.::
   foldl1 f (x:xs) = foldl f x xs;
 
 Or you can just specify multiple symbols as follows (this also works with
-multiple glob patterns when you add the -g option)::
+multiple glob patterns when you add the -g option):
+
+あるいは、次のようにただ複数のシンボルを指定することもできます（ -g オプションを追加した場合には複数の glob パターンとも同時に機能します）。
 
   > show min max
   max x y = if x>=y then x else y;
@@ -4914,7 +4936,9 @@ multiple glob patterns when you add the -g option)::
 
 You can also select symbols by category. E.g., the following command shows
 summary information about all the variable symbols along with their current
-values (using the "long" format)::
+values (using the "long" format):
+
+シンボルをカテゴリーで選択することもできます。例えば、次のコマンドは全ての変数シンボルについて要約情報を（「ロング」フォーマットで）表示します::
 
   > show -lvg *
   argc       var  argc = 0;
@@ -4924,12 +4948,16 @@ values (using the "long" format)::
   version    var  version = "0.37";
   5 variables
 
-Or you can list just private symbols of the namespace ``foo``, as follows::
+Or you can list just private symbols of the namespace ``foo``, as follows:
+
+あるいは、 ``foo`` 名前空間のプライベートシンボルだけを表示するには、次のようにします::
 
   > show -pg foo::*
 
 The following command will list each and every symbol that's currently defined
 (instead of ``-g *`` you can also use the ``-t0`` option)::
+
+次のコマンドは、現在定義されている全シンボルをそれぞれリストします（ ``-g *`` の代わりに ``-t0`` オプションを使うこともできます）::
 
   > show -g *
 
@@ -4939,11 +4967,15 @@ case you might consider to use the ``dump`` command instead, which writes the
 definitions to a file which can then be loaded into a text editor for easier
 viewing. This may occasionally be useful for debugging purposes.)
 
+このコマンドは通常、多量の出力を行い、またほとんど必要となることはないでしょう。ライブラリのインポートを含め、プログラム全体を通して閲覧したいと思うなら別ですが（その場合は代わりに ``dump`` コマンドの使用を検討して下さい。 ``dump`` コマンドは定義情報をファイルに書き込み、テキストエディタで簡単に読み込める状態にします。デバッグ目的ならこの方法が役に立つこともあるでしょう）。
+
 Finally, there are two alternate forms of the ``show`` command: ``show
 namespace`` which lists the current and search namespaces, and ``show
 namespaces`` which lists all declared namespaces. These come in handy if you
 have forgotten what namespaces are currently active and which other namespaces
-are available in your program. For instance::
+are available in your program. For instance:
+
+最後に、 ``show`` コマンドの他の形式を 2 つ示します。 ``show namespace`` はカレント名前空間と検索用名前空間をリストします。そして ``show namespaces`` は宣言済み名前空間をすべリストします。この 2 つは、現在有効な名前空間が何であったか忘れたときや、自分のプログラム内でどの名前空間が利用可能かわからなくなったときに便利です。具体的には::
 
   > show namespace
   > show namespaces
