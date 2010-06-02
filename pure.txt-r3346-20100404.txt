@@ -5406,6 +5406,8 @@ In interactive mode, the interpreter also runs some additional scripts at
 startup, after loading the prelude and the scripts specified on the command
 line. This lets you tailor the interactive environment to your liking.
 
+対話モードにおいて、インタープリタは起動時に追加スクリプトをいくつか実行します。この追加スクリプトは prelude とコマンドラインで指定されたスクリプトを読み込んだ後に実行されます。これにより、あなた好みの対話環境を仕立てることができます。
+
 The interpreter first looks for a .purerc file in the user's home directory
 (as given by the HOME environment variable) and then for a .purerc file in the
 current working directory. These are just ordinary Pure scripts which may
@@ -5414,13 +5416,19 @@ directory is for global definitions which should always be available when
 running interactively, while the .purerc file in the current directory can be
 used for project-specific definitions.
 
+インタープリタはまずユーザのホームディレクトリ（ HOME 環境変数により与えられる）から .purerc ファイルを探し、次にカレントワーキングディレクトリから .purerc ファイルを探します。これらは単なる普通の Pure スクリプトであり、必要な追加定義をいくらでも入れることができます。ホームディレクトリの .purerc ファイルはグローバル定義のためのもので、対話モードにおいては常に使うことができるものとなります。それに対してカレントディレクトリの .purerc ファイルはプロジェクト固有の定義のために使えるものです。
+
 Finally, you can also have a .pure initialization file in the current
 directory, which is usually created with the ``dump`` command (see
 above). This file is loaded after the .purerc files if it is present.
 
+最後に、カレントディレクトリ内に初期化ファイル .pure を置くこともできます。これは通例 ``dump`` コマンド（上を参照）によって作られます。このファイルが読み込まれるのは .purerc ファイル（もしあれば）の直後です。
+
 The interpreter processes all these files in the same way as with the ``run``
 command (see above). When invoking the interpreter, you can specify the --norc
 option on the command line if you wish to skip these initializations.
+
+インタープリタはこれらのファイル全てを同じ方法で、つまり ``run`` コマンド（上部参照）を使って処理します。
 
 Batch Compilation
 =================
