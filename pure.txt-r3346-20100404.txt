@@ -5127,9 +5127,13 @@ instance:
 Debugging
 ---------
 
+デバッグ
+
 The interpreter provides a simple but reasonably convenient symbolic debugging
 facility when running interactively. To make this work, you have to specify
-the -g option when invoking the interpreter::
+the -g option when invoking the interpreter:
+
+インタープリタは、対話モードで実行されているとき、シンプルながら適度に便利なシンボリックデバッグ機能を提供します。この機能を有効にするには、インタープリタ起動時に -g オプションを指定します::
 
   $ pure -g
 
@@ -5139,11 +5143,15 @@ debugging code to be generated which will make your program run *much*
 slower. Therefore the -g option should only be used if you actually need the
 debugger.
 
+このオプションは末尾呼び出し最適化〔tail call optimization〕（ `Stack Size and Tail Recursion`_ 参照）を無効にすることで、プログラムのデバッグを容易にします。また、特別なデバッグ用コードを追加するので、あなたのプログラムは *かなり* 遅くなります。したがって -g オプションを使うのは本当にデバッガが必要な場合だけにすべきです。
+
 One common use of the debugger is "post mortem" debugging after an evaluation
 ended with an unhandled exception. In such a case, the ``bt`` command of the
 interpreter prints a backtrace of the call sequence which caused the
 exception. Note that this only works if debugging mode was enabled. For
-instance::
+instance:
+
+よくあるデバッガの使い方として、ある評価がハンドルされない例外で終了した後に "post mortem" デバッグを行うことがあります。このようなケースで、インタープリタの ``bt`` コマンドを使うと、例外を引き起こした呼び出しシーケンスのバックトレースが出力されます。ただしデバッグモードが有効な場合のみ機能することを忘れないで下さい。例えば::
 
   > [1,2]!3;
   <stdin>, line 2: unhandled exception 'out_of_bounds' while evaluating '[1,2]!3'
@@ -5164,10 +5172,14 @@ debugger, see below, but ``bt`` always prints a full backtrace. (As with the
 variable to pipe the output through the corresponding command, or use
 |evalcmd|_ to capture the output of ``bt`` in a string, cf. Reflection_.)
 
+最後の呼び出し（ ``>>`` 記号でもマークされている）は例外を発生させた呼び出しです。フォーマットはデバッグの ``p`` コマンドと似ていますが、 ``bt`` は常に完全なバックトレースを出力します（インタープリタの ``show`` コマンドのときと同じように、 PURE_MORE 環境変数を設定すると、設定されたプログラムに出力が渡されます。あるいは |evalcmd|_ を使うと ``bt`` の出力を文字列としてキャプチャできます。 cf. Reflection_ ）。
+
 The debugger can also be used interactively. To these ends, you can set
 breakpoints on functions with the ``break`` command. The debugger then gets
 invoked as soon as a rule for one of the given functions is
-executed. Example::
+executed. Example:
+
+デバッガを対話的に使うこともできます。そうするには、 ``break`` コマンドを使って関数にブレークポイントを設定します。すると、ブレークポイントが設定されている関数のルールのうち一つが実行されたときにデバッガが起動します。例えば::
 
   > fact n::int = if n>0 then n*fact (n-1) else 1;
   > break fact
@@ -5201,12 +5213,16 @@ contrast, the prefix ``++`` denotes reductions which were actually performed
 during the evaluation and the results that were returned by the function call
 (printed as ``--> return value``).
 
+``**`` で始まっている行は次のことを示しています。ルール（または external）を表示するために中断されたこと、コールスタックの深さ、実行された関数、パラメータの値、現在のレキシカル環境にあるその他のローカル変数です。対照的に ``++`` プレフィクスが示しているのは、評価の間に実際に行われた変形〔reductions〕と、関数呼び出しが返した結果（ ``--> return value`` と出力されている）です。
+
 Sometimes you might also see funny symbols like ``#<case>``, ``#<when>`` or
 ``#<closure>`` instead of the function name. These indicate lambdas and the
 special variable-binding environments, which are all implemented as anonymous
 closures in Pure. Also note that the debugger doesn't know about the argument
 names of external functions (which are optional in Pure and not recorded
 anywhere), so it will display the generic names ``x1``, ``x2`` etc. instead.
+
+時おりあなたは、関数名の代わりに ``#<case>`` や ``#<when>`` 、 ``#<closure>`` といった妙な記号を目にすることもあるでしょう。これらはが示すのは、ラムダと、変数に束縛された特別な環境で、 Pure においては全て無名クロージャとして実装されています。また、デバッガは external 関数の引数名を何も知りません（ Pure では optionals であり、どこにも記録されません）。その代わり ``x1``, ``x2`` などなど総称的な名前で表示されます。
 
 At the debugger prompt '``:``' you can enter various special debugger
 commands, or just keep on hitting the carriage return key to walk through an
@@ -5216,25 +5232,42 @@ are provided to walk through an evaluation, print and navigate the call stack,
 step over the current call, or continue the evaluation unattended until you
 hit another breakpoint. If you know other source level debuggers like gdb then
 you should feel right at home. You can type ``h`` at the debugger prompt to
-print the following list::
+print the following list:
+
+デバッガのプロンプト '``:``' では様々なデバッガ用特別コマンドを入力できます。あるいは、上の例でそうしたように、ただリターンを叩き続けると評価を一段階ごとに通覧する〔walk through〕ことができます（コマンドライン編集はデバッガプロンプトでも通常通り機能します（有効になっていれば））。通常のコマンドには、評価を通覧するもの、出力するもの、コールスタックを移動するもの、 current call を step over するもの、次のブレークポイントに当たるまで立ち止まらずに評価を継続するものがあります。もし gdb のような他のソースレベルデバッガを使えるならなじみやすいものでしょう。デバッガプロンプトで ``h`` とタイプすると次のリストが出力されます::
 
   : h
   Debugger commands:
   a       auto: step through the entire program, run unattended
+  a       auto: プログラム全体を通り抜け、立ち止まらず実行
   c [f]   continue until next breakpoint, or given function f
+  c [f]   次のブレークポイントか、与えられた関数 f まで継続
   h       help: print this list
+  h       help: このリストを出力
   n       next step: step over reduction
+  n       next step: 次の変形をステップオーバー
   p [n]   print rule stack (n = number of frames)
+  p [n]   ルールスタックを出力（n = フレーム数）
   r       run: finish evaluation without debugger
+  r       run: デバッガなしで評価を終了
   s       single step: step into reduction
+  s       single step: 変形へステップイン
   t, b    move to the top or bottom of the rule stack
+  t, b    ルールスタックの先頭〔top〕または末尾〔bottom〕へ移動
   u, d    move up or down one level in the rule stack
+  u, d    ルールスタック層を1レベル上へ移動、または下へ移動
   x       exit the interpreter (after confirmation)
+  x       インタープリタを終了（確認あり）
   .       reprint current rule
+  .       現在のルールを再表示
   ! cmd   shell escape
+  ! cmd   シェルエスケープ
   ? expr  evaluate expression
+  ? expr  式〔expression〕を評価
   <cr>    single step (same as 's')
+  <cr>    シングルステップ（ 's' と同じ）
   <eof>   step through program, run unattended (same as 'a')
+  <eof>   プログラムを通り抜け、立ち止まらず実行（ 'a' と同じ）
 
 The command syntax is very simple. Besides the commands listed above you can
 also enter comment lines (``// comment text``) which will just be
@@ -5246,20 +5279,32 @@ by an argument. For convenience, the '``?``' command can also be omitted if
 the expression to be evaluated doesn't start with a single letter or one of
 the special punctuation commands.
 
+コマンド文法はとてもシンプルです。上にリストされているコマンドに加え、コメント行（ ``// コメントテキスト`` ）を入力することもできます（単純に無視される）。引数をひとつも取らないコマンドへの追加引数もまた、通例は無視されます。全ての1文字コマンドは、パラメータとの間がスペースで区切られていなければなりません。それに対して '``!``' 、 '``?``' および '``.``' コマンドは区切り文字の一つに数えられるので、直後に引数を置くことができます。評価されるべき式が1文字で始まらない場合か、特別な句読点文字〔 !/?/. 〕で始まらない場合、便宜のため、 '``?``' コマンドを省略することができます。
+
 The debugger can be exited or suspended in the following ways:
+
+デバッガは次の方法で中断・終了することができます:
 
 * You can type ``c`` to continue the evaluation until the next breakpoint, or
   ``c foo`` in order to proceed until the debugger hits an invokation of the
   function ``foo``.
 
+* ``c`` とタイプすると、次のブレークポイントまで評価を継続します〔continue〕。あるいは ``c foo`` とすると、デバッガが ``foo`` 関数の呼び出しに出会うまで進みます。
+
 * You can type ``r`` to run the rest of the evaluation without the debugger.
+
+* ``r`` とタイプすると、デバッガなしで残りの評価を実行します。
 
 * The ``a`` ("auto") command single-steps through the rest of the evaluation,
   running unattended. This command can also be entered by just hitting the
   end-of-file key (``Ctrl-D`` on Unix systems) at the debugger prompt.
 
+* ``a`` （"auto"）コマンドは、立ち止まらずに残りの評価を single-steps through します。デバッガプロンプトで end-of-file キー（ Unix システム上では ``Ctrl-D`` ）を叩くだけでもこのコマンドを入力できます。
+
 * You can also type ``x`` to exit from the debugger *and* the interpreter
   immediately (after confirmation).
+
+* ``x`` とタイプすると、デバッガ *および* インタープリタを（確認後）すぐに終了します。
 
 At the debugger prompt, you can use the ``u`` ("up"), ``d`` ("down"), ``t``
 ("top") and ``b`` ("bottom") commands to move around on the current call
@@ -5270,7 +5315,9 @@ be executed with the single step command). The ``p`` command can also be
 followed by a numeric argument which indicates the number of stack frames to
 be printed (this will then become the default for subsequent invocations of
 ``p``). The ``n`` command steps over the call selected with the stack
-navigation commands. For instance::
+navigation commands. For instance:
+
+デバッガプロンプトにおいて ``u`` ("up"), ``d`` ("down"), ``t`` ("top"), ``b`` ("bottom") コマンドを使うと、カレントコールスタック上を動き回ることができます。 ``p`` コマンドは、現在選択されているスタックフレームを中心とした一定範囲のコールスタックを出力します。現在選択されているスタックフレームは ``>>`` タグで示され、 ``**`` は現在のスタックの末尾〔bottom〕を示しています（which はシングルステップコマンドによって実行されるルールです）。また、 ``p`` コマンドには数値引数を追加することができます。こ数値の引数は、出力されるべきスタックフレームの数を示すものです。（この設定は後に続く ``p`` コマンドのデフォルトともなります）。 ``n`` コマンドはスタック移動コマンドによって選択されている呼び出しをステップオーバーします。例えば::
 
   > fact 3;
   ** [1] fact: fact n::int = if n>0 then n*fact (n-1) else 1;
@@ -5311,7 +5358,9 @@ navigation commands. For instance::
   :
 
 If you ever get lost, you can reprint the current rule with the '``.``'
-command::
+command:
+
+もし現在のルールを忘れてしまったら、 '``.``' コマンドで再表示できます::
 
   : .
   ** [2] (*): x::int*y::int = x*y;
@@ -5322,7 +5371,9 @@ expression, with the local variables of the current rule bound to their
 corresponding values. Like the ``n`` command, ``?`` applies to the current
 stack frame as selected with the stack navigation commands. The expression
 must be entered on a single line, and the trailing semicolon is optional. For
-instance::
+instance:
+
+もう一つ便利な機能は ``?`` コマンドです。これであらゆる Pure 式を、カレントルールのローカル変数（それぞれの値に束縛されている）を使いながら評価することができます。 ``n`` コマンドと同じく、 ``?`` はカレントスタックフレーム（スタック移動コマンドでの選択に従う）に対して適用されます。この式は1行で入力されなければならず、末尾のセミコロンの有無は問いません。例えば::
 
   > fact 3;
   ** [1] fact: fact n::int = if n>0 then n*fact (n-1) else 1;
@@ -5345,6 +5396,8 @@ breakpoints. Breakpoints can be deleted with the ``del`` command, which is
 followed by the function and operator symbols to be removed from the
 breakpoint list. If ``del`` is invoked without arguments, it clears all
 breakpoints (after confirmation).
+
+ブレークポイントのカレントセットはインタープリタの ``break`` および ``del`` コマンドでしか変更できません。上部 `Interactive Commands`_ を参照して下さい。引数なしで ``break`` を使うと、現在定義されているブレークポイントをリストできます。ブレークポイントは ``del`` コマンドで削除できます。削除したい関数シンボルや演算子シンボルをコマンドの後ろに指定します。 ``del`` が引数なしで実行された場合、全ブレークポイントを（確認後に）削除します。
 
 Interactive Startup
 -------------------
