@@ -4990,6 +4990,8 @@ are available in your program. For instance:
 Definition Levels
 -----------------
 
+定義レベル
+
 To help with incremental development, the interpreter offers some facilities
 to manipulate the current set of definitions interactively. To these ends,
 definitions are organized into different subsets called `levels`. As already
@@ -4997,13 +4999,17 @@ mentioned, the prelude, as well as other source programs specified when
 invoking the interpreter, are always at level 0, while the interactive
 environment starts at level 1.
 
+incremental development を助けるため、インタープリタは、現在の定義セットをインタラクティブに操作する機能をいくつか提供します。この目的のため、定義は複数の異なるサブセットに編成されます。このサブセットは `レベル` と呼ばれます。すでに述べた通り、 prelude や、インタープリタ起動時に定義される他のソースプログラムは、すべてレベル 0 に置かれます。対話環境はレベル 1 からスタートします。
+
 Each ``save`` command introduces a new temporary level, and each subsequent
 ``clear`` command (without any arguments) "pops" the definitions on the
 current level and returns you to the previous one (if any). This gives you a
 "stack" of temporary environments which enables you to "plug and play" in a
 (more or less) safe fashion, without affecting the rest of your program. For
 all practical purposes, this stack is unlimited, so that you can create as
-many levels as you like. Example::
+many levels as you like. Example:
+
+``save`` コマンドは毎回、新たな一時的レベルを 1 つ導入します。また、後に続く ``clear`` コマンド（引数なし）はカレントレベルにある定義をすべて "pop" し、（もし存在するなら）一つ前のレベルへあなたを戻します。これにより、一時的な環境の「スタック」を使うことができ、プログラムの他の部分に影響を与えることなく（だいたいは）安全なやり方で「プラグ・アンド・プレイ」を行うことができます。実用的なものとするため、このスタックの数は無制限なので、好きなだけたくさんのレベルを作ることができます。例えば::
 
   > foo (x:xs) = x+foo xs;
   > foo [] = 0;
@@ -5022,7 +5028,9 @@ many levels as you like. Example::
 We've seen already that normally, if you enter a sequence of equations, they
 will be recorded in the order in which they were written. However, it is also
 possible to override definitions in lower levels with the ``override``
-command::
+command:
+
+私たちはもう、一連の等式を打ち込んだ場合、それが書かれた順に記録されていくことを普通のものと感じます。しかし、 ``override`` コマンドを使うと、下位レベルにある定義を上書きすることもできます::
 
   > foo (x:xs) = x+foo xs;
   > foo [] = 0;
@@ -5048,9 +5056,13 @@ previous ``foo (x:xs) = x+foo xs;`` rule, which is at level #1. (The latter
 equation is now "shadowed" by the rule we just entered, hence the compiler
 warns us that this rule can't be reduced any more.)
 
+``foo (x:xs) = x*foo xs;`` という等式が、レベル #1 にある ``foo (x:xs) = x+foo xs;`` ルールの直前に挿入されたことに注目して下さい（後者の等式は、打ち込んだばかりの等式の「陰に隠れて」います。そのためコンパイラは、そのルールが決して reduced されないことを警告しています）。
+
 Even in override mode, new definitions will be added after other definitions
 at the *current* level. This allows us to just continue adding more
-high-priority definitions overriding lower-priority ones::
+high-priority definitions overriding lower-priority ones:
+
+上書きモードにおいてさえ、新たな定義は *カレント* レベルにある他の定義の後ろに追加されます。このことにより、優先度の低い定義を上書きして優先度のより高い等式を追加し続けることができます::
 
   > foo [] = 1;
   > show
@@ -5068,7 +5080,9 @@ but below our previous ``foo (x:xs) = x*foo xs;`` equation entered at the same
 level. As you can see, we have now effectively replaced our original
 definition of ``foo`` with a version that calculates list products instead of
 sums, but of course we can easily go back one level to restore the previous
-definition::
+definition:
+
+もう一度、新たな定義は優先度の低い既存ルールよりも前に挿入されました。しかしその下で、前の等式 ``foo (x:xs) = x*foo xs;`` が同じレベルに入っています。ご覧の通り、私たちは今や実際に、 ``foo`` のオリジナル定義を別のバージョンに置き換えました。別のバージョンは、合計の代わりに list products を計算します。しかし、もちろん私たちは簡単にレベルを1つ戻して前バージョンの定義を有効にすることができます::
 
   > clear
   This will clear all temporary definitions at level #2.
@@ -5084,13 +5098,17 @@ definition::
 Note that ``clear`` reminded us that override mode is still enabled (``save``
 will do the same if override mode is on while pushing a new definitions
 level). To turn it off again, use the ``underride`` command. This will revert
-to the normal behaviour of adding new equations below existing ones::
+to the normal behaviour of adding new equations below existing ones:
+
+まだ上書きモードが有効であること ``clear`` コマンドがを思い出させてくれている点に注目して下さい（上書きモードが有効な状態で新たな定義レベルを push した場合、 ``save`` コマンドもまったく同じことをしてくれるでしょう）。上書きモードを再びオフにするには ``underride`` コマンドを使います。オフにすると、新たな定義を既存定義の下に追加する通常動作へ復帰します::
 
   > underride
 
 Finally, it's also possible to use ``clear`` to back out multiple levels at
 once, if you specify the target level to be cleared with the -t option. For
-instance::
+instance:
+
+最後に、 ``clear`` コマンドを使って複数のレベルを一度に取り消すことも可能です。 -t オプションとクリアすべきレベルを指定します。例えば::
 
   > save
   save: now at temporary definitions level #2
