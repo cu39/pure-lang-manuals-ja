@@ -5844,6 +5844,8 @@ description of the opt and llc programs) for details.
 Calling Pure Functions From C
 -----------------------------
 
+Pure 関数を C から呼び出す
+
 Another point worth mentioning here is that you can't just call Pure functions
 in a batch-compiled module directly. That's because in order to call a Pure
 function, at least in the current implementation, you have to set up a Pure
@@ -5852,7 +5854,9 @@ stack frame for the function. However, there's a convenience function called
 pointer to the Pure function, the argument count and the arguments themselves
 (as ``pure_expr*`` objects) as parameters. For instance, here is a pure_main.c
 module which can be linked against the hello.pure program from above, which
-calls the ``fact`` function from the Pure program::
+calls the ``fact`` function from the Pure program:
+
+ここで述べておくに値することをもう一つ。 Pure 関数をバッチコンパイルされたモジュール内からただ直接呼び出すということはできません。なぜかというと、 Pure 関数を呼び出すためには、少なくともその時点の実装において、関数のためのスタックフレームを設定する必要があるからです。しかし、この課題を扱うために、 ``pure_funcall`` と呼ばれる便利な関数がランタイム API の中にあります。この関数はパラメータとして、 Pure 関数へのポインタ、引数の数、引数そのもの（ ``pure_expr*`` オブジェクト）を取ります。例として、ここに pure_main.c モジュールがあります。このモジュールを上の hello.pure プログラムにリンクさせることができ、 hello.pure は Pure プログラムから ``fact`` 関数を呼び出します::
 
   #include <stdio.h>
   #include <pure/runtime.h>
@@ -5869,7 +5873,9 @@ calls the ``fact`` function from the Pure program::
     return 0;
   }
 
-And here's how you can compile, link and run this program::
+And here's how you can compile, link and run this program:
+
+そして、このプログラムをコンパイル・リンク・実行する方法は次の通り::
 
   $ pure -o hello.o -c -x hello.pure 7
   $ gcc -o pure_main.o -c pure_main.c
@@ -5881,6 +5887,8 @@ And here's how you can compile, link and run this program::
 
 Note that the first two lines are output from the Pure program; the last line
 is what gets printed by the ``main`` routine in pure_main.c.
+
+最初の2行は Pure プログラムからの出力で、最終行は pure_main.c の ``main`` ルーチンによる出力です。
 
 Caveats and Notes
 =================
