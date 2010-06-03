@@ -1406,7 +1406,7 @@ At the toplevel, a Pure program basically consists of rewriting rules (which
 are used to define functions and macros), constant and variable definitions,
 and expressions to be evaluated:
 
-最上位層では、 Pure プログラムは基本的に書き替えルール（関数やマクロを定義するのに使われる）、定数と変数の定義、評価されるべき式で構成されます。
+トップレベル〔最上位層〕では、 Pure プログラムは基本的に書き替えルール（関数やマクロを定義するのに使われる）、定数と変数の定義、評価されるべき式で構成されます。
 
 Rules: ``lhs = rhs;``
     Rewriting rules always combine a left-hand side pattern (which must be a
@@ -1424,7 +1424,7 @@ Rules: ``lhs = rhs;``
     for details.
 
 ルール: ``lhs = rhs;``
-    書き替えルールは常に左辺パターン（単純な式であることが必要）と右辺（上で説明されているあらゆる種類の Pure 式）を結合します。同じフォーマットは ``with`` 、 ``when`` 、 ``case`` 式内でも使えます。最上位のルール、 ``with`` 式、 ``case`` 式という基本的な形式はそれぞれ ``if guard`` 条件を末尾に付けることができます。ここで ``guard`` というのは、ルールを適用してよいかどうかを示す整数式です。さらに、 ``otherwise`` キーワードを空の guard を示すものとして使うこともできます。 ``otherwise`` は常に真です（これは "default" ケースを示す糖衣構文です。インタープリタはこれを単にコメントと扱います）。 Pure はまた  provides some abbreviations for factoring out common left-hand or right-hand sides in collections of rules; 詳しくは `Rule Syntax`_ セクションを参照して下さい。
+    書き替えルールは常に左辺パターン（単純な式であることが必要）と右辺（上で説明されているあらゆる種類の Pure 式）を結合します。同じフォーマットは ``with`` 、 ``when`` 、 ``case`` 式内でも使えます。トップレベルのルール、 ``with`` 式、 ``case`` 式という基本的な形式はそれぞれ ``if guard`` 条件を末尾に付けることができます。ここで ``guard`` というのは、ルールを適用してよいかどうかを示す整数式です。さらに、 ``otherwise`` キーワードを空の guard を示すものとして使うこともできます。 ``otherwise`` は常に真です（これは "default" ケースを示す糖衣構文です。インタープリタはこれを単にコメントと扱います）。 Pure はまた  provides some abbreviations for factoring out common left-hand or right-hand sides in collections of rules; 詳しくは `Rule Syntax`_ セクションを参照して下さい。
 
 Macro rules: ``def lhs = rhs;``
     A rule starting with the keyword ``def`` defines a macro function. No
@@ -1464,8 +1464,8 @@ Toplevel expressions: ``expr;``
     simply causes the given value to be evaluated (and the result to be
     printed, when running in interactive mode).
 
-最上位の式: ``expre;``
-    最上位にある単独の式（セミコロンで終わる）は単純に、評価されるべき値を生じさせます（そして、対話モードで実行された場合は値が表示されます）。
+トップレベル式: ``expre;``
+    トップレベルにある単独の式（セミコロンで終わる）は単純に、評価されるべき値を生じさせます（そして、対話モードで実行された場合は値が表示されます）。
 
 Scoping Rules
 -------------
@@ -5443,6 +5443,8 @@ is executed on the "bare metal", without a hosting interpreter. Only a minimal
 runtime system is provided. This considerably reduces startup times, but also
 implies the following quirks and limitations:
 
+Pure 0.21 以降では、インタープリタが -c オプションを持っています。このオプションは Pure スクリプトをスタンドアローンの実行ファイルへと変える便利な手段を提供します。この機能は今でもやや実験的なものです。特に、コンパイルされた実行ファイルが本質的に、あなたのプログラムの *静的スナップショット* であることを忘れないで下さい。このスナップショットは "bare metal" 〔むき出しの金属？〕の上で実行され、ホストするインタープリタはありません。最小限のランタイムシステムだけが提供されます。これにより起動時間はかなり短くなりますが、同時に次のようなクセと制限を含んでいます::
+
 .. _eval: purelib.html#eval
 .. _evalcmd: purelib.html#evalcmd
 .. |eval| replace:: ``eval``
@@ -5456,12 +5458,16 @@ implies the following quirks and limitations:
   evaluated *after* all functions used in the evaluation have been defined
   completely.
 
+* 全トップレベル式と全 ``let`` 束縛は、全関数が定義された *後で* 評価されます。これにより、同じプログラムをインタープリタで実行した場合と一貫しない挙動が起こるかもしれません。インタープリタでは式と変数の定義を、プログラムの処理に沿ってすぐに行います。このような意味の〔＝セマンティックな〕違いを避けるには、式が評価される *前に* その式の中で使われる全関数が完全に定義される状態を確かなものとしなければなりません。
+
 * Toplevel expressions won't be of much use in a batch-compiled program,
   unless, of course, they are evaluated for their side-effects. Usually your
   program will have to include at least one of these to play the role of the
   "main program" in your script. In most cases these expressions are best
   placed after all the function and variable definitions, at the end of your
   program.
+
+* トップレベル式は、バッチコンパイルされたプログラムではあまり使われません。ただしもちろん、トップレベル式が副作用のために評価されるのでない限りです。通例、あなたのプログラムは、 "main program" の役を担う式を少なくとも一つスクリプト内に含んでいなければなりません。多くのケースでは、全関数と全変数が定義された後に、つまりプログラムの末尾にトップレベル式を置くのがベストです。
 
 * The |eval|_ function can only be used to evaluate plain toplevel
   expressions.  You can define local functions and variables in ``with`` and
@@ -5473,6 +5479,8 @@ implies the following quirks and limitations:
   commands are all disabled. If you need any of these capabilities, you have
   to run your program with the interpreter.
 
+* |eval|_ 関数が使えるのは plain toplevel expressions の評価に対してだけです。式の中では ``with`` 節や ``when`` 節内でローカル関数やローカル変数を定義できますが、 ``eval`` を使ってグローバル変数やグローバル関数を定義することはできません。言い換えるなら、実行中のプログラムを変更するものは何であれ「禁止されている」のです。さらに言えば、 |evalcmd|_ （ `Caveats and Notes`_ セクション内 Reflection_ で議論されている）による introspective capabilities もまた機能しません。なぜなら、対話コマンドは全て無効にされるからです。もしこの機能のうちの何かが必要なら、プログラムをインタープリタで実行しなければなりません。
+
 * Constant and macro definitions, being compile time features, aren't
   available in the compiled program. If you need to use these with |eval|_ at
   run time, you have to provide them through variable and function definitions
@@ -5482,6 +5490,8 @@ implies the following quirks and limitations:
   --required pragma can be used to avoid this, see `Code Size and Unstripped
   Executables`_ below.)
 
+* 定数とマクロの定義は、コンパイル時の機能であるため、コンパイル済みプログラムでは使えません。実行時に両者を |eval|_ とともに使う必要があるなら、その代わりに変数と関数の定義を通じて提供しなければなりません。また、通常では、コンパイラは出力コードから未使用の関数を除去してしまうので、 ``eval`` で使えるのは、静的なプログラムテキスト内のどこかで実際に呼び出される関数だけとなります（ -u オプションと --required プラグマを使えばこれを避けられます。下部 `Code Size and Unstripped Executables`_ を参照）。
+
 * Code which gets executed to compute constant values at compile time will
   *not* be executed in the compiled executable, so your program shouldn't rely
   on side-effects of such computations (this would be bad practice anyway).
@@ -5490,12 +5500,16 @@ implies the following quirks and limitations:
   are not permitted. (If necessary, you can bind such values to variables
   instead, then they will work fine even in a batch-compiled program.)
 
+* コンパイル時に定数値を計算するため実行されるコードは、コンパイル済み実行ファイル内では実行 *されません* 。なので、あなたのプログラムはこうした計算の副作用に依存すべきではありません（いずれにせよこれはバッド・プラクティスです）。また、バッチコンパイルされたスクリプト内の定数値は real constant でなければなりません。ポインタ（ヌルポインタ以外）のような実行時データとローカル関数は許されません（もし必要なら、代わりにそのような値を変数へバインドすることができます。そうすればバッチコンパイル済みプログラム内でも見事に動作するはずです）。
+
 What all this boils down to is that anything which requires the compile time
 or interactive facilities of the interpreter, is unavailable. These
 restrictions only apply at run time, of course. At compile time the program
 *is* being executed by the interpreter so you can use |eval|_ and |evalcmd|_
 in any desired way. See the description of the ``compiling`` variable below
 for how to distinguish these cases in your script.
+
+つまり煎じ詰めて言うと、コンパイル時にしか動作しないものや、インタープリタの対話機能を必要とするものは、何であろうと使えないわけです。もちろんこうした制限は実行時にのみ適用されます。コンパイル時に、プログラムはインタープリタによって実行 *されている* ので、 {eval|_ と |evalcmd|_ を思い通り使うことができます。あなたのスクリプト内で両ケースをどう区別したらよいかについて、以下にある ``compiling`` 変数の説明を参照して下さい。
 
 For most kinds of scripts, the above restrictions aren't really that much of
 an obstacle, or can easily be worked around. For the few scripts which
@@ -5505,6 +5519,8 @@ startup will be somewhat slower because the script is compiled on the
 fly. Once the JIT has done its thing the "interpreted" script will run every
 bit as fast as the "compiled" one, since in fact *both* are compiled (only at
 different times) to exactly the same code!
+
+ほとんどの種類のスクリプトにとっては、上のような制限が実際の障害物となることはないか、あるとしても簡単に回り道できることでしょう。 Pure のダイナミックな性能を本当にフル活用しなければならないような数少ないスクリプトなら、インタープリタを使って実行する必要があります。これは大げさなことではなく、スクリプトがオン・ザ・フライでコンパイルされるため起動時間がいくらか長くなるだけです。一度 JIT が仕事を終えると、「解釈済み」〔"interpreted"〕スクリプトは「コンパイル済み」〔"compiled"〕のそれとあらゆる面で同じくらい速く実行されるはずです。実際のところ、 *どちらも* まったく同じコードへとコンパイルされる（そのタイミングだけが異なる）わけですから！
 
 Also note that during a batch compilation, the compiled program is actually
 executed as usual, i.e., the script is also run *at compile time*. This might
@@ -5516,6 +5532,8 @@ Definitions`_ below), and using ``eval`` a program can easily modify itself in
 even more unforeseeable ways. Therefore pretty much anything in your program
 can actually depend on previous computations performed while the program is
 being executed.
+
+また、バッチコンパイルの最中、コンパイルされるプログラムは通常通り実際に実行されます。すなわち、スクリプトは *コンパイル時にも* 実行されるわけです。最初はとても迷惑なことに思えるかもしれませんが、実はそれがいくつかの強力なプログラミングテクニック（ `partial evaluation`_ のような）への扉を開いてもくれるのです。また、これは Pure の highly dynamic nature のために必要なことでもあります。例えば、 Pure では任意の式を評価することで定数を定義でき（下部 `Constant Definitions`_ 参照）、また ``eval`` を使うことで、プログラムが自分自身をかなり予想しづらい方法で部分修正することもできます。したがって、あなたのプログラムのかなり多くの部分が、実行時に行われる計算に依存することになります。■原文の言わんとすることをよく掴めていない■
 
 .. _partial evaluation: http://en.wikipedia.org/wiki/Partial_evaluation
 
