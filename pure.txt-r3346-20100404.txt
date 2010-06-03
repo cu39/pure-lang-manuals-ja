@@ -5899,6 +5899,8 @@ This section is a grab bag of casual remarks, useful tips and tricks, and
 information on common pitfalls, quirks and limitations of the current
 implementation and how to deal with them.
 
+このセクションは casual remarks, useful tips and tricks, そして現在の実装のよくある落とし穴やクセ、制限と、それをうまく扱う方法などの寄せ集めです。
+
 Purity
 ------
 
@@ -5912,7 +5914,7 @@ it that way when possible. On the other hand, Pure doesn't get in your way if
 you want to call external operations with side effects; it does allow you to
 call any C function after all.
 
-人からいつも Pure の何が「ピュア」なんだとよく聞かれます。長くて弁解がましい答えは以下のようなものです。 Pure は実用性を犠牲にしないまま項書き替えの精神に近いところに留まろうとつとめています。 Pure でピュアな関数プログラムを書くことは可能であり、実際とても簡単なことで、また Pure は可能な限りあなたがそうすることを奨励します。他方、あなたがもし side effect とともに外部の処理を呼び出そうとするなら、 Pure はそれを邪魔しません。要するにあらゆるC関数を呼び出すことが許されています。
+人からいつも Pure の何が「ピュア」なんだとよく聞かれます。長くて弁解がましい答えは以下のようなものです。 Pure は実用性を犠牲にしないまま項書き替えの精神に近いところに留まろうとつとめています。 Pure でピュアな関数プログラムを書くことは可能であり、実際とても簡単なことで、また Pure は可能な限りあなたがそうすることを奨励します。他方、あなたがもし side effect とともに外部の処理を呼び出そうとするなら、 Pure はそれを邪魔しません。要するにあらゆる C 関数を呼び出すことが許されています。
 
 The short answer is that I simply liked the name, and there wasn't any
 programming language named "Pure" yet (quite a feat nowadays), so there's one
@@ -5934,12 +5936,16 @@ instead of ``x,y..z``, and the '``..``' operator now has a higher precedence
 than the '``,``' operator. This makes writing matrix slices like
 ``x!!(i..j,k..l)`` much more convenient.
 
+Pure 0.7 で組み込みマトリクス構造が導入されました。それにより、内包と等差数列の文法に若干のマイナーチェンジが必要となりました。特に、テンプレート式と、内包のジェネレータ／フィルタ節は今や、 ``;`` ではなく ``|`` で区切られます。さらに、任意の差〔stepsize〕をとる等差数列は ``x,y..z`` ではなく ``x:y..z`` と書かれるようになり、 '``..``' 演算子は '``,``' 演算子よりも高い優先度を持つようになっています。これにより、マトリクススライスをもっと便利に ``x!!(i..j,k..l)`` などと書くことができるようになっています。
+
 In Pure 0.13 the naming of the logical and bitwise operations was changed, so
 that these are now called ``~``, ``&&``, ``||`` and ``not``/``and``/``or``,
 respectively. (Previously, ``~`` was used for bitwise, ``not`` for logical
 negation, which was rather inconsistent, albeit compatible with the naming of
 the ``not`` operation in Haskell and ML.) Also, to stay in line with this
 naming scheme, inequality was renamed to ``~=`` (previously ``!=``).
+
+Pure 0.13 では、論理演算とビット演算の naming が変わり、その結果それぞれ ``~``, ``&&``, ``||`` と ``not``/``and``/``or`` と呼ばれるようになりました（その前は ``~`` がビット演算に使われており、 ``not`` は論理否定に使われていて、一貫性に欠ける状態でしたが、 Haskell や ML の ``not`` 演算とは互換性がありました）。また、この命名規則に合わせるため、不等号〔inequality〕は ``~=`` へ改名されました（その前までは ``!=`` ）。
 
 Pure 0.14 introduced the namespaces feature. Consequently, the scope of
 private symbols is now confined to a namespace rather than a source module;
@@ -5951,10 +5957,14 @@ by placing spaces around the '``::``' delimiter (these aren't permitted in a
 qualified symbol, so the construct ``foo :: int`` is always interpreted as a
 tagged variable, no matter whether ``foo`` is also a valid namespace).
 
+Pure 0.14 では名前空間機能が導入されました。その結果、プライベートシンボルのスコープは名前空間の範囲内に限定され、ソースモジュール内の範囲ではなくなりました。プライベートシンボルを使うスクリプトはそれに適合させる必要があります。また、 ``foo::int`` のような文法は、 ``foo`` が名前空間として宣言されている場合、タグ付き変数ではなく修飾子つきシンボルを示すようになりました。こうした解釈の曖昧さに対処するには、変数を改名するか、あるいは '``::``' デリミタの左右にスペースを置きます（これは修飾子つきシンボルでは許可されないので、 '``foo :: int``' という構造は常にタグ付き変数として解釈されます。このとき ``foo`` が有効な名前空間であるかどうかは問題となりません）。
+
 Pure 0.26 extended the namespaces feature to add support for hierarchical
 namespaces. This means that name lookup works in a slightly different fashion
 now (see `Hierarchical Namespaces`_ for details), but old code which doesn't
 use the new feature should continue to work unchanged.
+
+Pure 0.26 では名前空間機能を拡張し、階層状の名前空間サポートを追加しました。これにより、名前検索の挙動がやや変わりました（詳しくは `Hierarchical Namespaces`_ 参照）。しかし、新しい機能を使っていない過去のコードは変更なしで動作しつづけるはずです。
 
 Pure 0.26 also changed the ``nullary`` keyword to ``nonfix``, which is more
 consistent with the other kinds of fixity declarations. Moreover, the parser
@@ -5962,6 +5972,8 @@ was enhanced so that it can cope with a theoretically unbounded number of
 precedence levels, and the system of standard operators in the prelude was
 modified so that it becomes possible to sneak in new operator symbols with
 ease; details can be found in the `Symbol Declarations`_ section.
+
+また Pure 0.26 では ``nullary`` キーワードが ``nonfix`` へ変更されました。これは他の fixity 宣言とより調和するものです。さらに、パーサーが改善された結果、理論的には無限の優先度レベルを扱えるようになりました。また、 prelude 内の標準演算子システムが修正された結果、新たな演算子シンボルを〔標準演算子の隙間へ〕簡単にすべり込ませることができるようになりました。詳しいことは `Symbol Declarations`_ セクションで述べられています。
 
 Pure 0.41 added support for optimization of indirect tail calls, so that any
 previous restrictions on the use of tail recursion in indirect function calls
@@ -5974,17 +5986,23 @@ tail call semantics). If you need this then you'll have to make sure that
 either the operands are already normalized, or you'll have to normalize the
 result yourself.
 
+Pure 0.41 では indirect tail calls 最適化のサポートが加わりました。その結果、 tail recursion in indirect function calls と mutually recursive globals の使用に関するあらゆる制限が除去されました。さらに、論理演算子 ``&&`` および ``||`` は今や第2オペランドにおいて末尾再帰であり、また他の組み込み演算子と同様にユーザ定義の等式で拡張することができます。 ``&&`` と ``||`` によって返される値はもはや 0 と 1 に正規化されていないことに注意して下さい（this isn't possible with tail call semantics）。もしこの正規化が必要であれば、オペランドのいずれもがすでに正規化されていることを確かなものとするか、あるいは結果を自分で正規化しなければなりません。
+
 Also, as of Pure 0.41 the batch compiler produces stripped executables by
 default. To create unstripped executables you now have to use the -u option,
 see `Code Size and Unstripped Executables`_ for details. The -s option to
 produce stripped executables is still provided for backward compatibility, but
 it won't have any effect unless you use it to override a previous -u option.
 
+また Pure 0.41 以降では、バッチコンパイラはデフォルトで stripped executables を作り出します。 unstripped executables を作るためには -u オプションを使わなければなりません。詳しくは `Code Size and Unstripped Executables`_ を参照して下さい。stripped executables を作る -s オプションも後方互換性のためにまだ提供されますが、このオプションが効果を持つのは、その前に指定された -u オプションを上書きする場合のみです。
+
 Pure 0.43 changed the rules for looking up symbols in user-defined namespaces.
 Unqualified symbols are now created in the current (rather than the global)
 namespace by default, see `Symbol Lookup and Creation`_ for details. The -w
 option can be used to get warnings about unqualified symbols which are
 resolved to a different namespace than previously.
+
+Pure 0.43 ではユーザ定義名前空間からシンボルを検索するルールが変わりました。修飾子なしシンボルは今やデフォルトでカレント名前空間（グローバル名前空間ではなく）に作成されます。詳しくは `Symbol Lookup and Creation`_ を参照して下さい。 -w オプションは修飾子なしシンボルについての警告を得るために使います。修飾子なしシンボルは、それまでと異なる名前空間に解決されるようになっています。
 
 Error Recovery
 --------------
