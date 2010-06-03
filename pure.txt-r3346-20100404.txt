@@ -5705,16 +5705,22 @@ Options`_). For instance:
 Other Output Code Formats
 -------------------------
 
+その他の出力コードフォーマット
+
 Note that while the batch compiler generates native executables by default, it
 can just as well create object files which can be linked into other C/C++
-programs and libraries::
+programs and libraries:
+
+バッチコンパイラはデフォルトではネイティブな実行ファイルを生成しますが、他にも、オブジェクトファイルを生成して他の C/C++ プログラムやライブラリへリンクすることも可能であることを覚えておいて下さい::
 
   $ pure -o hello.o -c -x hello.pure 7
 
 The .o extension tells the compiler that you want an object file. When linking
 the object module, you also need to supply an initialization routine which
 calls the ``__pure_main__`` function in hello.o to initialize the compiled
-module. This routine is declared in C/C++ code as follows::
+module. This routine is declared in C/C++ code as follows:
+
+.o 拡張子はコンパイラに、あなたがオブジェクトファイルを望んでいることを伝えます。オブジェクトモジュールをリンクする場合、あなたは追加の初期化ルーチンを追加しなければなりません。このルーチンは hello.o 内で ``__pure_main__`` 関数を呼び出し、コンパイルされたモジュールを初期化します。このルーチンは C/C++ コードで次のように宣言されています::
 
   extern "C" void __pure_main__(int argc, char** argv);
 
@@ -5727,8 +5733,12 @@ interpreter which provides the minimal runtime support necessary to execute
 the Pure program, and to invoke all "initialization code" (variable
 definitions and toplevel expressions) of the program itself.
 
+ここに示されているように、 ``__pure_main__`` は2つのパラメータとともに呼び出されます。一つは引数の数、もう一つはヌル文字で終わる引数ベクターで、それぞれ Pure プログラムの ``argc`` と ``argv`` にあたります（コマンドラインパラメータを使わない場合には、ただ両方に 0 を渡してもかまいません）。 ``__pure_main__`` の目的は Pure インタープリタのシェルインスタンスを初期化することにあり、これによって最小限のランタイムサポートが提供されます。このランタイムサポートは、 Pure プログラムを実行するために、また全「初期化コード」（変数定義とトップレベル式）を呼び出すために必要なものです。
+
 A minimal C ``main`` function which does the job of initializing the Pure
-module looks as follows::
+module looks as follows:
+
+Pure モジュールを初期化する役を担う、 C の最小限の ``main`` 関数は次のようなものです::
 
   extern void __pure_main__(int argc, char** argv);
 
@@ -5740,7 +5750,9 @@ module looks as follows::
 
 If you link the ``main`` routine with the Pure module, don't forget to also
 pull in the Pure runtime library. Assuming that the above C code is in
-pure_main.c::
+pure_main.c:
+
+``main`` ルーチンを Pure モジュールにリンクするなら、 Pure ランタイムライブラリにそれを引き込むことも忘れないで下さい。上の C コードが pure_main.c であるとすると::
 
   $ gcc -c pure_main.c -o pure_main.o
   $ g++ -o hello hello.o pure_main.o -lpure
@@ -5752,15 +5764,21 @@ pure_main.c::
 gets linked in, too. This is necessary because Pure's runtime library is
 actually written in C++.)
 
+（ここでは C++ コンパイラをリンカとして使っており、その結果標準 C++ ライブラリも一緒にリンクされています。 Pure ランタイムライブラリは実際には C++ で書かれているので、必要なことです）
+
 In fact, this is pretty much what ``pure -c`` actually does for you when
 creating an executable.
+
+実のところ、これは実行ファイルを作ろうとしたときに ``pure -c`` が行うことと、まさに同じです。
 
 If your script loads dynamic libraries (``using "lib:...";``) then you'll also
 have to link with those; *all* external references have to be resolved at
 compile time. This is taken care of automatically when creating
 executables. Otherwise it is a good idea to run ``pure -c`` with the
 ``-v0100`` verbosity option so that it prints the libraries to be linked (in
-addition to the commands which are invoked in the compilation process)::
+addition to the commands which are invoked in the compilation process):
+
+もしあなたのスクリプトが動的ライブラリを読み込む（ ``using "lib:...";`` ）ならば、あなたはそのライブラリをリンクしなければなりません。 *全* 外部参照はコンパイル時に解決されなければならないのです。実行ファイルを作る際には、自動的にこれらを面倒見てくれます。そうでない場合、 ``pure -c`` を饒舌オプション ``-v0100`` とともに実行するのは良いアイデアです。こうすると、リンクされるライブラリが出力されます（コンパイルの過程で呼び出されるコマンドに加えて）::
 
   $ pure -v0100 -c hello.pure -o hello.o
   opt -f -std-compile-opts hello.o.bc | llc -f -o hello.o.s
@@ -5768,7 +5786,9 @@ addition to the commands which are invoked in the compilation process)::
   Link with: g++ hello.o -lpure
 
 Well, we already knew that, so let's consider a slightly more interesting
-example from Pure's ODBC module::
+example from Pure's ODBC module:
+
+さて、これでやり方はわかったので、もう少し興味深い例を Pure の ODBC モジュールから取り、考えてみましょう::
 
   $ pure -v0100 -c pure-odbc/examples/menagerie.pure -o menagerie.o
   opt -f -std-compile-opts menagerie.o.bc | llc -f -o menagerie.o.s
@@ -5781,23 +5801,33 @@ Note that the listed link options are necessary but might not be sufficient;
 this will be good enough, but if it isn't, you can just add options to the
 linker command as needed to pull in additional required libraries.
 
+リストされているリンクオプションは必要なものばかりですが、十分ではないことに注意して下さい。 ``pure -c`` は Pure ソースを基礎として best guess を行います。ほとんどのシステム上ではそれで十分なのですが、そうではなかった場合、リンカコマンドにオプションを追加して、必要な追加ライブラリを引き込む必要があります。
+
 As this last example shows, you can also create shared libraries from Pure
 modules. However, on some systems (most notably x86_64), this requires that
 you pass the ``-fPIC`` option when batch-compiling the module, so that
-position-independent code is generated::
+position-independent code is generated:
+
+この最後の例が示す通り、あなたは Pure モジュールから共有ライブラリを作り出すこともできます。しかし、いくつかのシステム（特に x86_64 ）上では、モジュールをバッチコンパイルする際に ``-fPIC`` オプションを渡す必要があります。そうすると、位置に依存しないコードが生成されます::
 
   $ pure -c -fPIC pure-odbc/examples/menagerie.pure -o menagerie.o
 
 Also note that even when building a shared module, you'll have to supply an
 initialization routine which calls ``__pure_main__`` somewhere.
 
+また、共有モジュールをビルドするときでさえも、あなたは初期化ルーチンを提供する必要があります。初期化ルーチンはどこかで ``__pure_main__`` モジュールを呼び出します。
+
 Last but not least, ``pure -c`` can also generate just plain LLVM assembler
-code::
+code:
+
+最後になりましたが、 ``pure -c`` はプレーンな LLVM アセンブラコードを生成することもできます::
 
   pure -c hello.pure -o hello.ll
 
 Note the .ll extension; this tells the compiler that you want an LLVM
-assembler file. An LLVM bitcode file can be created just as easily::
+assembler file. An LLVM bitcode file can be created just as easily:
+
+.ll 拡張子に注目して下さい。これにより、あなたが LLVM アセンブラファイルを望んでいることがコンパイラに伝わります。 LLVM ビットコードファイルを作り出すことも簡単にできます::
 
   pure -c hello.pure -o hello.bc
 
@@ -5806,6 +5836,8 @@ yourself. This gives you the opportunity, e.g., to play with special
 optimization and code generation options provided by the LLVM
 toolchain. Please refer to the `LLVM documentation`_ (in particular, the
 description of the opt and llc programs) for details.
+
+このようなケースでは、あなたは残りのコンパイル過程を自分で扱わなければなりません。そのとき、例えば LLVM ツールチェーンが提供する特別な最適化オプションやコード生成オプションを使用する機会も与えられているわけです。詳しいことは `LLVM documentation`_ （特に opt と llc プログラムについての解説）を参照して下さい。
 
 .. _LLVM documentation: http://llvm.org/docs/
 
