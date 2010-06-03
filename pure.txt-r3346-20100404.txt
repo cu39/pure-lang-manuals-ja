@@ -5590,7 +5590,7 @@ name:
 
 Next suppose that we'd like to supply the value ``n`` at *compile* rather than
 run time. To these ends we want to turn the value passed to the ``main``
-function into a compile time constant, which can be done as follows::
+function into a compile time constant, which can be done as follows:
 
 次は、実行時でなく *コンパイル時* に ``n`` 値を与えたい場合を考えましょう。こうするには、 ``main`` 関数に渡される値をコンパイル時の定数に変更したいわけですが、次のようにします::
 
@@ -5626,7 +5626,7 @@ Our program now looks as follows:
 
 This script "specializes" ``n`` to the first (compile time) parameter when
 being batch-compiled, and it still works as before when we run it through the
-interpreter in both batch and interactive mode, too::
+interpreter in both batch and interactive mode, too:
 
 このスクリプトでは、バッチコンパイルされる場合、 ``n`` を（コンパイル時の）第一引数に "specializes" しています。また、前までと同じく、インタープリタのバッチモードでも対話モードでも実行することができます::
 
