@@ -6016,6 +6016,8 @@ in interactive usage, if the parser seems to eat away your input without doing
 anything, entering an extra semicolon or two should break the spell, putting
 you back at the toplevel where you can start typing the definition again.
 
+パーサーはかなりシンプルな panic mode error recovery を使います。これはトップレベルに限りシンタックスエラーをキャッチしようとするものです。これはなかなか良く動作するように見えますが、いくつかのエラーについてはかなり後からキャッチすることもあります。不運なことに、 Pure の簡潔さがより良いスキームの設計を難しくしています。改善策として、パーサーはトップレベルに限り空の定義（ただ ``;`` を置くだけ）を許容します。したがって、対話的に使う場合、パーサーがあなたの入力を何もしないまま飲み込んでしまったら、追加のセミコロンを1つか2つ入力すると、その魔法を打ち破り、あなたが定義を打ち込み始めたところであるトップレベルへと再び戻してくれます。
+
 The __show__ Function
 ---------------------
 
