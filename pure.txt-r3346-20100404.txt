@@ -58,7 +58,7 @@ Pure can be found under the following URLs:
 
 この文書は pure.txt (r3346, Apr. 4, 2010) を日本語へ翻訳したものです。
 
-この翻訳版も原典に基づき |FDL|_ の下で公開されています。
+原文は |FDL|_ ライセンスの下で公開されており、それに基づいてこの翻訳版も FDL の下で公開されています。
 
 「〔」 [#]_ と「〕」 [#]_ に囲まれた語句は原典の表現を注記したものです。
 
@@ -4955,7 +4955,7 @@ Or you can list just private symbols of the namespace ``foo``, as follows:
   > show -pg foo::*
 
 The following command will list each and every symbol that's currently defined
-(instead of ``-g *`` you can also use the ``-t0`` option)::
+(instead of ``-g *`` you can also use the ``-t0`` option):
 
 次のコマンドは、現在定義されている全シンボルをそれぞれリストします（ ``-g *`` の代わりに ``-t0`` オプションを使うこともできます）::
 
@@ -5443,7 +5443,7 @@ is executed on the "bare metal", without a hosting interpreter. Only a minimal
 runtime system is provided. This considerably reduces startup times, but also
 implies the following quirks and limitations:
 
-Pure 0.21 以降では、インタープリタが -c オプションを持っています。このオプションは Pure スクリプトをスタンドアローンの実行ファイルへと変える便利な手段を提供します。この機能は今でもやや実験的なものです。特に、コンパイルされた実行ファイルが本質的に、あなたのプログラムの *静的スナップショット* であることを忘れないで下さい。このスナップショットは "bare metal" 〔むき出しの金属？〕の上で実行され、ホストするインタープリタはありません。最小限のランタイムシステムだけが提供されます。これにより起動時間はかなり短くなりますが、同時に次のようなクセと制限を含んでいます::
+Pure 0.21 以降では、インタープリタが -c オプションを持っています。このオプションは Pure スクリプトをスタンドアローンの実行ファイルへと変える便利な手段を提供します。この機能は今でもやや実験的なものです。特に、コンパイルされた実行ファイルが本質的に、あなたのプログラムの *静的スナップショット* であることを忘れないで下さい。このスナップショットは "bare metal" 〔むき出しの金属？〕の上で実行され、ホストするインタープリタはありません。最小限のランタイムシステムだけが提供されます。これにより起動時間はかなり短くなりますが、同時に次のようなクセと制限を含んでいます:
 
 .. _eval: purelib.html#eval
 .. _evalcmd: purelib.html#evalcmd
@@ -5540,7 +5540,11 @@ being executed.
 Example
 -------
 
-For the sake of a concrete example, consider the following little script::
+具体例
+
+For the sake of a concrete example, consider the following little script:
+
+具体的な例として、次の小さなスクリプトを考えてみて下さい::
 
   using system;
 
@@ -5552,7 +5556,9 @@ For the sake of a concrete example, consider the following little script::
 
 When invoked from the command line, with the number ``n`` as the first
 parameter, this program will print the string ``"Hello, world!"`` and the list
-of the first ``n`` factorials::
+of the first ``n`` factorials:
+
+``n`` を第一引数としてコマンドラインから実行されると、このプログラムは文字列 ``"Hello, world!"`` と、最初の ``n`` 階乗のリストを出力します::
 
   $ pure -x hello.pure 10
   Hello, world!
@@ -5560,7 +5566,9 @@ of the first ``n`` factorials::
 
 Note the condition on ``argc`` in the last line of the script. This prevents
 the program from producing an exception if no command line parameters are
-specified, so that the program can also be run interactively::
+specified, so that the program can also be run interactively:
+
+最終行にある ``argc`` の条件に注目して下さい。これはコマンドラインで引数が指定されない場合にプログラムが例外を起こすことを防いでいます。そのため、このプログラムを対話的に実行することも可能です::
 
   $ pure -i -q hello.pure
   > main 10;
@@ -5571,7 +5579,9 @@ specified, so that the program can also be run interactively::
 
 To turn the script into an executable, we just invoke the Pure interpreter
 with the -c option, using the -o option to specify the desired output file
-name::
+name:
+
+スクリプトを実行ファイルに変えるには、 Pure インタープリタを -c オプションとともに起動するだけです。 -o オプションを使ってお好みの出力ファイル名を指定します::
 
   $ pure -c hello.pure -o hello
   $ ./hello 10
@@ -5582,20 +5592,28 @@ Next suppose that we'd like to supply the value ``n`` at *compile* rather than
 run time. To these ends we want to turn the value passed to the ``main``
 function into a compile time constant, which can be done as follows::
 
+次は、実行時でなく *コンパイル時* に ``n`` 値を与えたい場合を考えましょう。こうするには、 ``main`` 関数に渡される値をコンパイル時の定数に変更したいわけですが、次のようにします::
+
   const n = if argc>1 then sscanf (argv!1) "%d" else 10;
 
 (Note that we provide ``10`` as a default if ``n`` isn't specified on the
 command line.)
 
+（コマンドラインで引数が指定されない場合のデフォルトとして ``10`` を与えていることに注意して下さい）
+
 Moreover, in such a case we usually want to skip the execution of the main
 function at compile time. The Pure runtime provides a special system variable
 ``compiling`` which holds a truth value indicating whether the program is
 actually running under the auspices of the batch compiler, so that it can
-adjust accordingly. In our example, the evaluation of ``main`` becomes::
+adjust accordingly. In our example, the evaluation of ``main`` becomes:
+
+さらに、このような場合、通常私たちは、コンパイル時にメイン関数の実行をスキップしたいと考えます。 Pure ランタイムは特別なシステム変数 ``compiling`` を提供しています。この変数は真偽値を保持し、プログラムがバッチコンパイラの庇護の下で実際に実行されるかどうかを示します。これにより、必要に応じて調整が可能です。私たちの例では、 ``main`` の評価は次のようになります::
 
   if compiling then () else main n;
 
-Our program now looks as follows::
+Our program now looks as follows:
+
+これで私たちのプログラムは次のようになりました::
 
   using system;
 
@@ -5609,6 +5627,8 @@ Our program now looks as follows::
 This script "specializes" ``n`` to the first (compile time) parameter when
 being batch-compiled, and it still works as before when we run it through the
 interpreter in both batch and interactive mode, too::
+
+このスクリプトでは、バッチコンパイルされる場合、 ``n`` を（コンパイル時の）第一引数に "specializes" しています。また、前までと同じく、インタープリタのバッチモードでも対話モードでも実行することができます::
 
   $ pure -i -q hello.pure
   Hello, world!
@@ -5631,6 +5651,8 @@ interpreter in both batch and interactive mode, too::
 You'll rarely need an elaborate setup like this, most of the time something
 like our simple first example will do the trick. But, as you've seen, Pure can
 easily do it.
+
+このように精巧な設定が必要となることはほとんどなく、たいていの場合は最初のシンプルな例のようなもので事足りてしまうでしょう。しかし、ご覧の通り、 Pure では簡単にできることなのです。
 
 Code Size and Unstripped Executables
 ------------------------------------
