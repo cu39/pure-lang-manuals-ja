@@ -6021,6 +6021,8 @@ you back at the toplevel where you can start typing the definition again.
 The __show__ Function
 ---------------------
 
+__show__ 関数
+
 As of Pure 0.6, the interpreter provides a "hook" to override the print
 representations of expressions at runtime by means of the ``__show__``
 function, which works in a fashion similar to Haskell's ``show``
@@ -6133,8 +6135,12 @@ interactive startup files, see `Interactive Usage`_.
 Non-Linear Patterns
 -------------------
 
+非線型パターン
+
 As explained in section Patterns_, Pure allows multiple occurrences of the
-same variable in a pattern (so-called non-linearities)::
+same variable in a pattern (so-called non-linearities):
+
+Patterns_ セクションでも説明した通り、 Pure は一つのパターン内に同じ変数が複数回現れることを許します（いわゆる非線型性）::
 
   foo x x = x;
 
@@ -6147,9 +6153,13 @@ might not even terminate at all if the compared terms are both infinite lazy
 data structures, such as in ``foo (1..inf) (1..inf)``. So you have to be
 careful to avoid such uses.
 
+このルールは、2つある ``x`` の両方が同じ値へ束縛されている場合だけマッチします。より厳密に言えば、パターンマッチングの間に ``x`` のインスタンス2つの統語的な〔syntactic equality〕がチェックされます。このチェックには prelude が提供する |same|_ プリミティブが使われます。このチェックには、引数の両項のサイズに比例して時間がかかるので、大きな項に対してはとてもコストを要することになります。実際、 ``same`` がまったく終わらない可能性もあります。比較される両項がどちらも無限長の遅延評価データ構造（例えば ``foo (1..inf) (1..inf)`` など）の場合がそうです。なので、このような使用を避けるよう注意しなければなりません。
+
 When using non-linearities in conjunction with "as" patterns, you also have to
 make sure that the "as" variable does not occur inside the corresponding
-subpattern. Thus a definition like the following is illegal::
+subpattern. Thus a definition like the following is illegal:
+
+"as" パターンを持つ条件内で非線型を使うときは、 "as" 変数が、それに対応する下位パターンの内側に現れないようにも気をつけなければなりません。よって、次のような定義は違反となります::
 
   > foo xs@(x:xs) = x;
   <stdin>, line 1: error in pattern (recursive variable 'xs')
@@ -6160,13 +6170,19 @@ infinite list of ``x``\ 's, and there's no way that this condition could be
 verified in a finite amount of time. Therefore the interpreter reports a
 "recursive variable" error in such situations.
 
+これに対する釈明は、このようなパターンは有限長のリストによりマッチされる可能性がいずれにせよないということです。たしかに ``xs@(x:xs)`` にマッチするのは ``x`` の無限長のリストのみであり、この条件が有限の時間内に確認される見込みはありません。そのためインタープリタはこのような状況で "recursive variable" 〔「再帰変数」〕エラーをレポートするのです。
+
 "As" Patterns
 -------------
+
+"as" パターン
 
 In the current implementation, "as" patterns cannot be placed on the "spine"
 of a function definition. Thus rules like the following, which have the
 pattern somewhere in the head of the left-hand side, will all provoke an error
-message from the compiler::
+message from the compiler:
+
+現在の実装では、 "as" パターンを関数宣言の「背骨」〔"spine"〕に置くことができません。よって次のようなルール（左辺の先頭のどこかに "as" パターンを持つ）はコンパイラのエラーメッセージを引き起こすでしょう::
 
   a@foo x y   = a,x,y;
   a@(foo x) y = a,x,y;
@@ -6175,7 +6191,9 @@ message from the compiler::
 This is because the spine of a function application is not available when the
 function is called at runtime. "As" patterns in pattern bindings (``let``,
 ``const``, ``case``, ``when``) are not affected by this restriction since the
-entire value to be matched is available at runtime. For instance::
+entire value to be matched is available at runtime. For instance:
+
+なぜこうなるかというと、関数 application の背骨は、実行時に関数が呼び出されたタイミングでは利用できない〔is not available〕からです。パターン束縛内の "as" パターン（ ``let``, ``const``, ``case``, ``when`` ）はこの制限を受けません。なぜなら、マッチされる値全体を、実行時に利用できる〔is available〕からです。例えば::
 
   > case bar 99 of y@(bar x) = y,x+1; end;
   bar 99,100
