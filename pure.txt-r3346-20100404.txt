@@ -6027,6 +6027,8 @@ function, which works in a fashion similar to Haskell's ``show``
 function. This feature is still a bit experimental, but seems to work
 reasonably well for the purposes for which it is intended.
 
+Pure 0.6 から、インタープリタはある「フック」を提供しています。この「フック」は ``__show__`` 関数を使って実行時に式の出力形式を上書きするためのものです。これは Haskell の ``show`` 関数のやり方と似た動作をします。この機能はまだ少し実験的なものですが、この機能が目指す目的についてはかなり良く動作しているようです。
+
 ``__show__`` is just an ordinary Pure function expected to return a string
 with the desired custom representation of a normal form value given as the
 function's single argument. This function is not defined by default, so you
@@ -6034,10 +6036,14 @@ are free to add any rules that you want. The interpreter prints the strings
 returned by ``__show__`` just as they are. It will not check whether they
 conform to Pure syntax and/or semantics, or modify them in any way.
 
+``__show__`` は単なる普通の Pure 関数で、関数の単一引数として与えられた a normal form value を望みの representation にカスタムした状態の文字列として返すことを目的としています。この関数はデフォルトでは定義されないので、あなたが望むどのようなルールでも自由に追加することができます。インタープリタは ``__show__`` が返す文字列を単にそのまま出力します。 Pure の syntax and/or semantics を満たしているかどうかはチェックされません, or modify them in any way.
+
 Custom print representations are most useful for interactive purposes, if
 you're not happy with the default print syntax of some kinds of objects. One
 particularly useful application of ``__show__`` is to change the format of
-numeric values. Here are some examples::
+numeric values. Here are some examples:
+
+Custom print representations は、ある種類のオブジェクトが対話モードで出力される際のデフォルト syntax が気に入らないとき、とても役に立つものです。 ``__show__`` の特に役立つ application は、数値の表示フォーマットを変えることです。次にいくつか例を示します::
 
   > using system;
   > __show__ x::double = sprintf "%0.6f" x;
@@ -6052,7 +6058,9 @@ numeric values. Here are some examples::
   0.000000+-1.000000i
 
 The prelude function ``str``, which returns the print representation of any
-Pure expression, calls ``__show__`` as well::
+Pure expression, calls ``__show__`` as well:
+
+prelude で定義される関数 ``str`` は、あらゆる Pure 式の the print representation を返しますが、 ``__show__`` をも呼び出します::
 
   > str (1/7);
   "0.142857"
@@ -6061,7 +6069,9 @@ Conversely, you can call the ``str`` function from ``__show__``, but in this
 case it always returns the default representation of an expression. This
 prevents the expression printer from going recursive, and allows you to define
 your custom representation in terms of the default one. E.g., the following
-rule removes the ``L`` suffixes from bigint values::
+rule removes the ``L`` suffixes from bigint values:
+
+反対に、 ``__show__`` から ``str`` 関数を呼ぶこともできます。しかしこの場合、 ``str`` は常に式のデフォルト representation を返します。これにより式プリンタは再帰に陥らず、あなたのカスタム representation を定義できます in terms of the default one. 例えば、次のルールは bigint 値の末尾の ``L`` を除去します::
 
   > __show__ x::bigint = init (str x);
   > fact n = foldl (*) 1L (1..n);
@@ -6071,11 +6081,15 @@ rule removes the ``L`` suffixes from bigint values::
 Of course, your definition of ``__show__`` can also call ``__show__`` itself
 recursively to determine the custom representation of an object.
 
+もちろん、あなたの ``__show__`` 定義が ``__show__`` それ自身を再帰的に呼び出して、オブジェクトのカスタム representation を定義することもできます。
+
 One case which needs special consideration are thunks (futures). The printer
 will *never* use ``__show__`` for those, to prevent them from being forced
 inadvertently. In fact, you *can* use ``__show__`` to define custom
 representations for thunks, but only in the context of a rule for other kinds
-of objects, such as lists. For instance::
+of objects, such as lists. For instance:
+
+特別な考慮を要するケースの一つが、サンク（future）です。プリンタがサンクに対して ``__show__`` を使うことは *決してありません* 。軽率に評価が強制されないようにするためです。実のところ、 ``__show__`` を使ってサンクのカスタム representation を定義することは *可能* なのですが、多種のオブジェクト（リストなど）のためのルールの文脈に限られます。例えば::
 
   > nonfix ...;
   > __show__ (x:xs) = str (x:...) if thunkp xs;
@@ -6087,7 +6101,9 @@ efficiency, the expression printer will always use the default representation
 for these, unless you override the representation of the matrix as a
 whole. E.g., the following rule for double matrices mimics Octave's default
 output format (for the sake of simplicity, this isn't perfect, but you get the
-idea)::
+idea):
+
+もう一つ特別な考慮を要するケースは、数値マトリクスです。効率のため、式プリンタは数値マトリクス出力の際、常にデフォルト representation を使用します。ただしマトリクスの representation 全体をあなたが上書きした場合は別です。例えば、次の浮動小数点値マトリクス〔double matrices〕に対するルールは Octave のデフォルト出力フォーマットを真似ています（簡潔にするため、完全に真似てはいませんが、考え方はわかると思います）::
 
   > __show__ x::matrix =
   >   strcat [printd j (x!(i,j))|i=0..n-1; j=0..m-1] + "\n"
@@ -6098,7 +6114,9 @@ idea)::
      0.33333   4.00000
 
 Finally, by just purging the definition of the ``__show__`` function you can
-easily go back to the standard print syntax::
+easily go back to the standard print syntax:
+
+最後に、 ``__show__`` 関数の定義をただ除去することで、標準の出力 syntax へ簡単に戻すことができます::
 
   > clear __show__
   > 1/7; 1786; cis (-pi/2);
@@ -6109,6 +6127,8 @@ easily go back to the standard print syntax::
 Note that if you have a set of definitions for the ``__show__`` function which
 should always be loaded at startup, you can put them into the interpreter's
 interactive startup files, see `Interactive Usage`_.
+
+あなたが ``__show__`` 関数のための定義セットを持っていて、それが常に起動時にロードされる場合、あなたはそれをインタープリタの対話スタートアップファイル内に置くこともできます。 `Interactive Usage`_ を参照して下さい。
 
 Non-Linear Patterns
 -------------------
