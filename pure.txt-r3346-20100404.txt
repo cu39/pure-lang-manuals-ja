@@ -6344,6 +6344,8 @@ exactly the same code as:
 Numeric Calculations
 --------------------
 
+数値計算
+
 If possible, you should decorate numeric variables on the left-hand sides of
 function definitions with the appropriate type tags, like ``int`` or
 ``double``. This often helps the compiler to generate better code and makes
@@ -6351,7 +6353,9 @@ your programs run faster. The ``|`` syntax makes it easy to add the necessary
 specializations of existing rules to your program. E.g., taking the
 polymorphic implementation of the factorial as an example, you only have to
 add a left-hand side with the appropriate type tag to make that definition go
-as fast as possible for the special case of machine integers::
+as fast as possible for the special case of machine integers:
+
+可能なら、あなたは関数定義の左辺にある数値変数を型タグ（ ``int`` や ``double`` など）で修飾すべきです。こうすることはコンパイラがより良いコードを生成するのを助け、あなたのプログラムを速くします。 ``|`` syntax は、あなたのプログラムに、■既存ルールの必要な特殊化■を追加することを容易にします。例えば、階乗関数の polymorphic な実装を例とすると、適切な型タグを左辺に追加するだけで、その定義を可能な限り素早く machine integers に特化したものへ変えることができます::
 
   fact n::int    |
   fact n         = n*fact(n-1) if n>0;
@@ -6360,6 +6364,8 @@ as fast as possible for the special case of machine integers::
 (This obviously becomes unwieldy if you have to deal with several numeric
 arguments of different types, however, so in this case it is usually better to
 just use a polymorphic rule.)
+
+（ただし、それぞれ型が異なる数値引数をいくつか扱わなければならない場合、こうすると明らかに不格好になります。そのような場合はたいてい、ただ polymorphic なルールをそのまま使う方が良いでしょう）
 
 Also note that int (the machine integers), bigint (the GMP "big" integers) and
 double (floating point numbers) are all different kinds of objects. While they
@@ -6375,6 +6381,8 @@ types. In particular, a small integer constant like ``0`` only matches machine
 integers, not bigints; for the latter you'll have to use the "big L" notation
 ``0L``. Similarly, the constant ``0.0`` only matches doubles, but not ints or
 bigints.
+
+また、 int （the machine integers）、 bigint （ GMP の "big" integers ）および double （浮動小数点数）はそれぞれ型の異なるオブジェクトです。それぞれを混在させて処理を行うこともできますが（例えば int と bigint を掛けた積は bigint となり、 bigint と double の積は double となる、など）、 ``int`` タグがマッチするのは machine int だけであり、 bigint や double にはマッチ *しません* 。同じように、 ``bigint`` は bigint だけにマッチし（ int 値や double 値にはマッチしない）、 ``double`` は double だけです。したがって、異なる種類の数値を処理する関数を定義したい場合、必要なすべての型のための等式を提供しなければなりません（もしくは polymorphic なルールなら全てのケースをキャッチします）。このことは、そうした型を持つ定数にマッチする等式についてもあてはまります。特に、 ``0`` のような整数の小さな整数は machine integers にのみマッチし、 bigint にはマッチしません。後者の場合、 "big L" 記法を使って ``0L`` とする必要があります。同じように、定数 ``0.0`` は double にだけマッチし、 int や bigint にはマッチしません。
 
 Constant Definitions
 --------------------
