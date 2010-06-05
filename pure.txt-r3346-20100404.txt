@@ -6201,6 +6201,8 @@ entire value to be matched is available at runtime. For instance:
 Head = Function
 ---------------
 
+頭＝関数
+
 "As" patterns are also a useful device if you need to manipulate function
 applications in a generic way. Note that the "head = function" rule means that
 the head symbol ``f`` of an application ``f x1 ... xn`` occurring on (or
@@ -6212,7 +6214,9 @@ directly. An anonymous "as" pattern like ``f@_`` does the trick, however,
 since the anonymous variable is always recognized, even if it occurs as the
 head symbol of a function application. Here's a little example which
 demonstrates how you can convert a function application to a list containing
-the function and all arguments::
+the function and all arguments:
+
+"as" パターンは関数適用を総称的な方法で扱うのに役立つ仕組みです。「頭＝関数」ルールとは、 ``f x1 ... xn`` という適用におけるシンボル ``f`` が、等式、パターンマッチング、ラムダ式いずれかの左辺（かその内側）に現れるとき、そのシンボルは常にリテラル関数シンボルと解釈される（変数ではなく）ことを意味しています。ということは、ある適用の内の「関数」要素を変数にマッチさせることはできません（少なくとも直接には）。しかし ``f@_`` のような無名 "as" パターン does the trick, なぜなら無名変数は、関数適用の先頭シンボルとして現れたときでさえ、常に認識されるからです。次にいくつか例を示しますが、この例では、関数適用を、関数と全引数を含むリストへとどのように変換するかを示しています::
 
   > foo x = a [] x with a xs (x@_ y) = a (y:xs) x; a xs x = x:xs end;
   > foo (a b c d);
@@ -6225,8 +6229,12 @@ other hand, generic rules operating on arbitrary function applications are not
 all that common, so having to "escape" a variable using the anonymous "as"
 pattern trick is a small price to pay for that convenience.
 
+これはいささか不便です。しかし事実として「頭＝関数」ルールはとても便利なものです。なぜなら、とてもありふれた場面において、プログラマーに「コンストラクタ」シンボルの宣言（ノンフィクス宣言を除く）を強制しなくて済むからです。他方、任意の関数適用を操作する総称的ルールを使う場面は、それほどありふれていません。なので、無名 "as" パターントリックを使って変数を「エスケープ」しなければならない手間は、この便利さに比べると大したことではありません。
+
 Sometimes you may also run into the complementary problem, i.e., to match a
-function argument against a given function. Consider this code fragment::
+function argument against a given function. Consider this code fragment:
+
+あなたはときどき run into the complementary problem かもしれません。すなわち、ある関数の引数を、与えられた関数にマッチさせる場面です。次の部分コードを考えて下さい::
 
   foo x = x+1;
   foop f = case f of foo = 1; _ = 0 end;
@@ -6234,7 +6242,9 @@ function argument against a given function. Consider this code fragment::
 You might expect ``foop`` to return true for ``foo``, and false on all other
 values. Better think again, because in reality ``foop`` will always return
 true! In fact, the Pure compiler will warn you about the second rule of the
-``case`` expression not being used at all::
+``case`` expression not being used at all:
+
+もしかすると ``foop`` は、 ``foo`` を受け取った場合のみ真を返し、他の全ての値に対して偽を返すと思ったでしょうか。だって、実際 ``foop`` は常に真なわけですから！ 事実、 Pure コンパイラは case 式の第二ルールが決して使われないことについて警告してくるでしょう::
 
   > foop 99;
   warning: rule never reduced: _ = 0;
@@ -6249,8 +6259,12 @@ of fact, this is rather useful, since otherwise a rule like ``f g = g+1``
 would suddenly change meaning if you happen to add a definition like ``g x =
 x-1`` somewhere else in your program, which certainly isn't desirable.)
 
+これはルール左辺の識別子のせいで起こることです。この識別子は関数適用の「頭」シンボルでもなければ、 ``nonfix`` シンボルでもなく、常に変数であるものと解釈されます（cf. `Parameters in Equations`_ ）。たとえそのシンボルがどこかでグローバル関数として宣言されていても、です。そのため ``foo`` は、上の ``case`` 式のリテラル名ではなく、変数なのです！（実際問題、これはむしろ便利です。もしそうでないとすると、 ``f g = g+1`` のようなルールは、プログラムのどこかで ``g x = x-1`` という定義が追加されたら、意味が突然変わってしまうことになります。これは望まれないことでしょう）
+
 A possible workaround is to "escape" the function symbol using an empty
-namespace qualifier::
+namespace qualifier:
+
+可能な次善策としては、空の名前空間修飾子を使って関数シンボルを「エスケープ」することです::
 
   foop f = case f of ::foo = 1; _ = 0 end;
 
@@ -6259,7 +6273,9 @@ in circumstances in which qualified variable symbols are permitted (i.e., in
 variable and constant definitions). A better solution is to employ the
 syntactic equality operator ``===`` defined in the prelude to match the target
 value against the function symbol. This allows you to define the ``foop``
-predicate as follows::
+predicate as follows:
+
+この trick は ``case`` 式内と関数定義内で機能しますが、修飾子つき変数シンボルが許される状況（すなわち、変数と定数の定義内）では失敗します。よりよい解決法は、統語的な等値演算子〔syntactic equality operator〕 ``===`` を使うことです。これは prelude 内で定義されており、■対象となる値を関数シンボルとマッチさせます■。これを使って ``foop`` predicate を次のように宣言できます::
 
   > foop f = f===foo;
   > foop foo, foop 99;
@@ -6270,6 +6286,8 @@ nonfix symbol. However, this makes the ``foo`` symbol "precious", i.e., after
 such a declaration it cannot be used as a local variable anymore. It's usually
 a good idea to avoid that kind of thing, at least for generic symbols, so the
 above solution is preferred in this case.
+
+この状況をうまく扱うもう一つの方法は、 ``foo`` を単にノンフィクスシンボルとして宣言することです。しかし、こうすると ``foo`` シンボルは「かけがえのない」ものとなります。すなわち、宣言の後、もはやそのシンボルをローカル変数として使うことはできなくなります。たいていの場合（少なくとも総称的シンボルについては）、このような状態は避けたほうがよいので、今回の場合に好ましいのは上の解決策です。
 
 With and when
 -------------
