@@ -6292,6 +6292,8 @@ above solution is preferred in this case.
 With and when
 -------------
 
+with と when
+
 A common source of confusion is that Pure provides two different constructs to
 bind local function and variable symbols, respectively. This distinction is
 necessary because Pure does not segregate defined functions and constructors,
@@ -6305,6 +6307,8 @@ individual variable definitions in a ``when`` clause are executed in order,
 while the function definitions in a ``with`` clause are all done
 simultaneously.)
 
+ローカル関数シンボルとローカル変数シンボルを束縛する2つの異なる構造を、 Pure がそれぞれ別個に提供していることは、しばしば混乱の原因となります。この区別は必要なのですが、その理由は、 Pure が定義済み関数と定義済みコンストラクタを分離していないことにあります。このため ``foo x = y`` という等式が、関数 ``foo`` （ ``x`` という形式的パラメータと返値 ``y`` を持つ）の宣言なのか、それともパターン束縛（パターン ``foo x`` を ``y`` の値にマッチさせることでローカル変数 ``x`` を定義する）なのか結論を出す魔法は存在しないのです。 ``with`` 構造は前者を行うもので、 ``when`` は後者を行うものです（記憶法として、 ``when`` 節が時間的な意味を伝えると考えてもよいかもしれません。 ``when`` 節内の個々の変数定義は順番に実行されますが、それに対して ``with`` 節内の関数定義はすべて同時に実行されます）。
+
 Another speciality is that ``with`` and ``when`` clauses are tacked on to the
 end of the expression they belong to. This mimics mathematical language and
 makes it easy to read and understand a definition in a "top-down" fashion.
@@ -6316,7 +6320,9 @@ top). Some people also prefer to write their programs that way. In difference
 to Haskell and ML which have ``let`` expressions to support that kind of
 notation, Pure doesn't provide any special syntax for this. But note that you
 can always write ``when`` clauses in the following style which places the
-"body" at the bottom of the clause::
+"body" at the bottom of the clause:
+
+もう一つの speciality は、 ``with`` 節と ``when`` 節が、それぞれの属する式の末尾に tracked on されることです。これは数学言語を真似たもので、「トップダウン」方式で定義を読解することを容易にします。このスタイルは他のブロック構造型プログラミング言語とかなり異なっています。他の言語ではしばしば、ローカル定義を、それが適用されるコードの前に置きます。こうしたネストされた定義の処理の流れを把握するには、ネストされたスコープを「逆に」（下から上へ）読むことが役立ちます。少なからぬ人々はこうした方法でプログラムを書くことを好みます。 Haskell と ML はそのような記法をサポートするため ``let`` 式を持っていますが、 Pure にはこうした特別な文法が一切ありません。ただし、あなたはいつでも ``when`` 節を次のようなスタイルで書き、 "body" を節の末尾に置くことができることを忘れないで下さい::
 
   result when
     y = foo (x+1);
@@ -6326,7 +6332,9 @@ can always write ``when`` clauses in the following style which places the
 
 This doesn't incur any overhead, since the compiler will always eliminate the
 trivial "tail binding" for the result value. E.g., the above will compile to
-exactly the same code as::
+exactly the same code as:
+
+これはいかなる負荷を背負い込むこともありません。なぜならコンパイラは result の値について trivial な "tail binding" を常に除去するからです。例えば、上のコードは次のコードとまったく同じものとしてコンパイルされます::
 
   baz z when
     y = foo (x+1);
