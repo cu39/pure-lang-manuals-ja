@@ -6930,6 +6930,8 @@ recursion.
 Handling of Asynchronous Signals
 --------------------------------
 
+非同期シグナルの取り扱い
+
 As described in section `Exception Handling`_, signals delivered to the
 process can be caught and handled with Pure's exception handling facilities.
 This has its limitations, however. Since Pure code cannot be executed directly
@@ -6940,16 +6942,23 @@ amount of time. Moreover, if more than one signal arrives between two
 successive signal checks, only the last one will be reported in the current
 implementation.
 
+`Exception Handling`_ のセクションで説明されている通り、プロセスに届くシグナルは Pure の例外処理機構を使って受け取り、処理を行うことができます。しかしいくつか制限もあります。 Pure コードを C のシグナルハンドラから直接実行することはできないので、留保中のシグナルに対するチェックは関数へのエントリー時にだけ行われます。このことが意味するのは、ある種の状況（例えば外部 C ルーチンを実行するときなど）において、シグナル配信が任意の時間だけ遅れる場合があるということです。さらに、2回連続するシグナルチェックの間に2つ以上のシグナルが到着した場合、現在の実装では最後の1つだけがレポートされます。
+
 When delivering a signal which has been remapped to a Pure exception, the
 corresponding exception handler (if any) will be invoked as usual. Further
 signals are blocked while the exception handler is being executed.
 
+あるシグナルを配信するとき、シグナルは Pure 例外に再配置され〔remapped〕ており、それに対応する例外ハンドラが（もしあれば）通常通り呼び出されるでしょう。それに続くシグナルは例外ハンドラが実行される間ブロックされます。
+
 A fairly typical case is that you have to handle signals in a tail-recursive
-function. This can be done with code like the following::
+function. This can be done with code like the following:
+
+とても典型的なケースとして、あなたは末尾再帰関数の中でシグナルを処理しなければならない場合があります。これは次のようなコードで対処できます::
 
   using system;
 
   // Remap some common POSIX signals.
+  // 共通 POSIX シグナルをいくつか再配置
   do (trap SIG_TRAP) [SIGHUP, SIGINT, SIGTERM];
 
   loop = catch handler process $$ loop
@@ -6961,10 +6970,14 @@ signals delivered to the process. Note that to make this work, the
 tail-recursive invocation of ``loop`` must immediately follow the
 signal-handling code, so that signals don't escape the exception handler.
 
+上の ``loop`` 関数を実行すると無限ループに入り、全シグナルがプロセスに通知されます。これを機能させるには、 ``loop`` による末尾再帰の開始直後にシグナル処理コードが続かなければなりません。その結果、シグナルは例外ハンドラをエスケープしなくなるのです。
+
 Of course, in a real application you'd probably want the ``loop`` function to
 carry around some data to be processed by the ``process`` routine, which then
 returns an updated value for the next iteration. This can be implemented as
-follows::
+follows:
+
+もちろん、現実のアプリケーションであなたが望むのは、 ``process`` ルーチンが処理すべきいくらかのデータを ``loop`` が持ち歩き、その後 ``process`` ルーチンが更新済みデータを返し、次回の反復〔iteration〕に使うわけです。このような処理は次のように実装できます::
 
   loop x = loop (catch handler (process x))
   with handler (signal k) = printf "Hey, I got signal %d.\n" k $$ 0 end;
