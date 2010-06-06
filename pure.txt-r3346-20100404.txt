@@ -1435,7 +1435,7 @@ Macro rules: ``def lhs = rhs;``
     rules. See the Macros_ section below for details and examples.
 
 マクロルール: ``def lhs = rhs;``
-    ``def`` キーワードで始まるルールはマクロ関数を定義します。この場合、条件ガードや複数の右辺・左辺は許されません。マクロルールは、コンパイル時に他の式の右辺をぷりプロセスするために使われ、また典型的には、ユーザ定義の特別形や単純な最適化ルールを実装するために使われます。詳細と具体例は下部 Macros_ セクションを参照して下さい。
+    ``def`` キーワードで始まるルールはマクロ関数を定義します。この場合、条件ガードや複数の右辺・左辺は許されません。マクロルールは、コンパイル時に他の式の右辺をプリプロセスするために使われ、また典型的には、ユーザ定義の特別形や単純な最適化ルールを実装するために使われます。詳細と具体例は下部 Macros_ セクションを参照して下さい。
 
 Global variable bindings: ``let lhs = rhs;``
     Binds every variable in the left-hand side pattern to the corresponding
@@ -6506,11 +6506,15 @@ local variables.)
 External C Functions
 --------------------
 
+外部 C 関数
+
 The interpreter always takes your ``extern`` declarations of C routines at
 face value. It will not go and read any C header files to determine whether
 you actually declared the function correctly! So you have to be careful to
 give the proper declarations, otherwise your program will probably segfault
 calling the function.
+
+インタープリタは、あなたが ``extern`` 宣言した C ルーチンを、常に表面通りに〔at face value〕受け取ります。その宣言が本当に正しいかどうか決めるため C ヘッダファイルを読みに行くことはしないのです！ なので、適切な宣言を行うよう常に気をつけなければいけません。でないと、あなたのプログラムは関数を呼び出したときにセグフォールト〔segfault＝セグメンテーション違反〕を起こすでしょう。
 
 You also have to be careful when passing generic pointer values to external C
 routines, since currently there is no type checking for these; any pointer
@@ -6522,11 +6526,15 @@ recommended that you wrap your lowlevel code in Pure routines and data
 structures which do all the checks necessary to ensure that only the right
 kind of data is passed to C routines.
 
+また、総称ポインタの値を外部 C ルーチンに渡すときも気をつける必要があります。いまのところ、その際に型チェックが行われないからです。 ``char*`` 型、 ``expr*`` 型、およびマトリクスポインタ型以外の全てのポインタ型は、実際には ``void*`` 型として扱われます。これにより低層プログラミングと C ライブラリへの仲介〔interfacing to C libraries〕はかなりシンプルになっているのですが、その反面、プログラムのあらゆる場所で簡単にセグフォールトを起こせるようにもなっています。したがって、あなたの低層コードを Pure ルーチンとデータ構造で包み込み、このラッパー側で必要なチェックを全て行って、正しい種類のデータだけが C ルーチンへ確実に渡されるようにすることを強く推奨します。
+
 Another limitation of the C interface is that it does not offer any special
 support for C structs and C function parameters. However, an optional addon
 module is available which interfaces to the libffi_ library to provide that
 kind of functionality, please see the description of the pure-ffi_ module on
 the Pure website for details.
+
+もう一つ C インターフェースには制限があります。 Pure の C インターフェースは、 C 構造体や C 関数のパラメータに対する特別なサポートを一切提供しません。しかし、アドオンモジュールをオプションとして使うことができます。このモジュールは libffi_ ライブラリへの仲介を行ってこの種の機能を提供します。詳しくは Pure ウェブサイト状の pure-ffi_ に関する説明を参照して下さい。
 
 .. _libffi: http://sourceware.org/libffi/
 .. _pure-ffi: http://code.google.com/p/pure-lang/wiki/Addons#pure-ffi
@@ -6538,10 +6546,14 @@ Pure module with definitions and ``extern`` declarations for the constants and
 functions declared in the header. Please refer to the pure-gen(1) manual page
 for details.
 
+最後になりましたが、大きな C ライブラリへの Pure インターフェース作成を簡単にするため、独立した pure-gen_ プログラムを Pure ウェブサイトで入手することができます。このプログラムは C ヘッダ（.h）ファイルを取得して、それに対応する Pure モジュールを作成します。作成されるモジュールには、ヘッダファイル内で宣言されている定数と関数に応じた定義と ``extern`` 宣言が含まれます。詳しくは pure-(1) マニュアルページを参照して下さい。
+
 .. _pure-gen: http://code.google.com/p/pure-lang/wiki/Addons#pure-gen
 
 Special Forms
 -------------
+
+特別形
 
 Special forms are recognized at compile time only. Thus the ``catch``
 function, as well as ``quote`` and the operators ``&&``, ``||``, ``$$`` and
@@ -6549,6 +6561,8 @@ function, as well as ``quote`` and the operators ``&&``, ``||``, ``$$`` and
 still be used if you pass them around as function values or in partial
 applications, but in this case they lose all their special call-by-name
 argument processing.
+
+特別形はコンパイル時にのみ認識されます。したがって ``catch`` 関数と ``quote`` 関数、および演算子 ``&&``, ``||``, ``$$``, ``&`` は■直接（saturated）呼び出し内で特別形と扱われます。もしあなたがそれらを関数値として、あるいは部分適用の中で、使い回した場合でも、それらはまだ使われます。しかしその場合、引数の特別な名前呼び出し処理はすべて失われます。■
 
 The Quote
 ---------
