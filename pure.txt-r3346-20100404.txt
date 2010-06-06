@@ -6481,7 +6481,7 @@ with side effects:
 Last but not least, constants can also be used in patterns, but only if you
 also declare them as ``nonfix``. This is useful, e.g., if you'd like to use
 constants such as ``true`` and ``false`` on the left-hand side of a
-definition, just like other ``nonfix`` symbols::
+definition, just like other ``nonfix`` symbols:
 
 最後になりましたが、定数をパターン内で使うこともできます。ただし定数を ``nonfix`` として宣言した場合に限られます。これが役に立つのは、例えば、あなたが ``true`` や ``false`` などの定数を、他の ``nonfix`` シンボルのように、定義の左辺で使いたい場合です::
 
