@@ -6721,6 +6721,8 @@ prelude は、ストリーム（＝遅延リスト）を適切に扱えるよう
 Reflection
 ----------
 
+リフレクション
+
 Pure versions since 0.12 offer some basic reflection capabilities via the
 ``evalcmd`` primitive. This function provides access to interactive commands
 like ``clear``, ``save`` and ``show``, which enable you to inspect and modify
@@ -6729,6 +6731,8 @@ program in Pure itself is the program text, hence ``evalcmd`` only provides a
 textual interface at this time. But of course custom higher-level
 representations can be built on top of that, similar to those discussed in
 section `The Quote`_.
+
+Pure 0.12 以降では、いくつかの基本的なリフレクション機能を、 ``evalcmd`` プリミティブを通じて提供しています。この関数は対話的コマンド（ ``clear``, ``save``, ``show`` など）へのアクセスを提供しており、実行中のプログラムを点検・修正する〔inspect and modify〕ことを可能にします。 Pure そのものにより Pure プログラム全体を represent する唯一の「正規の」〔"canonical"〕方法は、プログラムテキストです。したがって ``evalcmd`` はこのとき textual interface だけを提供します。ただし、もちろん custom higher-level representations を on top of that に構築することは可能です。 `The Quote`_ セクションで議論されたことと似ています。
 
 Here's an example showing what can be done using the ``show`` command and a
 little bit of trivial text processing. The following ``sym_info`` function
@@ -6742,6 +6746,8 @@ listed (just "*" matches all symbols). The result is a list of tuples ``(name,
 value, cat, descr)`` with the name of the symbol and its value, as well as the
 category and description of the symbol, as provided by ``show -s``.
 
+``show`` コマンドとちょっとしたテキスト処理を使ってできることを示す例を次に示します。次の ``show_info`` 関数は、与えられたグローバルシンボルのコレクションについての情報を、 Pure プログラムで処理可能なかたちで回収します。 ``cat`` の引数は "c", "v", "f", "m" のどのような組み合わせでもよく、それぞれ定数〔constants〕、変数〔variables〕、関数〔functions〕、マクロ〔macros〕の各カテゴリーを意味します（あるいは、シンボルの型を気にしない場合は単に引数なしのままでもかまいません）。 ``pat`` の引数はシェルで使うような glob パターンを使い、リストされるべきシンボル名を示します（ "*" のみだと全シンボルにマッチします）。この結果は ``(name, value, cat, descr)`` という形式のタプルのリストとなり、シンボル名、その値、カテゴリー、シンボルの説明が付いてきます。これは ``show-s`` で提供されるものと同じです。
+
 ::
 
   using system;
@@ -6749,25 +6755,34 @@ category and description of the symbol, as provided by ``show -s``.
   = [name,eval ("("+name+")"),descr | name,descr = info]
   when
     // Get the info about matching symbols from the 'show' command.
+    // マッチするシンボルの情報を 'show' コマンドから得る
     info = evalcmd $ sprintf "show -sg%s %s" (cat,pat);
     // Split into lines.
+    // 行ごとに分ける
     info = if null info then [""] else split "\n" $ init info;
     // Get rid of the last line with the summary information.
+    // 最終行と概要情報を取り除く
     info = init info;
     // Retrieve the information that we need.
+    // 必要な情報を回収する
     info = [x | x@(s,_) = map fields info;
     // Get rid of extra lines containing extern and fixity declarations.
+    // extern 宣言と fixity 宣言を含む追加行を取り除く
             s ~= "extern" && s ~= "nonfix" && s ~= "outfix" &&
             s ~= "prefix" && s ~= "postfix" && ~fnmatch "infix*" s 0];
   end with
     // Regex call to split the summary information about one symbol, as
     // returned by 'show -s', into the name and description parts.
+    // 正規表現を呼び出し、ある一つのシンボルについての概要情報を
+    // 'show -s' コマンドが返すように、名前部分と説明部分へ切り分ける
     fields s::string = tuple $
             [info!2 | info = tail $ regs $ reg_info $
              regex "([^ ]+)[ ]+([a-z]*)[ ]*(.*)" REG_EXTENDED s 0];
   end;
 
-E.g., this call retrieves information about all defined macros::
+E.g., this call retrieves information about all defined macros:
+
+例えば、この呼び出しは定義済みの全マクロについての情報を取り出します::
 
   > sym_info "m" "*";
   [("$",($),"mac","2 args, 1 rules"),(".",(.),"mac","3 args, 1 rules"),
