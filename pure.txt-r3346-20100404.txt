@@ -6572,11 +6572,15 @@ expressions which can then be manipulated before actually evaluating them
 using the built-in ``eval`` function. However, there are some notable
 differences to the Lisp version of ``quote``:
 
+Lisp と同じように、 ``quote`` 特別形を使ってリテラル式を作ることができます。このリテラル式は、組み込み ``eval`` 関数を使って実際に評価される前に、操作を行うことができます。しかし Lisp 版の ``quote`` と異なる点もいくつかあり、注意が必要です:
+
 * Local variables (i.e., variables bound by the left-hand side of an equation,
   a lambda expression or a ``case`` or ``when`` construct) can never be
   quoted, so the corresponding value gets substituted even into quoted
   expressions. Thus, e.g., ``'(2*42+2^n) when n = 12 end`` evaluates to
   ``2*42+2^12`` rather than ``2*42+2^n``.
+
+* ローカル変数（すなわち、等式左辺、ラムダ式、 ``case`` または ``when`` 構造のいずれかによって束縛される変数）は決してクォートされません。なので、対応する値はクォートされた式の中でさえも代入されてしまいます。したがって、例えば、 ``'(2*42+2^n) when n = 12 end`` は ``2*42+2^12`` と評価され、 ``2*42+2^n`` にはなりません。
 
 * Only simple expressions can be quoted in Pure. Special constructs embedded
   in a quoted expression, such as conditionals and local bindings, are
@@ -6584,12 +6588,16 @@ differences to the Lisp version of ``quote``:
   evaluates to ``2*42+4096.0`` rather than quoting the embedded ``when``
   expression.
 
+* Pure でクォートできるのはシンプルな式だけです。クォートされた式の中に埋め込まれた特別な構造（条件節やローカル束縛のようなもの）は通常通り評価されます。例えば、 ``'(2*42+(2^n when n = 2*6 end))`` は ``2*42+4096.0`` と評価され、埋め込まれた ``when`` 式はクォートされません。
+
 While it's possible to define a Lisp-like ``quasiquote`` in Pure (see the
 `Recursive Macros`_ section for a simplified version, a full implementation
 can be found in the Pure library sources), it's usually not needed. As
 discussed above, substitution of local variables is performed even in quoted
 expressions, so that it is quite easy to fill in variable parts in a quoted
-"template" expression. For instance::
+"template" expression. For instance:
+
+Pure では Lisp ライクな ``quasiquote`` を定義することも可能ですが（単純化されたバージョンは `Recursive Macros`_ セクションを参照して下さい。完全な実装は Pure ライブラリソース内にあります）、通常は必要ありません。上で議論された通り、ローカル変数の代入はクォートされた式の中でさえ実施されます。そのため、クォートされたテンプレート式の中にある変数パーツを埋めることは非常に簡単なのです。実例として::
 
   > (\x -> '(2*x+1)) 99;
   2*99+1
@@ -6601,7 +6609,9 @@ expressions, so that it is quite easy to fill in variable parts in a quoted
 In fact, it is possible to perform arbitrary computations right in the middle
 of a quoted expression, using one of the special ``if``-``then``-``else``,
 ``case``, ``when`` and ``with`` expressions, since these are never quoted
-either. Example::
+either. Example:
+
+事実、 ``if``-``then``-``else``, ``case``, ``when`` 式や ``with`` 式を使えば、クォートされた式のど真ん中で任意の計算を実施できます。これらは決してクォートされないからです。例::
 
   > '(x+1 when x = '(2*3) end);
   2*3+1
@@ -6609,14 +6619,18 @@ either. Example::
 Another useful feature of Lisp's ``quasiquote`` is the capability to splice
 arguments into a function application. It is possible to achieve pretty much
 the same in Pure with the following variation of the ``$`` operator which
-"curries" its second (tuple) operand::
+"curries" its second (tuple) operand:
+
+Lisp の ``quasiquote`` には複数の引数を一つの関数適用へと接合する機能があって便利ですが、 Pure でもほとんど同じことを達成する方法があります。 Pure では、 ``$`` 演算子のバリエーションで、演算子の第二（タプル）オペランドを「カリー化」するものを使います::
 
   infixr 0 $@ ;
   f $@ ()     = f;
   f $@ (x,xs) = f x $@ xs;
   f $@ x      = f x;
 
-Now you can write, e.g.::
+Now you can write, e.g.:
+
+今や、次の例のような書き方ができます::
 
   > '(foo 1 2) $@ '(2/3,3/4);
   foo 1 2 (2/3) (3/4)
@@ -6627,11 +6641,15 @@ expressions, however, so it is possible to work around this limitation by
 defining a custom special form to be used as a symbolic representation for,
 say, a lambda expression, which reduces to a real lambda when evaluated. To
 these ends, the ``eval`` function can be invoked with a string argument as
-follows::
+follows:
+
+Pure の ``quote`` の欠点の一つは、ラムダのような特別な構造をクォートする方法がないところです。■しかしクォートされた式の中でのマクロ拡張は禁止されて *います* 。なので、例えばラムダ式のための symbolic representation として使われるカスタム特別形（評価されるときに実際のラムダへ変形される）を定義することにより、この問題を乗り越えることができます■。
 
   def lambda x y = eval $ "\\ "+str ('x)+" -> "+str ('y);
 
-Example::
+Example:
+
+例::
 
   > let l = 'lambda x (x+1); l;
   lambda x (x+1)
@@ -6641,6 +6659,8 @@ Example::
 
 Other special constructs, such as ``case``, ``when`` and ``with`` can be
 handled in a similar fashion.
+
+``case``, ``when``, ``with`` など他の特別形も同じやり方で扱えます。
 
 Laziness
 --------
