@@ -6387,9 +6387,13 @@ bigints.
 Constant Definitions
 --------------------
 
+定数の定義
+
 Constants differ from variables in that they cannot be redefined (that's their
 main purpose after all) and that their values, once defined, are determined at
-compile time rather than run time. For instance::
+compile time rather than run time. For instance:
+
+定数が変数と異なるのは、再定義することができない点（結局それが主な目的です）と、一度定義されたら、実行時ではなくコンパイル時に値が決定されるという点です。例えば::
 
   > const c = 2;
   > foo x = c*x;
@@ -6399,14 +6403,18 @@ compile time rather than run time. For instance::
   198
 
 While a variable can be rebound to a new value at any time, you will get an
-error message if you try to do this with a constant::
+error message if you try to do this with a constant:
+
+変数を新しい値に再束縛することはいつでもできますが、定数を再束縛しようとするとエラーメッセージを受け取るでしょう::
 
   > const c = 3;
   <stdin>, line 5: symbol 'c' is already defined as a constant
 
 Note that in interactive mode you can work around this by purging the old
 definition with the ``clear`` command. However, this won't affect any earlier
-uses of the symbol::
+uses of the symbol:
+
+対話モードでは、古い定義を ``clear`` コマンドで取り除くと、これを回避できます。しかし、それよりも前のシンボル使用に対しては影響しません::
 
   > clear c
   > const c = 3;
@@ -6420,12 +6428,16 @@ to redefine it as a constant, or vice versa, since Pure won't let you redefine
 an existing constant or variable as a different kind of symbol. The same also
 holds if a symbol is currently defined as a function or a macro.)
 
+（すでに定義済みの変数を定数として〔同じシンボル名で〕再定義したい場合、まず既存の定義を除去する必要があります。定数を変数にしたい場合も同様です。なぜかというと、 Pure では、すでに存在する定数や変数を別種のシンボルとして再定義することが許されないからです。あるシンボルが関数やマクロとして定義されている場合でも、このことは変わりません）
+
 As the value of a constant is known at compile time, the compiler can apply
 various optimizations to uses of such values. In particular, the Pure compiler
 inlines constant scalars (numbers, strings and pointers) by literally
 substituting their values into the output code, and it also precomputes simple
 constant expressions involving only (machine) integer and double
-values. Example::
+values. Example:
+
+定数の値はコンパイルの段階でわかるので、コンパイラはその値が使われる部分に様々な最適化を施すことができます。特に、 Pure コンパイラは定数スカラー（数値、文字列、ポインタ）をインライン化します。具体的には、定数スカラーの値を出力コードへと直訳的に〔literally〕 substitute し、また (machine) integer 値と double 値だけを含むシンプルな定数式を事前計算します。例です::
 
   > extern double atan(double);
   > const pi = 4*atan 1.0;
@@ -6437,7 +6449,9 @@ values. Example::
 
 In addition, the LLVM backend eliminates dead code automatically, so you can
 employ a constant to configure your code for different environments, without
-any runtime penalties::
+any runtime penalties:
+
+それに加えて、 LLVM バックエンドはデッドコード〔dead code〕を自動的に排除するので、あなたは自分のコードを異なる環境に向けて設定することができ、そうした場合でも実行時のペナルティはありません::
 
   const win = index sysinfo "mingw32" >= 0;
   check boy = bad boy if win;
@@ -6445,6 +6459,8 @@ any runtime penalties::
 
 In this case the code for one of the branches of ``check`` will be completely
 eliminated, depending on the outcome of the configuration check.
+
+この場合、 ``check`` の枝のどちらか一本のコード〔＝最終的な出力コード〕は完全に除去されるでしょう。どちらが除去されるかは設定チェックの結果次第です。
 
 For efficiency, constant aggregates (lists, tuples, matrices and other kinds
 of non-scalar terms) receive special treatment. Here, the constant is computed
@@ -6455,7 +6471,9 @@ constant value is computed at compile time only; when running the compiled
 executable, the constant value is simply reconstructed, which is often much
 more efficient than recomputing its value. For instance, you might use this to
 precompute a large table whose computation may be costly or involve functions
-with side effects::
+with side effects:
+
+効率のため、定数集合（リスト、タプル、マトリクス、およびその他の非スカラー項）は特別扱いを受けます。すなわち、定数は一度だけ計算されて読み込み専用の変数内に保存され、実行時には通常のグローバル変数と同じようにその値が検索されます。しかし、まだ一つ大きな違いがあります。もしスクリプトがバッチコンパイルされた場合（ cf. `Batch Compilation`_ ）、定数値はコンパイル時にのみ計算されます。コンパイル済み実行ファイルが実行されたとき、定数値は単純に再構築されるので、値を再計算するよりも通常はとても効率が良くなります。例えば、■これを使って大きなテーブルを事前計算したいと思うかもしれません。この計算はコストがかかるか、副作用を持つ関数を含んでいます■::
 
   const table = [foo x | x = 1..1000000];
   process table;
@@ -6464,6 +6482,8 @@ Last but not least, constants can also be used in patterns, but only if you
 also declare them as ``nonfix``. This is useful, e.g., if you'd like to use
 constants such as ``true`` and ``false`` on the left-hand side of a
 definition, just like other ``nonfix`` symbols::
+
+最後になりましたが、定数をパターン内で使うこともできます。ただし定数を ``nonfix`` として宣言した場合に限られます。これが役に立つのは、例えば、あなたが ``true`` や ``false`` などの定数を、他の ``nonfix`` シンボルのように、定義の左辺で使いたい場合です::
 
   > show false true
   const false = 0;
@@ -6480,6 +6500,8 @@ definition, just like other ``nonfix`` symbols::
 ``check`` wouldn't work as intended, because the ``true`` and ``false``
 symbols on the left-hand side of the two equations would be interpreted as
 local variables.)
+
+（ ``nonfix`` 宣言を行わなかった場合、上の例における ``check`` の定義は望む通りに動作してくれません。なぜかというと、二つの等式の左辺にある ``true`` と ``false`` のシンボルはローカル変数と解釈されるからです）
 
 External C Functions
 --------------------
