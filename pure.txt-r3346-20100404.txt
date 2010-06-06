@@ -6665,6 +6665,8 @@ handled in a similar fashion.
 Laziness
 --------
 
+怠惰さ〔Laziness〕
+
 Pure does lazy evaluation in the same way as `Alice ML`_, providing an
 explicit operation (``&``) to defer evaluation and create a "future" which is
 called by need. However, note that like any language with a basically eager
@@ -6680,6 +6682,8 @@ memory leaks and other kinds of subtle inefficiencies or non-termination
 issues resulting from definitions being too lazy or not lazy enough. You can
 read about that in any good textbook on Haskell.)
 
+Pure は `Alice ML`_ と同じ方法で遅延評価を行います。明示的な処理（ ``&`` ）を与えると、評価を延期し、必要に応じて呼び出される「未来」〔"future"〕を作り出します。しかし、基本的に先行評価戦略をとるあらゆる言語と同様、 Pure は全自動での遅延評価をサポートできないことを忘れないで下さい。つまり、無限のデータ構造を扱う処理をコーディングするときに、通常はそれに応じた考え方を追加しなければならないのです。無限のデータ構造の入力を認識するためや、それを相応に扱うためには、特別なコードが必要となることもあるでしょう。これは難しいことかもしれませんが、もちろん、 prelude の処理の場合にはこうした仕事はすでに行われています。なので、 these の stick to する限り、あなたはこうした問題を考えずに済みます（完全に lazy な関数型言語にさえも遅延評価の落とし穴はあります。例えば、メモリリークや、その他の細かな効率の悪さ、あるいは定義が lazy すぎることや十分に lazy でないことを原因とする non-termination の問題など。このような問題は Haskell の良い参考書で読むことができます）。
+
 The prelude goes to great lengths to implement all standard list operations in
 a way that properly deals with streams (a.k.a. lazy lists). What this all
 boils down to is that all list operations which can reasonably be expected to
@@ -6689,10 +6693,14 @@ an input stream will be traversed which are strictly required to produce the
 result. For most purposes, this works just like in fully lazy FPLs such as
 Haskell. However, there are some notable differences:
 
+prelude は、ストリーム（＝遅延リスト）を適切に扱えるような標準リスト処理をすべて実装しているため、非常に長いものになっています。煎じ詰めると、あらゆるリスト処理は、ストリームを lazy な方法で処理できることが想定されて然るべきですが、実際にそうしてくれるでしょう（ただし、本質的に先行評価処理である ``#``, ``reverse``, ``foldl`` などは除きます）。入力ストリームのそうした部分だけが横断されますが、それは結果を生み出すために厳密に求められることです。ほとんどの目的に対して、このことは Haskell のような完全に遅延評価の関数型言語と同じように動作します。しかし、いくつか注意すべき相違点もあります:
+
 * Since Pure uses dynamic typing, some of the list functions may have to peek
   ahead one element in input streams to check their arguments for validity,
   meaning that these functions will be slightly more eager than their Haskell
   counterparts.
+
+* Pure は動的な型づけを行うので、リスト関数のうちいくつかは、ストリームの先頭要素を前もってのぞき見し、引数の正当性をチェックしなければいけない可能性があります。つまり、これらの関数は Haskell にある同じ動作のものよりも少しだけ eager だということになるでしょう。
 
 * Pure's list functions never produce truly cyclic list structures such as the
   ones you get, e.g., with Haskell's ``cycle`` operation. (This is actually a
@@ -6701,10 +6709,14 @@ Haskell. However, there are some notable differences:
   [1]`` or ``fix (1:)`` will of course work as expected, but, depending
   on the algorithm, memory usage may increase linearly as they are traversed.
 
+* Pure のリスト関数は本当の意味で循環的なリスト構造（ Haskell の ``cycle`` 処理を使って得られるもの）を産み出すことはありません（実のところ、これは良いことです。なぜなら、現在のインタープリタの実装では循環式データをガベージ・コレクトすることができないからです）。循環的なストリーム（ ``cycle [1]`` や ``fix (1:)`` ）はもちろん想定通り動作しますが、アルゴリズムによっては、ストリームを追うのに従って線的にメモリ使用量が増大する可能性があります。
+
 * Pattern matching is always refutable (and therefore eager) in Pure. If you
   need something like Haskell's irrefutable matches, you'll have to code them
   explicitly using futures. See the definition of the ``unzip`` function in
   the prelude for an example showing how to do this.
+
+* Pure におけるパターンマッチングは常に可反駁〔refutable〕です（したがって eager です）。 Haskell の不可反駁〔irrefutable〕マッチのようなものが必要ならば、 futures を使って明示的にコードしなければなりません。実際にこれを行っている例は、 prelude 内の ``unzip`` 関数の定義を参照して下さい。
 
 Reflection
 ----------
