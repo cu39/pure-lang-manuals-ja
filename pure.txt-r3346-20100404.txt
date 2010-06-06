@@ -1093,7 +1093,7 @@ Matrices: ``{1.0,2.0,3.0}``, ``{1,2;3,4}``, ``{1L,y+1;foo,bar}``
     the special ``matrix`` type tag, see the `Rule Syntax`_ section for
     details).
 
-    ``[...]`` と ``{...}`` は構造の外見がよく似ているのに対して、両者の動作が非常に異なることに注意して下さい。前者は単に、対応するコンストラクタの syntactic sugar であり、そのため等式左辺のパターンとして使用できます。それと対照的に、後者は組み込み処理の一つであり、専用のマトリクス型を持つオブジェクトを生み出します。こちらはパターンとして使うことはでき *ません* （その代わり、マトリクスの値は専用の ``matrix`` 型タグを使ってマッチさせることができます。詳しくは `Rule Syntax`_ セクションを参照して下さい）。
+    ``[...]`` と ``{...}`` は構造の外見がよく似ているのに対して、動作はそれぞれ非常に異なることに注意して下さい。前者は単に、対応するコンストラクタの syntactic sugar であり、そのため等式左辺のパターンとして使用できます。それと対照的に、後者は組み込み処理の一つであり、専用のマトリクス型を持つオブジェクトを生み出します。こちらはパターンとして使うことはでき *ません* （その代わり、マトリクスの値は専用の ``matrix`` 型タグを使ってマッチさせることができます。詳しくは `Rule Syntax`_ セクションを参照して下さい）。
 
     Pure supports both numeric and symbolic matrices. The former are
     homogeneous arrays of double, complex double or (machine) int matrices,
@@ -6884,6 +6884,8 @@ definition. Currently you will have to correct this manually.
 Stack Size and Tail Recursion
 -----------------------------
 
+スタックサイズと末尾再帰
+
 Pure programs may need a considerable amount of stack space to handle
 recursive function and macro calls, and the interpreter itself also takes its
 toll. So you should configure your system accordingly (8 MB of stack space is
@@ -6898,10 +6900,14 @@ set the real process stack size. (The ``PURE_STACK`` limit should be a little
 less than that, to account for temporary stack usage by the interpreter
 itself.)
 
+Pure プログラムで再帰関数や再帰マクロの呼び出しを行うには、少なからぬ量のスタック領域を必要とする可能性があり、またインタープリタそのものも通行料を取ります。そのため、システムを相応に設定しておくべきでしょう（ 32 ビットシステムでは 8 MB のスタックサイズを推奨します。 64 ビットポインタを使うシステムではもっと必要にナルでしょう）。 PURE_STACK 変数が設定されている場合、インタープリタは関数へのエントリーの際に助言的なスタックチェックを行い、与えられた制限をカレントスタックサイズが上回ってしまう場合には Pure 例外を起こします。 PURE_STACK の値には最大スタックサイズをキロバイト単位で設定します。これはあくまでも助言的な制限にすぎず、プログラムの物理スタックサイズを変化させるものではないことをどうか忘れないで下さい。あなたの OS は、例えば ulimit(1) のような、実プロセススタックサイズを設定するコマンドを提供していることでしょう（ ``PURE_STACK`` 制限はそれより少し小さいサイズに設定すべきです。インタープリタそのものが使う一時スタックの分を含めるためです）。
+
 Like Scheme, Pure does proper tail calls (if LLVM provides that feature on the
 platform at hand), so tail-recursive definitions should work fine in limited
 stack space. For instance, the following little program will loop forever if
-your platform supports the required optimizations::
+your platform supports the required optimizations:
+
+Scheme と同じように、 Pure は proper tail calls を行いません（もし LLVM がこの機能を on the platform at hand で提供する場合）ので、末尾再帰の定義は限られたスタック領域内でも上等に動作します。例えば、次の小さなプログラムは、プラットフォームが必要な最適化をサポートしている場合、永遠にループし続けるでしょう::
 
   loop = loop;
   loop;
@@ -6912,10 +6918,14 @@ multiple equations, of course. Moreover, conditional expressions
 logical operators ``&&`` and ``||``, as well as the sequence operator ``$$``,
 are tail-recursive in their second operand.
 
+あなたの定義に関数パラメータやガード、複数の等式が含まれているとしても、もちろん正しく動作します。さらに、条件式（ ``if``-``then``-``else`` ）は両方の枝で末尾再帰であり、論理演算子 ``&&`` と ``||`` や継起演算子 ``$$`` は第二オペランドにおいて末尾再帰です。
+
 Also note that tail call optimization is *always* disabled if the debugger is
 enabled (-g). This makes it much easier to debug programs, but means that you
 may run into stack overflows when debugging a program that does deep tail
 recursion.
+
+また、デバッガーが有効である場合（ -g ）、末尾呼び出しの最適化は *常に* 無効となります。これによりプログラムをデバッグするのは容易になりますが、深く末尾再帰を行うプログラムをデバッグする際にスタックオバ－フローに陥る可能性があることも意味します。
 
 Handling of Asynchronous Signals
 --------------------------------
