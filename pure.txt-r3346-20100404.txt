@@ -6998,14 +6998,20 @@ folder distributed with the software) are distributed as free software, and
 you are welcome to modify and redistribute them under the appropriate license
 terms, as detailed below.
 
+Pure はとてもリベラルなライセンスとともにあり、あなた独自の Pure プログラムと拡張機能を好きなライセンスの下で配布することも、商用アプリケーションが Pure ランタイムや標準ライブラリにリンクすることも可能で、特別な許可を必要としません。さらに、 Pure インタープリタ（ ``pure`` メインプログラム）と Pure 標準ライブラリ（ソフトウェアと共に配布されている ``lib`` フォルダ内の Pure スクリプト）はフリーソフトウェアとして配布されており、それをあなたが修正し、適切なライセンスの下で再配布することも歓迎されます。ライセンスについては以下で詳細を述べます。
+
 (The above explanations are not legal advice. Please read the full text of the
 licenses and consult qualified professional counsel for an interpretation of
 the license terms as they apply to you.)
+
+（上記の説明は法的な助言ではありません。ライセンスの全文を読み、正式な資格を持つ専門家に相談し、ライセンス条項があなたに対して適用される際の解釈を聞くようにして下さい）
 
 The *Pure interpreter* is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by the Free
 Software Foundation, either version 3 of the License, or (at your option) any
 later version.
+
+*Pure インタープリタ* はフリーソフトウェアです: あなたはインタープリタを再配布することができ、かつ／または、改変することができます。ただし、フリーソフトウェア財団が発行する GNU General Public License のバージョン 3 か、それ以降のいずれか（あなたの選択次第）の下で行われる必要があります。
 
 The *Pure runtime library* and the *Pure standard library* are also free
 software: you can redistribute them and/or modify them under the terms of the
@@ -7013,9 +7019,13 @@ GNU *Lesser* General Public License as published by the Free Software
 Foundation, either version 3 of the License, or (at your option) any later
 version.
 
+*Pure ランタイムライブラリ* および *Pure 標準ライブラリ* もまた、フリーソフトウェアです: あなたはインタープリタを再配布することができ、かつ／または、改変することができます。ただし、フリーソフトウェア財団が発行する GNU *Lesser* General Public License のバージョン 3 か、それ以降のいずれか（あなたの選択次第）の下で行われる必要があります。
+
 Pure is distributed in the hope that it will be useful, but WITHOUT ANY
 WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
 A PARTICULAR PURPOSE.
+
+Pure は有用なものでありたいという希望の下に配布されていますが、一切の保証はなく、また商品適格性や特定目的への適正に関する保証も含まれていません。■implied を「含まれていません」でよいかどうか■
 
 Please see the |GPL|_ and the |LGPL|_ for the precise license terms. You can
 also find the license conditions in the COPYING and COPYING.LESSER files
@@ -7023,11 +7033,15 @@ accompanying the software. Also, please see the source code for the copyright
 and license notes pertaining to individual source files which are part of this
 software.
 
+どうか |GPL|_ および |LGPL|_ を参照し、厳密なライセンス条項を確認して下さい。ソフトウェアに付属している COPYING ファイルと COPYING.LESSER ファイルでもライセンス条件を確認できます。また、ソースコードを参照し、ソフトウェアの一部となる個々のソースファイルに適用される、著作権とライセンスに関する注記を確認して下さい。
+
 Pure uses LLVM_ as its compiler backend. LLVM is under Copyright (c) 2003-2009
 by the University of Illinois at Urbana-Champaign, and is licensed under a
 3-clause BSD-style license, please read COPYING.LLVM included in the
 distribution for the exact licensing terms. You can also find the LLVM license
 at the LLVM_ website.
+
+Pure は LLVM_ をコンパイラバックエンドとして利用しています。 LLVM は Copyright (c) 2003-2009 by the University of Illinois at Urbama-Champaign の下にあり、三条項 BSD 式ライセンス〔 3-clause BSD-style license 〕の下で許諾されています。どうか配布パッケージに含まれる COPYING.LLVM ファイルを読み、正確なライセンス条項を確認して下さい。 LLVM のライセンスは LLVM_ のウェブサイトでも確認できます。
 
 Author
 ======
@@ -7037,7 +7051,16 @@ Author
 Albert Graf <Dr.Graef@t-online.de>, Dept. of Computer Music, Johannes
 Gutenberg University of Mainz, Germany.
 
+Albert Graf <Dr.Graef@t-online.de>, コンピュータ音楽科, マインツ・ヨハネス・グーテンベルク大学, ドイツ.
+
 The author gratefully acknowledges the contributions by Scott E. Dillard,
+Rooslan S. Khayrov, Eddie Rucker, Libor Spacek, Jiri Spitz and Sergei
+Winitzki, as well as Toni Graffy, Michel Salim and Ryan Schmidt who maintain
+the SUSE Linux, Fedora Core and OSX packages, respectively. Thanks are also
+due to Vili Aapro, Alvaro Castro Castilla, John Cowan, Chris Double, Tim
+Haynes, Roman Neuhauser, Wm Leler, John Lunney and Max Wolf.
+
+作者は以下の方々による貢献に深い感謝の意を表します。 Scott E. Dillard,
 Rooslan S. Khayrov, Eddie Rucker, Libor Spacek, Jiri Spitz and Sergei
 Winitzki, as well as Toni Graffy, Michel Salim and Ryan Schmidt who maintain
 the SUSE Linux, Fedora Core and OSX packages, respectively. Thanks are also
@@ -7053,11 +7076,15 @@ Aardappel
     Wouter van Oortmerssen's functional programming language based on term
     rewriting, http://wouter.fov120.com/aardappel.
 
+    Wouter van Oortmerssen 作の、項書き換えを基礎とする関数型プログラミング言語。 http://wouter.fov120.com/aardappel
+
 .. _Alice ML:
 
 Alice ML
     A version of ML (see below) from which Pure borrows its model of lazy
     evaluation, http://www.ps.uni-sb.de/alice.
+
+    ML （下部参照）の派生版の一つで、 Pure はここから遅延評価モデルを借用している。 http://www.ps.uni-sb.de/alice
 
 .. _Bertrand:
 
@@ -7067,11 +7094,15 @@ Bertrand
     Constraint Programming Languages: Their Specification and Generation.
     Addison-Wesley, 1988.
 
+    Wm Leler 作の、項書き換えを基礎とする constraint programming language (http://groups.google.com/group/bertrand-constraint) 。 Wm Leler: Constraint Programming Languages: Their Specification and Generation. Addison-Wesley, 1998. を参照。
+
 .. _GNU Multiprecision Library:
 .. _GMP:
 
 GNU Multiprecision Library
     Free library for arbitrary precision arithmetic, http://gmplib.org.
+
+    任意制度演算のためのフリーライブラリ, http://gmplib.org
 
 .. _GNU Octave:
 .. _Octave:
@@ -7080,6 +7111,8 @@ GNU Octave
     A popular high-level language for numeric applications and free MATLAB
     replacement, http://www.gnu.org/software/octave.
 
+    数値アプリケーションおよび free MATLAB 置換のための、有名な高級言語。 http://www.gnu.org/software/octave
+
 .. _GNU Scientific Library:
 .. _GSL:
 
@@ -7087,15 +7120,21 @@ GNU Scientific Library
     A free software library for numeric applications, can be used with Pure's
     numeric matrices, http://www.gnu.org/software/gsl.
 
+    数値アプリケーションのためのフリーソフトウェアライブラリで、 Pure の数値マトリクスとともに使用できる。 http://www.gnu.org/software/gsl
+
 .. _Haskell:
 
 Haskell
     A popular non-strict FPL, http://www.haskell.org.
 
+    有名な非正格関数型言語。 http://www.haskell.org
+
 .. _LLVM:
 
 LLVM
     The LLVM code generator framework, http://llvm.org.
+
+    LLVM コード生成器フレームワーク。 http://llvm.org
 
 .. _ML:
 
@@ -7103,13 +7142,21 @@ ML
     A popular strict FPL. See Robin Milner, Mads Tofte, Robert Harper,
     D. MacQueen: The Definition of Standard ML (Revised). MIT Press, 1997.
 
+    有名な正格関数型言語。 Robin Milner, Mads Tofte, Robert Harper,
+    D. MacQueen: The Definition of Standard ML (Revised). MIT Press, 1997.
+    を参照。
+
 .. _Pure:
 
 Pure
     Find the latest releases and the mailing list at the Pure website,
     http://pure-lang.googlecode.com.
 
+    最新リリースとメーリングリストを Pure ウェブサイトで確認して下さい。 http://pure-lang.googlecode.com
+
 .. _Q:
 
 Q
     Another term rewriting language by yours truly, http://q-lang.sf.net.
+
+    もう一つの項書き換え型言語 by yours truly, http://q-lang.sf.net
