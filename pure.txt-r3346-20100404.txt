@@ -43,7 +43,7 @@ This manual describes the Pure programming language and how to invoke the Pure
 interpreter program. To read the manual inside the interpreter, just type
 ``help`` at the command prompt. See the `Online Help`_ section for details.
 
-このマニュアルは Pure プログラミング言語と Pure インタープリタプログラムを動かす方法を説明します。インタープリタを使っている最中にこのテキストを読むには、ただ ``help`` とタイプして下さい。詳しくは `Online Help`_ セクションを参照。
+このマニュアルは Pure プログラミング言語と Pure インタープリタプログラムを動かす方法を説明します。インタープリタを使っている最中にこのテキストを読むには、コマンドプロンプトでただ ``help`` とタイプして下さい。詳しくは `Online Help`_ セクションを参照。
 
 There is a companion to this manual, the `Pure Library Manual`_ which contains
 the description of the standard library operations. More information about
@@ -79,7 +79,7 @@ evaluate expressions in a symbolic fashion by reducing them to normal form. An
 overview of the language can be found in the `Pure Overview`_ section below,
 and subsequent sections discuss most language features in detail.
 
-Pure は項書き替えを基礎とする現代的な関数型プログラミング言語です。Pure プログラムは基本的に等式ルールの集合です。この等式は、式を記号的な方法で正規形へ還元して評価するのに使われます。言語の全体像は下にある `Pure Overview`_ セクションとそれに続くセクションにあり、言語機能のほとんどについて詳細に議論しています。
+Pure は項書き換えを基礎とする現代的な関数型プログラミング言語です。Pure プログラムは基本的に等式ルールの集まりです。この等式は、式を記号的な方法で正規形へ還元して評価するのに使われます。言語の全体像は下にある `Pure Overview`_ セクションとそれに続くセクションにあり、言語機能のほとんどについて詳細に議論しています。
 
 The Pure interpreter has an LLVM_ backend which JIT-compiles Pure programs to
 machine code, hence programs run blazingly fast and interfacing to C modules
@@ -87,7 +87,7 @@ is easy, while the interpreter still provides a convenient, fully interactive
 environment for running Pure scripts and evaluating expressions. You can also
 compile your scripts to standalone executables if you prefer that.
 
-Pure インタープリタは LLVM_ バックエンドを持っています。 LLVM は Pure プログラムをマシン語に JIT コンパイルします。なのでプログラムは激しく高速で、Cモジュールへ簡単に接続することができます。その一方でインタープリタは、 Pure で書かれたスクリプトや式を、完全にインタラクティブな使いやすい環境で走らせることができます。またお好みなら、スクリプトをスタンドアロンの実行ファイルにコンパイルすることもできます。
+Pure インタープリタは LLVM_ バックエンドを持っています。 LLVM は Pure プログラムをマシン語に JIT コンパイルします。そのためプログラムは激しく高速で、 C モジュールへ簡単に接続することができます。その一方でインタープリタは、 Pure で書かれたスクリプトや式を、完全にインタラクティブな使いやすい環境で走らせることができます。またお好みなら、スクリプトをスタンドアローンの実行ファイルにコンパイルすることもできます。
 
 Pure programs (a.k.a. scripts) are just ordinary text files containing Pure
 code. They must be encoded in UTF-8 (which subsumes 7 bit ASCII), other
@@ -98,13 +98,13 @@ and the input language accepted by the interpreter, except that the
 interpreter also understands some special commands when running in interactive
 mode; see the `Interactive Usage`_ section for details.
 
-Pure プログラム（またはスクリプト）は Pure コードを含む単なる普通のテキストファイルです。そのファイルは UTF-8 （7ビット ASCII をその一部に含む）でエンコードされなければならず、 Latin-1 のような他のエンコーディングはサポートされません。Pureのソースには、有名なテキストエディタ用のシンタックスハイライト用ファイルやプログラミングモードがたくさん含まれています。Pure言語とインタープリタが許容する入力言語の間にほとんど違いはありませんが、インタラクティブモードで実行されているインタープリタはさらに特別なコマンドを理解します。詳しくは `Interactive Usage`_ を参照して下さい。
+Pure プログラム（またはスクリプト）は Pure コードを含んだ単なる普通のテキストファイルです。そのファイルは UTF-8 （7ビット ASCII をその一部に含む）でエンコードされなければならず、 Latin-1 のような他のエンコーディングはサポートされません。 Pure のソースには、有名なテキストエディタ用のシンタックスハイライト用ファイルやプログラミングモードがたくさん含まれています。 Pure 言語とインタープリタが許容する入力言語の間にほとんど違いはありませんが、対話モードで実行されているインタープリタはさらに特別なコマンドを理解します。詳しくは `Interactive Usage`_ を参照して下さい。
 
 (In case you're wondering, the name "Pure" actually refers to the
 adjective. But you can also write it as "PURE" and take this as a recursive
 acronym for the "Pure Universal Rewriting Engine".)
 
-（In case you're wondering, "Pure"という名前は実際には形容詞を表しています。しかしまた "PURE" と書いてもいいし、それを "Pure Universal Rewriting Engine" という再帰的頭字語と理解してもかまいません）
+（疑問を持つ方のために説明すると、 "Pure"という名前は実際には形容詞を表しています。しかしまた "PURE" と書いてもいいし、それを "Pure Universal Rewriting Engine" という再帰的頭字語と理解してもかまいません）
 
 Invoking the Pure Interpreter
 =============================
@@ -113,7 +113,7 @@ Pure インタープリタを起動する
 
 The Pure interpreter is invoked as follows:
 
-Pureインタープリタは以下のように起動されます::
+Pure インタープリタは以下のように起動されます::
 
   pure [options ...] [script ...] [-- args ...]
   pure [options ...] -x script [args ...]
@@ -121,23 +121,28 @@ Pureインタープリタは以下のように起動されます::
 Options
 -------
 
+オプション
+
 The interpreter accepts various options which are described in more detail
 below:
 
-インタープリタは様々なオプションを許容します。詳細は以下の通り：
+インタープリタは様々なオプションを許容します。詳細は以下の通り:
 
 ``-c``
     Batch compilation.
+
     バッチコンパイル。
 
 ``--ctags``, ``--etags``
     Create a tags file in ctags (vi) or etags (emacs) format.
+
     ctags (vi) か etags (emacs) フォーマットのタグファイルを生成する。
 
 ``--eager-jit``
     Enable eager JIT compilation. This requires LLVM 2.7 or later, otherwise
     this flag will be ignored.
-    eager JIT コンパイルを有効にする。この機能はLLVM 2.7以上を必要とする。
+
+    eager JIT コンパイルを有効にする。この機能は LLVM 2.7 以上を必要とする。
     存在しない場合このフラグは無視される。
 
 ``-fPIC``, ``-fpic``
@@ -145,82 +150,101 @@ below:
 
 ``-g``
     Enable symbolic debugging.
+
     シンボリックデバッグを有効にする。
 
 ``--help``, ``-h``
     Print help message and exit.
+
     ヘルプメッセージを表示して終了する。
 
 ``-i``
     Force interactive mode (read commands from stdin).
+
     対話モード（標準入力からコマンドを読む）を強制する。
 
 ``-I directory``
     Add a directory to be searched for included source scripts.
+
     インクルードするソーススクリプトを検索するディレクトリを追加する。
 
 ``-L directory``
     Add a directory to be searched for dynamic libraries.
+
     動的ライブラリを検索するディレクトリを追加する。
 
 ``-l libname``
     Library to be linked in batch compilation.
+
     バッチコンパイル時にリンクするライブラリを指定する。
 
 ``--noediting``
     Disable command-line editing.
+
     コマンドライン編集を無効にする。
 
 ``--noprelude``, ``-n``
     Do not load the prelude.
+
     preludeをロードしない。
 
 ``--norc``
     Do not run the interactive startup files.
 
+    対話モード用のスタートアップファイルを実行しない。
+
 ``-o filename``
     Output filename for batch compilation.
+
     バッチコンパイル時の出力ファイル名を指定する。
 
 ``-q``
     Quiet startup (suppresses sign-on message in interactive mode).
+
     静かなスタートアップ（対話モードのサインオンメッセージを表示しない）。
 
 ``-T filename``
     Tags file to be written by ``--ctags`` or ``--etags``.
+
     ``--ctags`` や ``--etags`` で出力されるタグファイル名を指定する。
 
 ``-u``
     Do not strip unused functions in batch compilation.
+
     バッチコンパイル時に使われていない関数が削除されるのを抑制する。
 
 ``-v[level]``
     Set verbosity level. See below for details.
+
     メッセージ表示レベル〔verbosity level〕を設定する。詳細は下部を参照。
 
 ``--version``
     Print version information and exit.
+
     バージョン情報を出力して終了。
 
 ``-w``
     Enable compiler warnings about various dubious constructs and backward
     compatibility issues.
+
     様々な構造の曖昧さや後方互換性に関するコンパイラの警告メッセージを有効にする。
 
 ``-x``
     Execute script with given command line arguments.
+
     コマンドライン引数で渡されたスクリプトを実行する。
 
 ``--``
     Stop option processing and pass the remaining command line arguments in
     the ``argv`` variable.
+
     オプションの処理を止め、残りのコマンドライン引数を ``argv`` 変数に渡す。
 
 (Besides these, the interpreter also understands a number of other command
 line switches for setting various code generation options; please see `Code
 Generation Options`_ below for details.)
 
-（これらに加えて、インタープリタはコード生成オプションを設定する他のコマンドラインスイッチもたくさん理解します。詳しくは下部 `Code Generation Options`_ を参照して下さい。
+（これらに加えて、インタープリタは、コード生成オプションを設定するコマンドラインスイッチを他にもたくさん理解します。詳しくは下部 `Code Generation Options`_ を参照して下さい。
 
 Overview of Operation
 ---------------------
@@ -233,7 +257,7 @@ the interactive read-eval-print loop, see `Running Interactively`_ below. You
 can also use the -i option to enter the interactive loop (continue reading
 from stdin) even after processing some source scripts.
 
-コマンドラインでいかなるソーススクリプトが指定された場合でも、それは読み込まれて実行され、その後インタープリタは終了します。そうでない場合、インタープリタは read-eval-print ループの対話モードに入ります。下部 `Running Interactively`_ を参照して下さい。また -i オプションを使って、ソーススクリプトを処理した後でさえも続く対話ループ（標準入力から読み込みを続ける）に入ることもできます
+コマンドラインでいかなるソーススクリプトが指定された場合でも、それは読み込まれて実行され、その後インタープリタは終了します。スクリプトが指定されない場合、インタープリタは read-eval-print ループの対話モードに入ります。下部 `Running Interactively`_ を参照して下さい。また -i オプションを使って、ソーススクリプトを処理した後でさえも続く対話ループ（標準入力から読み込みを続ける）に入ることもできます
 
 Options and source files are processed in the order in which they are given on
 the command line. Processing of options and source files ends when either the
@@ -247,7 +271,7 @@ respectively. In the case of -x this also includes the script name as
 executable programs by including a "shebang" like the following as the first
 line in your main script. (This trick only works with Unix shells, though.)
 
-オプションとソースファイルはコマンドラインで与えられた順番通りに処理されます。オプションやソースファイルスクリプトの処理は -- か -x オプションのいずれかが現れたところで終了します。 -x オプションの後には実行すべきスクリプトが続いている必要があり、そのファイルはアプリケーションの「メインスクリプト」となります。いずれの場合でも、後に続くあらゆるパラメータは ``argc`` と ``argv`` 変数（それぞれ引数の数と、実際のパラメータ文字列を渡す）を通じて、実行されるスクリプトへ渡されます。 -x オプションの場合 ``argv!0`` として実行ファイル名を含みます。この -x オプションは、以下のように "shebang" をメインスクリプトの最初の行に置いてPureスクリプトを実行可能なプログラムにするとき特に便利です。
+オプションとソースファイルはコマンドラインで与えられた順番通りに処理されます。オプションやソースファイルスクリプトの処理は -- か -x オプションのいずれかが現れたところで終了します。 -x オプションの後には実行すべきスクリプトが続いている必要があり、そのファイルはアプリケーションの「メインスクリプト」となります。いずれの場合でも、後に続くあらゆるパラメータは ``argc`` 変数と ``argv`` 変数（それぞれ引数の数と、実際のパラメータ文字列を渡す）を通じて、実行されるスクリプトへ渡されます。 -x オプションの場合 ``argv!0`` として実行ファイル名を含みます。この -x オプションは、以下のように "shebang" をメインスクリプトの最初の行に置いてPureスクリプトを実行可能なプログラムにするとき特に便利です（ただしこの技は Unix シェルでしか機能しません）。
 
 ::
 
@@ -261,7 +285,7 @@ interpreter and the system it runs on. (Moreover, Pure 0.21 and later also
 define the variable ``compiling`` which indicates whether the program is
 executed in a batch compilation, see `Compiling Scripts`_ below.)
 
-インタープリタは起動時に ``version`` 変数（Pure インタープリタのバージョン文字列がセットされる）と ``sysinfo`` 変数（ホストシステムを同定する文字列を提供）も定義します。これらの変数は、あなたのスクリプトのある一部が、インタープリタの特定のバージョンや、そのインタープリタが動作するシステムに依存している場合に役立つものです。（さらに Pure 0.21 以上は ``compiling`` 変数も定義します。この変数はバッチコンパイルで実行されるかどうかを示します。詳しくは下部 `Compiling Scripts`_ を参照）
+インタープリタは起動時に ``version`` 変数（Pure インタープリタのバージョン文字列がセットされる）と ``sysinfo`` 変数（ホストシステムを同定する文字列を提供）も定義します。これらの変数は、あなたのスクリプトのある一部が、インタープリタの特定のバージョンや、そのインタープリタが動作するシステムに依存している場合に役立つものです。（さらに Pure 0.21 以上は ``compiling`` 変数も定義します。この変数は、プログラムがバッチコンパイルで実行されるかどうかを示します。詳しくは下部 `Compiling Scripts`_ を参照）
 
 If available, the prelude script prelude.pure is loaded by the interpreter
 prior to any other definitions, unless the -n or --noprelude option is
@@ -274,7 +298,7 @@ libraries via a ``using`` declaration in the source, which are searched for in
 a number of locations, including the directories named with the -I and -L
 options; see the Declarations_ and `C Interface`_ sections for details.
 
-もし prelude スクリプト（prelude.pure）が利用できる場合、インタープリタは他のあらゆる定義に先行してこれをロードします（ -n や --noprelude が設定されない限り）。 prelude は PURELIB 環境変数で設定されたディレクトリから検索されます。もし PURELIB 変数が設定されていなければ、システム固有のデフォルトが使用されます。他のソーススクリプトの相対パス名がコマンドラインで指定されていれば、カレントワーキングディレクトリからの相対パスとして解釈されます。それに加え、実行されるプログラムが他のスクリプトやライブラリを ``using`` 宣言を通じてロードすることも可能です。このスクリプトやライブラリは -I と -L オプションで指定されるディレクトリを含め、たくさんの場所からロードされます。詳しくは Declarations_ と `C Interface`_ セクションを参照して下さい。
+もし prelude スクリプト（prelude.pure）が利用できる場合、インタープリタは他のあらゆる定義に先行してこれをロードします（ -n や --noprelude が設定されない限り）。 prelude は PURELIB 環境変数で設定されたディレクトリから検索されます。もし PURELIB 変数が設定されていなければ、システム固有のデフォルトが使用されます。他のソーススクリプトの相対パス名がコマンドラインで指定されている場合、カレントワーキングディレクトリからの相対パスとして解釈されます。それに加え、実行されるプログラムが、ソース内の ``using`` 宣言を通じて他のスクリプトやライブラリをロードすることも可能です。このとき読み込まれるスクリプトやライブラリは、 -I と -L オプションで指定されるディレクトリを含め、たくさんの場所からロードされます。詳しくは Declarations_ と `C Interface`_ セクションを参照して下さい。
 
 Compiling Scripts
 -----------------
@@ -289,7 +313,7 @@ intermediate representation, it just acts as a frontend to the compiler,
 taking care of compiling source code to native machine code before it gets
 executed.
 
-インタープリタはスクリプトだけでなく、あなたが対話的に入力する定義をも自動的にコンパイルします。このコンパイルはコードが必要となるにつれてインクリメント式に行われます。つまり JIT （`just in time`）として知られているものです。このように、インタープリタはソースプログラムや他の何らかの中間的な表現〔some intermediate representation〕を「解釈する」〔"interprets"〕ことはなく、単にコンパイラのフロントエンドとして振る舞い、ソースコードが実行される前にネイティブコードへとコンパイルする世話をしてくれます。
+インタープリタはスクリプトだけでなく、あなたが対話的に入力する定義をも自動的にコンパイルします。このコンパイルはコードが必要となるにつれてインクリメント式に行われます。つまり JIT （`just in time`）コンパイルとして知られているものです。このように、インタープリタはソースプログラムや他の何らかの中間的な表現〔some intermediate representation〕を本当に「解釈する」〔"interprets"〕ことはなく、単にコンパイラのフロントエンドとして振る舞い、ソースコードが実行される前にネイティブコードへとコンパイルする世話をしてくれます。
 
 Pure's LLVM backend does "lazy JIT compilation" by default, meaning that each
 function (global or local) is compiled no sooner than it is run for the first
@@ -302,7 +326,7 @@ cases (since bigger chunks of compilation work can be done in one go) and less
 efficient in others (e.g., eager JITing may compile large chunks of code which
 aren't actually called later, except in rare circumstances).
 
-Pure の LLVM バックエンドはデフォルトでは「遅延 JIT コンパイル」を行います。「遅延JITコンパイル」〔"lazy JIT compilation"〕とは、（グローバルまたはローカルな）関数のそれぞれが、最初に実行される段階ではじめてコンパイルされることを意味します。しかし --eager-jit オプションを指定すれば、コンパイルされた関数から呼び出されるかもしれない他のすべての（ローカルまたはグローバルな）関数をもコンパイルします（PURE_EAGER_JIT 環境変数は、どんな値がセットされていても --eager-jit オプションと同じ効果を発揮するので、インタープリタを走らせるたびに毎回 --eager-jit オプションを指定する必要はなくなります）。先行 JIT コンパイル〔eager JIT compilation〕は、ある種のケースでは（比較的大きなコンパイル作業が一度に行われるので）より効果的でしょうし、別のケースでは効果的でなくなるでしょう（例えば、先行 JIT コンパイルが大きなコードの塊をコンパイルしても、実用上、それは稀な状況でしか呼ばれないものであるかもしれません）。
+Pure の LLVM バックエンドはデフォルトでは「遅延 JIT コンパイル」〔"lazy JIT compilation"〕を行います。「遅延 JIT コンパイル」とは、（グローバルまたはローカルな）関数のそれぞれが、最初に実行される段階ではじめてコンパイルされることを意味します。しかし --eager-jit オプションを指定すれば、コンパイルされた関数から呼び出されるかもしれない他のすべての（ローカルまたはグローバルな）関数をもコンパイルします（ PURE_EAGER_JIT 環境変数は、どんな値がセットされていても --eager-jit オプションと同じ効果を発揮するので、インタープリタを走らせるたびに毎回 --eager-jit オプションを指定する必要はなくなります）。先行 JIT コンパイル〔eager JIT compilation〕は、ある種のケースでは（比較的大きなコンパイル作業が一度に行われるので）より効果的でしょうし、別のケースでは効果的でなくなるでしょう（例えば、先行 JIT コンパイルが大きなコードの塊をコンパイルしても、実用上、それは稀な状況でしか呼ばれないものであるかもしれません）。
 
 Note that the eager JIT mode is only available with LLVM 2.7 or later;
 otherwise this option will be ignored.
@@ -323,7 +347,7 @@ file is written to standard output, which is useful if you want to pass the
 generated code to the LLVM tools in a pipeline. If the output filename ends in
 the .bc extension, an LLVM bitcode file is created instead.
 
-また -c バッチコンパイルオプションを使えば、あなたのスクリプトをあらかじめネイティブコードにコンパイルすることができます。このオプションはインタープリタに非対話モードを強制します（ -i オプションを使った場合は別で、-c がオーバーライドされます）。コマンドラインで定義されたあらゆるオプションは通常通り実行されますが、実行後、インタープリタはプログラムのスナップショットを撮り、それを、サポートされている出力形式のいずれかへとコンパイルします。サポートされるのは LLVM アセンブラ（.ll）、ビットコード（.bc）、ネイティブアセンブラ（.s）、オブジェクト（.o）、ネイティブな実行ファイルで、 -o オプションで指定されたファイル名次第です。もし出力ファイル名が .ll 拡張子で終わっていたら LLVM アセンブラ用のファイルが作成され、そのファイルはLLVMのツールチェーンで処理できるものとなります。もし出力ファイルが単に '-' であれば、アセンブラファイルが標準出力に書かれます。これはパイプを通じて LLVM ツールにコードを渡したいときに便利です。もし出力ファイル名が .bc で終わっていたら、 LLVM のビットコードファイルが作られます。
+また -c バッチコンパイルオプションを使えば、あなたのスクリプトをあらかじめネイティブコードにコンパイルすることができます。このオプションはインタープリタに非対話モードを強制します（ -i オプションを使った場合は別で、-c がオーバーライドされます）。コマンドラインで定義されたあらゆるオプションは通常通り実行されますが、実行後、インタープリタはプログラムのスナップショットを撮り、それを、サポートされている出力形式のいずれかへとコンパイルします。サポートされるのは LLVM アセンブラ（.ll）、ビットコード（.bc）、ネイティブアセンブラ（.s）、オブジェクト（.o）、ネイティブな実行ファイルで、 -o オプションで指定されたファイル名次第です。もし出力ファイル名が .ll 拡張子で終わっていたら LLVM アセンブラ用のファイルが作成され、そのファイルは LLVM のツールチェーンで処理できるものとなります。もし出力ファイルが '-' だけであれば、アセンブラファイルが標準出力に書かれます。これはパイプを通じて LLVM ツールにコードを渡したいときに便利です。もし出力ファイル名が .bc で終わっていたら、 LLVM のビットコードファイルが作られます。
 
 The .ll and .bc formats are supported natively by the Pure interpreter, no
 external tools are required to generate these. If the target is an .s, .o or
@@ -334,7 +358,7 @@ You can also specify additional libraries to be linked into the executable
 with the -l option. If the output filename is omitted, it defaults to
 ``a.out`` (``a.exe`` on Windows).
 
-Pure インタープリタは .ll と .bc 形式をネイティブにサポートしており、外部ツールに頼らずそれらを出力できます。もしターゲットが .s や .o や実行可能ファイルであった場合、 Pure インタープリタは一時的なビットコードファイルを作成し、それに対して LLVM ツールの opt と llc を実行してネイティブなアセンブラファイルを作成します。その後（必要があれば） gcc を使って最終的なプログラムをコンパイル＆リンクします。 -l オプションを使って、実行ファイルにリンクすべき追加ライブラリを定義することも可能です。もし出力ファイル名を省略した場合、出力ファイル名は ``a.out`` （Windows では ``.exe`` ）となります。
+Pure インタープリタは .ll 形式と .bc 形式をネイティブにサポートしており、外部ツールに頼らずそれらを出力できます。もしターゲットが .s か .o か実行可能ファイルであった場合、 Pure インタープリタは一時的なビットコードファイルを作成し、それに対して LLVM ツールの opt と llc を実行してネイティブなアセンブラファイルを作成します。その後（必要があれば） gcc を使って最終的なプログラムをコンパイル＆リンクします。 -l オプションを使って、実行ファイルにリンクすべき追加ライブラリを定義することも可能です。もし出力ファイル名を省略した場合、出力ファイル名は ``a.out`` （Windows では ``.exe`` ）となります。
 
 The -c option provides a convenient way to quickly turn a Pure script into a
 standalone executable which can be invoked directly from the shell. One
@@ -346,7 +370,7 @@ library is required on the target system). On the other hand, compiled scripts
 also have some limitations, mostly concerning the use of the built-in ``eval``
 function. Please see the `Batch Compilation`_ section for details.
 
--c オプションは Pure スクリプトをスタンドアローンな実行ファイルへと素早く変える便利な方法です。この実行ファイルはシェルから直接実行できます。スクリプトをコンパイルすることの利点のひとつは、 JIT コンパイルにかかる時間を排除し、プログラムの起動時間をかなり短縮できることにあります。スタンドアローンな実行ファイルを好むべきもう一つの理由は、 Pure をフルインストールしなくてもプログラムをシステム上に配置できる点です（しばしば対象システムに合わせたラインタイムライブラリは必要になります）。その一方で、コンパイルされたスクリプトにはいくつかの制限があります。最も重大なのは、組み込み ``eval`` 関数に関する制限です。詳しくは `Batch Compilation`_ セクションを参照して下さい。
+-c オプションは Pure スクリプトをスタンドアローンな実行ファイルへと素早く変える便利な方法です。この実行ファイルはシェルから直接実行できます。スクリプトをコンパイルすることの利点のひとつは、 JIT コンパイルにかかる時間を排除し、プログラムの起動時間をかなり短縮できることにあります。スタンドアローンな実行ファイルを好むべきもう一つの理由は、 Pure をフルインストールしなくてもプログラムをシステム上に配置できる点です（しばしば対象システムに合わせたラインタイムライブラリだけは必要になります）。その一方で、コンパイルされたスクリプトにはいくつかの制限があります。最も重大なのは、組み込み ``eval`` 関数の使用に関する制限です。詳しくは `Batch Compilation`_ セクションを参照して下さい。
 
 The -v64 (or -v0100) verbosity option can be used to have the interpreter
 print the commands it executes during compilation, see `Verbosity and
@@ -397,6 +421,8 @@ tags ファイルには、コマンドラインで指定されたスクリプト
 Running Interactively
 ---------------------
 
+対話的に実行する
+
 If the interpreter runs in interactive mode, it repeatedly prompts you for
 input (which may be any legal Pure code or some special interpreter commands
 provided for interactive usage), and prints computed results. This is also
@@ -425,7 +451,7 @@ program. When exiting the interpreter, the command history is stored in
 ~/.pure_history, from where it is restored the next time you run the
 interpreter.
 
-インタープリタが対話モードかつ tty から読まれている場合、 --noediting オプションが指定されていなければ、コマンドは普通 readline(3) かその互換代替を使って読み込まれます。 `Interactive Usage`_ 以下にリストされている全コマンドと、実行中のプログラムで定義されているシンボルの補完機能を使うことができます。インタープリタを終了するとき、コマンド履歴が ~/.pure_history ファイルに保存され、次回インタープリタが起動したときにこのファイルから履歴を復旧します。
+インタープリタが対話モードかつ tty から読まれている場合、 --noediting オプションが指定されていなければ、コマンドは通常 readline(3) かその互換代替を使って読み込まれます。 `Interactive Usage`_ 以下にリストされている全コマンドと、実行中のプログラムで定義されているシンボルの補完機能を使うことができます。インタープリタを終了するとき、コマンド履歴が ~/.pure_history ファイルに保存され、次回インタープリタが起動したときにこのファイルから履歴を復旧します。
 
 As of Pure 0.22, the interpreter also provides a simple source level debugger
 when run in interactive mode, see Debugging_ for details. To enable the
@@ -453,18 +479,21 @@ developers.
 
 1 (0x1, 001)
     denotes echoing of parsed definitions and expressions.
+
     定義と式の解析結果をエコーすることを示します。
 
 2 (0x2, 002)
     adds special annotations concerning local bindings (de Bruijn indices,
     subterm paths; this can be helpful to debug tricky variable binding
     issues).
+
     ローカル束縛に関する特別な注釈を付加します（de Bruijn インデックス、下位項パス〔subterm paths〕）。これはトリッキーな変数束縛をデバッグする際に役立ちうるものです。
 
 4 (0x4, 004)
     adds descriptions of the matching automata for the left-hand sides of
     equations (you probably want to see this only when working on the guts of
     the interpreter).
+
     等式左辺への自動マッチングの説明を付加します（これを見たいと思うのは、インタープリタの内蔵部について作業しているときだけでしょう）。
 
 8 (0x8, 010)
@@ -472,21 +501,25 @@ developers.
     native machine code for your program as it gets; you definitely don't want
     to see this unless you have to inspect the generated code for bugs or
     performance issues).
+
     「本当の」出力コードをダンプします（LLVM アセンブラのことです。このコードはあなたのプログラムがネイティブな機械語になったものとほぼ同じです。この出力を見たいと思うのは、バグやパフォーマンスの問題のため生成コードを精査する必要がある場合くらいでしょう）。
 
 16 (0x10, 020)
     adds debugging messages from the bison(1) parser; useful for debugging the
     parser.
-    bison(1) からのデバッグメッセージを付加します。構文解析器（パーサー）をデバッグするのに役立ちます。
+
+    bison(1) からのデバッグメッセージを付加します。構文解析器〔パーサー〕をデバッグするのに役立ちます。
 
 32 (0x20, 040)
     adds debugging messages from the flex(1) lexer; useful for debugging the
     lexer.
-    flex レキサーからのデバッグメッセージを付加します。字句解析器（レキサー）をデバッグするのに役立ちます。
+
+    flex レキサーからのデバッグメッセージを付加します。字句解析器〔レキサー〕をデバッグするのに役立ちます。
 
 64 (0x40, 0100)
     turns on verbose batch compilation; this is useful if you want to see
     exactly which commands get executed during batch compilation (-c).
+
     饒舌なバッチコンパイルを有効にします。バッチコンパイル（-c）中にどのコマンドが実行されているのか正確に見たいときに役立ちます。
 
 These values can be or'ed together, and, for convenience, can be specified in
@@ -538,10 +571,9 @@ directive) in source code so that you can control it on a per-rule basis. The
 pragma must be on a line by itself, starting in column 1, and takes the
 following form (using ``--nochecks`` as an example):
 
-  #! --nochecks // line-oriented comment may go here
-
 各コード生成オプションは、ソース内で *プラグマ* （コンパイラディレクティブ）として使うこともでき、ルール単位でオプションを制御することができます。プラグマはそれだけで単独行を占める必要があり、行の1文字目から始まり、次のような形式をとります（例として ``--nochecks`` を使います::
 
+  #! --nochecks // line-oriented comment may go here
   #! --nochecks // ここに一行コメントを書けます
 
 Currently, the following code generation options are recognized:
@@ -627,7 +659,7 @@ Startup Files
 
 The interpreter may source various files during its startup. These are:
 
-インタープリタは起動時に様々なファイルを読み込みます。以下の通り：
+インタープリタは起動時に様々なファイルを読み込みます。以下の通り:
 
 ~/.pure_history
     Interactive command history.
@@ -650,7 +682,7 @@ Environment
 Various aspects of the interpreter can be configured through the following
 shell environment variables:
 
-以下のシェル環境変数を通じて、インタープリタの様々な側面を設定することができます。
+以下のシェル環境変数を通じて、インタープリタの様々な側面を設定することができます:
 
 BROWSER
     If the PURE_HELP variable is not set (see below), this specifies a
@@ -669,7 +701,7 @@ PURE_EAGER_JIT
     Enable eager JIT compilation (same as ``--eager-jit``), see `Compiling
     Scripts`_ for details.
 
-    短絡（JIT）コンパイルを有効にします（``--eager-jit`` と同様）。詳しくは `Compiling Scripts`_ を参照。
+    先行（JIT）コンパイルを有効にします（``--eager-jit`` と同様）。詳しくは `Compiling Scripts`_ を参照。
 
 PURE_HELP
     Command used to browse the Pure manual. This must be a browser capable of
@@ -722,7 +754,7 @@ convenience, it is also possible to define global variables and constants, and
 for advanced uses Pure offers macro functions as a kind of preprocessing
 facility. These are all described below and in the following sections.
 
-Pureは適度にシンプルであながらパワフルでもある言語です。プログラムは基本的に、書き替えルールと、評価されるべき式の集まりです。便宜のため、グローバル変数と定数を定義することもできます。またもっと高度な使用のため、Pureはマクロ関数も提供します as a kind of preprocessing facility. これらのすべては下のセクションとそれに続くセクションで説明されます。
+Pureは適度にシンプルであながらパワフルでもある言語です。プログラムは基本的に、書き換えルールと、評価されるべき式の集まりです。便宜のため、グローバル変数と定数を定義することもできます。またもっと高度な使用のため、Pureはマクロ関数も提供します as a kind of preprocessing facility. これらのすべては下のセクションとそれに続くセクションで説明されます。
 
 Here's a first example which demonstrates how to define a simple recursive
 function in Pure, entered interactively in the interpreter (note that the
@@ -843,7 +875,7 @@ Due to its term rewriting semantics, Pure goes beyond most other functional
 languages in that it can do symbolic evaluations just as well as "normal"
 computations:
 
-書き替えセマンティクスにより、「普通の」計算だけでなく記号代数的評価を行えるという点で、Pureは他の関数言語の一歩先を行っています::
+書き換えセマンティクスにより、「普通の」計算だけでなく記号代数的評価を行えるという点で、Pureは他の関数言語の一歩先を行っています::
 
   > square x = x*x;
   > square 4;
@@ -863,7 +895,7 @@ the left-hand side of an equation, and may act as a constructor symbol if it
 happens to occur in a normal form term. This enables you to work with
 algebraic rules like associativity and distributivity in a direct fashion:
 
-数値や文字列のようないくつかの有名なデータ構造は別として、Pureインタープリタが実際に行うのは、記号代数的なやり方で式を評価し、プログラマーが与えた等式によって式を書き替えてゆき、もうそれ以上は等式を適用できなくなるまで続けることです。この処理の結果は「正規形」と呼ばれ、元々の式の「値」〔"value"〕を表します。項書き替えという流儀を貫くことにより、Pure内では「定義済み」〔"defined"〕関数シンボルと「コンストラクタ」〔"constructor"〕関数シンボルの区別はありません。その結果、あらゆる関数シンボルや演算子は等式左辺の *どこでも* 使うことができ、もし正規形の項の中に現れた場合にはコンストラクタシンボルとして振る舞うことが許されます。このことにより、あなたは結合や分配のような代数のルールをそのままのやり方で使うことができます::
+数値や文字列のようないくつかの有名なデータ構造は別として、Pureインタープリタが実際に行うのは、記号代数的なやり方で式を評価し、プログラマーが与えた等式によって式を書き換えてゆき、もうそれ以上は等式を適用できなくなるまで続けることです。この処理の結果は「正規形」と呼ばれ、元々の式の「値」〔"value"〕を表します。項書き換えという流儀を貫くことにより、Pure内では「定義済み」〔"defined"〕関数シンボルと「コンストラクタ」〔"constructor"〕関数シンボルの区別はありません。その結果、あらゆる関数シンボルや演算子は等式左辺の *どこでも* 使うことができ、もし正規形の項の中に現れた場合にはコンストラクタシンボルとして振る舞うことが許されます。このことにより、あなたは結合や分配のような代数のルールをそのままのやり方で使うことができます::
 
   > (x+y)*z = x*z+y*z; x*(y+z) = x*y+x*z;
   > x*(y*z) = (x*y)*z; x+(y+z) = (x+y)+z;
@@ -1406,7 +1438,7 @@ At the toplevel, a Pure program basically consists of rewriting rules (which
 are used to define functions and macros), constant and variable definitions,
 and expressions to be evaluated:
 
-トップレベル〔最上位層〕では、 Pure プログラムは基本的に書き替えルール（関数やマクロを定義するのに使われる）、定数と変数の定義、評価されるべき式で構成されます。
+トップレベル〔最上位層〕では、 Pure プログラムは基本的に書き換えルール（関数やマクロを定義するのに使われる）、定数と変数の定義、評価されるべき式で構成されます。
 
 Rules: ``lhs = rhs;``
     Rewriting rules always combine a left-hand side pattern (which must be a
@@ -1424,7 +1456,7 @@ Rules: ``lhs = rhs;``
     for details.
 
 ルール: ``lhs = rhs;``
-    書き替えルールは常に左辺パターン（単純な式であることが必要）と右辺（上で説明されているあらゆる種類の Pure 式）を結合します。同じフォーマットは ``with`` 、 ``when`` 、 ``case`` 式内でも使えます。トップレベルのルール、 ``with`` 式、 ``case`` 式という基本的な形式はそれぞれ ``if guard`` 条件を末尾に付けることができます。ここで ``guard`` というのは、ルールを適用してよいかどうかを示す整数式です。さらに、 ``otherwise`` キーワードを空の guard を示すものとして使うこともできます。 ``otherwise`` は常に真です（これは "default" ケースを示す糖衣構文です。インタープリタはこれを単にコメントと扱います）。 Pure はまた  provides some abbreviations for factoring out common left-hand or right-hand sides in collections of rules; 詳しくは `Rule Syntax`_ セクションを参照して下さい。
+    書き換えルールは常に左辺パターン（単純な式であることが必要）と右辺（上で説明されているあらゆる種類の Pure 式）を結合します。同じフォーマットは ``with`` 、 ``when`` 、 ``case`` 式内でも使えます。トップレベルのルール、 ``with`` 式、 ``case`` 式という基本的な形式はそれぞれ ``if guard`` 条件を末尾に付けることができます。ここで ``guard`` というのは、ルールを適用してよいかどうかを示す整数式です。さらに、 ``otherwise`` キーワードを空の guard を示すものとして使うこともできます。 ``otherwise`` は常に真です（これは "default" ケースを示す糖衣構文です。インタープリタはこれを単にコメントと扱います）。 Pure はまた  provides some abbreviations for factoring out common left-hand or right-hand sides in collections of rules; 詳しくは `Rule Syntax`_ セクションを参照して下さい。
 
 Macro rules: ``def lhs = rhs;``
     A rule starting with the keyword ``def`` defines a macro function. No
@@ -2592,7 +2624,7 @@ also used to define ordinary functions in Pure. In difference to these, macro
 rules start out with the keyword ``def``, and only simple kinds of rules
 without any guards or multiple left-hand and right-hand sides are permitted.
 
-ほとんどのプログラミング言語において、マクロは、テキスト的な代替物を提供する仕組みとして便利であるのに対して、 Pure のマクロは記号式の上で作動し、通常の関数を定義する際に使われるのと同じく書き替えルールとして定義されています。通常の書き替えルールと異なるのは、マクロのルールは ``def`` キーワードを先頭に書き始める点と、シンプルなルールだけが許され、ガードや複数の左辺・右辺は許されていないという点です。
+ほとんどのプログラミング言語において、マクロは、テキスト的な代替物を提供する仕組みとして便利であるのに対して、 Pure のマクロは記号式の上で作動し、通常の関数を定義する際に使われるのと同じく書き換えルールとして定義されています。通常の書き換えルールと異なるのは、マクロのルールは ``def`` キーワードを先頭に書き始める点と、シンプルなルールだけが許され、ガードや複数の左辺・右辺は許されていないという点です。
 
 Syntactically, a macro definition looks just like a variable or constant
 definition, using ``def`` in lieu of ``let`` or ``const``, but they are
@@ -3533,7 +3565,7 @@ allows "referential" use of symbols not only in the "body" (right-hand side)
 of a definition, but also in the left-hand side patterns. We discuss this in
 detail below.
 
-Pure がシンボルを検索・作成するルールはとても素直なもので、名前空間を備える他の言語とも似ています。しかし、いくらか複雑な部分もあります。というのは、定義における書き替えルールのフォーマットはシンボルを "referential" に使うことができ、それは定義の "body" （右辺）内だけでなく、左辺のパターン内でも同じだからです。この点を以下で詳しく議論します。
+Pure がシンボルを検索・作成するルールはとても素直なもので、名前空間を備える他の言語とも似ています。しかし、いくらか複雑な部分もあります。というのは、定義における書き換えルールのフォーマットはシンボルを "referential" に使うことができ、それは定義の "body" （右辺）内だけでなく、左辺のパターン内でも同じだからです。この点を以下で詳しく議論します。
 
 The compiler searches for symbols first in the current namespace (if any),
 then in the currently active search namespaces (if any), and finally in the
@@ -3576,13 +3608,13 @@ even if a symbol with the same print name from another namespace is already
 visible in the current scope. To distinguish "defining" from "referring" uses
 of a global symbol, Pure uses the following (purely syntactic) notions:
 
-また、修飾子なしのグローバルな（かつ未宣言の）シンボルが、書き替えルール内や ``let``/``const`` 定義内で「定義され」ている場合、新しいシンボルが作られます。他の名前空間に属しながら同じ表示名を持つシンボルが現在のスコープ内でvisibleであったとしても、作られます。グローバルシンボルの「定義する」ことと「参照する」ことを区別するため、 Pure では次のような（純粋に統語的な）記法を使います:
+また、修飾子なしのグローバルな（かつ未宣言の）シンボルが、書き換えルール内や ``let``/``const`` 定義内で「定義され」ている場合、新しいシンボルが作られます。他の名前空間に属しながら同じ表示名を持つシンボルが現在のスコープ内でvisibleであったとしても、作られます。グローバルシンボルの「定義する」ことと「参照する」ことを区別するため、 Pure では次のような（純粋に統語的な）記法を使います:
 
 * A `defining occurrence` of a global *function* or *macro symbol* is any
   occurrence of the symbol as the *head symbol* on the left-hand side of a
   rewriting rule.
 
-* グローバルな *関数* またはグローバルな *マクロシンボル* の `定義の出現` 〔 `defining occurrence` 〕は、書き替えルール左辺において、シンボルが *先頭シンボル* 〔 *head symbol* 〕として出現することである。
+* グローバルな *関数* またはグローバルな *マクロシンボル* の `定義の出現` 〔 `defining occurrence` 〕は、書き換えルール左辺において、シンボルが *先頭シンボル* 〔 *head symbol* 〕として出現することである。
 
 * A `defining occurrence` of a global *variable* or *constant symbol* is any
   occurrence of the symbol in a *variable position* (as given by the "head =
@@ -4191,7 +4223,7 @@ modified in-place. Similarly, ``void*`` also allows you to pass a bigint
 argument as a raw ``mpz_t`` value. This makes it possible to call most GMP
 integer routines directly from Pure.
 
-それに加え、あらゆる種類のマトリクス（記号マトリクスを含む）を、ジェネリックな ``void*` ポインタへ渡すことができます。この場合、変換はまったく行われず、生のマトリクスデータ〔raw matrix data〕が渡されます。この場合はデータを直接書き替えることができます。同じように、 ``void*`` を使うと、 bigint 引数を生の ``mpz_t`` の値として渡すことができます。これにより、ほとんどの GMP 整数ルーチンを Pure から直接呼び出すことができるようになっています。
+それに加え、あらゆる種類のマトリクス（記号マトリクスを含む）を、ジェネリックな ``void*` ポインタへ渡すことができます。この場合、変換はまったく行われず、生のマトリクスデータ〔raw matrix data〕が渡されます。この場合はデータを直接書き換えることができます。同じように、 ``void*`` を使うと、 bigint 引数を生の ``mpz_t`` の値として渡すことができます。これにより、ほとんどの GMP 整数ルーチンを Pure から直接呼び出すことができるようになっています。
 
 As already mentioned, it is possible to augment an external C function with
 ordinary Pure equations, but in this case you have to make sure that the
@@ -5533,9 +5565,11 @@ even more unforeseeable ways. Therefore pretty much anything in your program
 can actually depend on previous computations performed while the program is
 being executed.
 
-また、バッチコンパイルの最中、コンパイルされるプログラムは通常通り実際に実行されます。すなわち、スクリプトは *コンパイル時にも* 実行されるわけです。最初はとても迷惑なことに思えるかもしれませんが、実はそれがいくつかの強力なプログラミングテクニック（ `partial evaluation`_ のような）への扉を開いてもくれるのです。また、これは Pure の highly dynamic nature のために必要なことでもあります。例えば、 Pure では任意の式を評価することで定数を定義でき（下部 `Constant Definitions`_ 参照）、また ``eval`` を使うことで、プログラムが自分自身をかなり予想しづらい方法で部分修正することもできます。したがって、あなたのプログラムのかなり多くの部分が、実行時に行われる計算に依存することになります。■原文の言わんとすることをよく掴めていない■
-
 .. _partial evaluation: http://en.wikipedia.org/wiki/Partial_evaluation
+
+また、バッチコンパイルの最中、コンパイルされるプログラムは通常通り実際に実行されます。すなわち、スクリプトは *コンパイル時にも* 実行されるわけです。最初はとても迷惑なことに思えるかもしれませんが、実はそれがいくつかの強力なプログラミングテクニック（ `部分評価`_ のような）への扉を開いてもくれるのです。また、これは Pure が高度に動的な特性を持つからこそ必要なことでもあります。例えば、 Pure では任意の式を評価することで定数を定義でき（下部 `Constant Definitions`_ 参照）、また ``eval`` を使うことで、プログラムが自分自身をかなり予想しづらい方法で部分修正することもできます。したがって、あなたのプログラムのかなり多くの部分が、実行時に行われる計算に依存することになります。■"and using eval..." 以下、原文の言わんとすることを掴みきれていない■
+
+.. _部分評価: http://ja.wikipedia.org/wiki/%E9%83%A8%E5%88%86%E8%A9%95%E4%BE%A1
 
 Example
 -------
@@ -5914,7 +5948,7 @@ it that way when possible. On the other hand, Pure doesn't get in your way if
 you want to call external operations with side effects; it does allow you to
 call any C function after all.
 
-人からいつも Pure の何が「ピュア」なんだとよく聞かれます。長くて弁解がましい答えは以下のようなものです。 Pure は実用性を犠牲にしないまま項書き替えの精神に近いところに留まろうとつとめています。 Pure でピュアな関数プログラムを書くことは可能であり、実際とても簡単なことで、また Pure は可能な限りあなたがそうすることを奨励します。他方、あなたがもし side effect とともに外部の処理を呼び出そうとするなら、 Pure はそれを邪魔しません。要するにあらゆる C 関数を呼び出すことが許されています。
+人からいつも Pure の何が「ピュア」なんだとよく聞かれます。長くて弁解がましい答えは以下のようなものです。 Pure は実用性を犠牲にしないまま項書き換えの精神に近いところに留まろうとつとめています。 Pure でピュアな関数プログラムを書くことは可能であり、実際とても簡単なことで、また Pure は可能な限りあなたがそうすることを奨励します。他方、あなたがもし side effect とともに外部の処理を呼び出そうとするなら、 Pure はそれを邪魔しません。要するにあらゆる C 関数を呼び出すことが許されています。
 
 The short answer is that I simply liked the name, and there wasn't any
 programming language named "Pure" yet (quite a feat nowadays), so there's one
@@ -6275,7 +6309,7 @@ syntactic equality operator ``===`` defined in the prelude to match the target
 value against the function symbol. This allows you to define the ``foop``
 predicate as follows:
 
-この trick は ``case`` 式内と関数定義内で機能しますが、修飾子つき変数シンボルが許される状況（すなわち、変数と定数の定義内）では失敗します。よりよい解決法は、統語的な等値演算子〔syntactic equality operator〕 ``===`` を使うことです。これは prelude 内で定義されており、■対象となる値を関数シンボルとマッチさせます■。これを使って ``foop`` predicate を次のように宣言できます::
+この技は ``case`` 式内と関数定義内で機能しますが、修飾子つき変数シンボルが許される状況（すなわち、変数と定数の定義内）では失敗します。よりよい解決法は、統語的な等値演算子〔syntactic equality operator〕 ``===`` を使うことです。これは prelude 内で定義されており、■対象となる値を関数シンボルとマッチさせます■。これを使って ``foop`` predicate を次のように宣言できます::
 
   > foop f = f===foo;
   > foop foo, foop 99;
