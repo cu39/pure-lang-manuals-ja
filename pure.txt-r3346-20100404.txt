@@ -7085,7 +7085,7 @@ Author
 Albert Graf <Dr.Graef@t-online.de>, Dept. of Computer Music, Johannes
 Gutenberg University of Mainz, Germany.
 
-Albert Graf <Dr.Graef@t-online.de>, コンピュータ音楽科, マインツ・ヨハネス・グーテンベルク大学, ドイツ.
+Albert Graf <Dr.Graef@t-online.de>, コンピュータ音楽科, ヨハネス・グーテンベルク大学マインツ, ドイツ.
 
 The author gratefully acknowledges the contributions by Scott E. Dillard,
 Rooslan S. Khayrov, Eddie Rucker, Libor Spacek, Jiri Spitz and Sergei

@@ -10,7 +10,7 @@ Pure Library Manual
 
 .. Add all pertaining author and copyright information here.
 
-:Author: Albert Grﾃ､f <Dr.Graef@t-online.de>
+:Author: Albert Graf <Dr.Graef@t-online.de>
 :Date: |date|
 
 .. Add all global docutils declarations here.
@@ -27,15 +27,19 @@ Pure Library Manual
 
 .. _Pure Manual: pure.html
 
-Copyright (c) 2009-2010 by Albert Grﾃ､f. This document is available under
+Copyright (c) 2009-2010 by Albert Graf. This document is available under
 the |FDL|_.
 
 This manual describes the operations in the standard Pure library,
 including the prelude and the other library modules which come bundled with
 the interpreter.
 
+このマニュアルは、 Pure 標準ライブラリに含まれる処理を解説しています。標準ライブラリは、インタープリタにバンドルされている prelude やその他ライブラリモジュールを含んでいます。
+
 There is a companion to this manual, the `Pure Manual`_ which describes the
 Pure language and the operation of the Pure interpreter.
+
+このマニュアルには `Pure Manual`_ という相棒がいます。そちらでは Pure 言語そのものと Pure インタープリタの働きを解説しています。
 
 .. Table of contents, switch on section numbering.
 
@@ -56,6 +60,8 @@ automatically (unless the interpreter is invoked with the ``--no-prelude``
 option), all operations discussed in this section are normally available in
 Pure programs without requiring any explicit import declarations.
 
+prelude は Pure 言語の基本的な処理を定義します。ここに含まれるのは、基本的な数値演算と論理演算、文字列・リスト・マトリクス処理関数、さらにリスト内包とマトリクス内包の実装に必要な支援用処理です。文字列、マトリクス、レコードの各処理はそれぞれ string.pure 、 matrices.pure 、 records.pure にモジュールとして分けられており、プリミティブな数値と論理の処理は primitives.pure 内で見つかります。 prelude のモジュールは自動的にインポートされる（インタープリタが ``--no-prelude`` オプション付きで起動された場合は別）ので、このセクションで議論される処理は全て Pure プログラム内で普通に利用でき、明示的なインポート宣言は必要ないことを覚えておいて下さい。
+
 .. raw:: html
 
    <a name="true">
@@ -72,11 +78,15 @@ operator symbols. This includes the truth values ``true`` and ``false``.
 These are actually just integers in Pure, but sometimes it's convenient to
 refer to them using these symbolic constants. Note that if you also want to
 use these on the left-hand side of equations, you still have to declare
-them as ``nonfix`` symbols yourself, using a declaration like::
+them as ``nonfix`` symbols yourself, using a declaration like:
+
+また、 prelude は共用定数シンボルと共用演算子シンボルの signature を宣言します。ここには真偽値の ``true`` と ``false`` が含まれます。 Pure における両者は、実際には単なる整数にすぎませんが、記号定数を使ってそれをそれらを参照するのが便利なこともしばしばあります。もし true と false を等式左辺で利用したい場合、あなたは自分で両者を ``nonfix`` シンボルとして宣言しなければならないことに注意して下さい。次のような宣言を使います::
 
   nonfix false true;
 
 In addition, the following special exception symbols are provided:
+
+加えて、次のような特別例外シンボルが提供されます:
 
 .. raw:: html
 
@@ -105,6 +115,8 @@ In addition, the following special exception symbols are provided:
   ``PURE_STACK`` limit exceeded) and ``malloc_error`` (memory allocation
   error).
 
+* 組み込み例外値: ``failed_cond`` （ガードか if-then-else 内で失敗した条件）、 ``failed_match`` （ラムダや ``case`` 式などの中で失敗したパターンマッチ）、 ``stack_fault`` （十分なスタックサイズが無い、 ``PURE_STACK`` 制限を超えた）、 ``malloc_error`` （メモリ割り当てエラー）。
+
 .. raw:: html
 
    <a name="bad_list_value">
@@ -131,6 +143,8 @@ In addition, the following special exception symbols are provided:
   These are thrown by some operations when they fail to find an expected
   value of the corresponding type.
 
+* 値のミスマッチ a.k.a. 動的型付けエラー: ``bad_string_value x``, ``bad_matrix_value x``, ``bad_list_value x``, ``bad_tuple_value x``. 予測される型に対応する値が見つからなかったとき、これらの例外がスローされます。
+
 .. raw:: html
 
    <a name="out_of_bounds">
@@ -139,6 +153,8 @@ In addition, the following special exception symbols are provided:
 
 * Index range exceptions: ``out_of_bounds`` is thrown by the index operator
   ``!`` if a list, tuple or matrix index is out of bounds.
+
+* インデックス範囲の例外: リスト、タプル、マトリクスのインデックスが境界を越えている場合、 ``!`` 演算子は ``out_of_bounds`` 例外をスローします。
 
 .. raw:: html
 
@@ -150,31 +166,33 @@ Here's the list of predefined operator symbols. Note that the parser will
 automagically give unary minus the same precedence level as the
 corresponding binary operator.
 
+定義済み演算子シンボルのリストをここに示します。パーサーが単項マイナス演算子に対して二項マイナス演算子と同じ優先度を与えることに注意して下さい。
+
 ::
 
-  infixl  1000   $$ ;                // sequence operator
-  infixr  1000   $ ;                 // right-associative application
-  infixr  1100   , ;                 // pair (tuple)
-  infix   1200   => ;                // key=>value pairs ("hash rocket")
-  infix   1300   .. ;                // arithmetic sequences
-  infixr  1400   || ;                // logical or (short-circuit)
-  infixr  1500   && ;                // logical and (short-circuit)
-  prefix  1600   ~ ;                 // logical negation
-  infix   1700   < > <= >= == ~= ;   // relations
+  infixl  1000   $$ ;                // sequence operator 継起演算子
+  infixr  1000   $ ;                 // right-associative application 右結合の適用
+  infixr  1100   , ;                 // pair (tuple) ペア（タプル）
+  infix   1200   => ;                // key=>value pairs ("hash rocket") key=>value ペア（「ハッシュロケット」）
+  infix   1300   .. ;                // arithmetic sequences 等差数列
+  infixr  1400   || ;                // logical or (short-circuit) 論理 or （短絡）
+  infixr  1500   && ;                // logical and (short-circuit) 論理 and （短絡）
+  prefix  1600   ~ ;                 // logical negation 論理否定
+  infix   1700   < > <= >= == ~= ;   // relations 関係演算子
   infix   1700   === ~== ;           // syntactic equality
   infixr  1800   : ;                 // list cons
-  infix   1900   +: <: ;             // complex numbers (cf. math.pure)
-  infixl  2000   << >> ;             // bit shifts
-  infixl  2100   + - or ;            // addition, bitwise or
-  infixl  2200   * / div mod and ;   // multiplication, bitwise and
+  infix   1900   +: <: ;             // complex numbers (cf. math.pure) 虚数（cf. math.pure）
+  infixl  2000   << >> ;             // bit shifts ビットシフト
+  infixl  2100   + - or ;            // addition, bitwise or 加法、 bitwise or
+  infixl  2200   * / div mod and ;   // multiplication, bitwise and 乗法、 bitwise and
   infixl  2200   % ;                 // exact division (cf. math.pure)
   prefix  2300   not ;               // bitwise not
   infixr  2400   ^ ;                 // exponentiation
-  prefix  2500   # ;                 // size operator
-  infixl  2600   ! !! ;              // indexing, slicing
+  prefix  2500   # ;                 // size operator サイズ演算子
+  infixl  2600   ! !! ;              // indexing, slicing インデックス、スライス
   infixr  2700   . ;                 // function composition
-  prefix  2800   ' ;                 // quote
-  postfix 2900   & ;                 // thunk
+  prefix  2800   ' ;                 // quote クォート
+  postfix 2900   & ;                 // thunk サンク
 
 ..
 
