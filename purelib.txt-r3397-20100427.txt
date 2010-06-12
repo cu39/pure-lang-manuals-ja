@@ -179,18 +179,18 @@ corresponding binary operator.
   infixr  1500   && ;                // logical and (short-circuit) 論理 and （短絡）
   prefix  1600   ~ ;                 // logical negation 論理否定
   infix   1700   < > <= >= == ~= ;   // relations 関係演算子
-  infix   1700   === ~== ;           // syntactic equality
-  infixr  1800   : ;                 // list cons
+  infix   1700   === ~== ;           // syntactic equality 統語上の等値〔syntactic equality〕
+  infixr  1800   : ;                 // list cons リスト cons
   infix   1900   +: <: ;             // complex numbers (cf. math.pure) 虚数（cf. math.pure）
   infixl  2000   << >> ;             // bit shifts ビットシフト
   infixl  2100   + - or ;            // addition, bitwise or 加法、 bitwise or
   infixl  2200   * / div mod and ;   // multiplication, bitwise and 乗法、 bitwise and
   infixl  2200   % ;                 // exact division (cf. math.pure)
   prefix  2300   not ;               // bitwise not
-  infixr  2400   ^ ;                 // exponentiation
+  infixr  2400   ^ ;                 // exponentiation 冪乗〔累乗〕
   prefix  2500   # ;                 // size operator サイズ演算子
   infixl  2600   ! !! ;              // indexing, slicing インデックス、スライス
-  infixr  2700   . ;                 // function composition
+  infixr  2700   . ;                 // function composition 関数合成
   prefix  2800   ' ;                 // quote クォート
   postfix 2900   & ;                 // thunk サンク
 
@@ -218,7 +218,9 @@ Basic Combinators
 The most important function combinators are ``$`` (right-associative
 application) and ``.`` (function composition), which are also defined as
 macros so that saturated calls of these are eliminated automatically.
-Examples::
+Examples:
+
+最も重要な関数結合演算子は ``$`` （右結合適用）と ``.`` （関数合成）です。両者はマクロとしても定義されているので、これらを saturated call した場合には自動的に取り除かれます。例::
 
   > foo $ bar 99;
   foo (bar 99)
@@ -238,7 +240,9 @@ Examples::
 
 The customary identity and constant combinators from the combinatorial
 calculus are also available, in Pure these are named ``id`` and ``cst``,
-respectively::
+respectively:
+
+customary identity と定数結合子 from the combinatorial calculus はどちらも利用可能です。 Pure ではそれぞれ ``id`` と ``cst`` と名付けられています::
 
   > map id (1..5);
   [1,2,3,4,5]
@@ -254,7 +258,9 @@ respectively::
 There's also a combinator ``void`` which is basically equivalent to ``cst
 ()``, but with the special twist that it is also defined as a macro
 optimizing the case of "throwaway" list and matrix comprehensions. This is
-useful if a comprehension is evaluated solely for its side effects. E.g.::
+useful if a comprehension is evaluated solely for its side effects. E.g.:
+
+さらに ``void`` という結合子もあります。基本的には ``cst()`` と同等〔equivalent〕ですが、 but with the special twist that it is also defined as a macro optimizing the case of "throwaway" list and matrix comprehensions. これは、ある内包を副作用のためだけに評価したい際に役立ちます。例えば::
 
   > using system;
   > extern int rand();
@@ -273,6 +279,8 @@ intermediate list value of the comprehension is never constructed. This is
 described in more detail in section `Optimization Rules`_ of the Pure
 Manual.
 
+上のリスト内包が、実際には |do|_ を使って実装されて（通常は |map|_ を使うところですが）おり、その結果、内包の中間的なリスト値は決して構築されないことを覚えておいて下さい。この点は Pure Manual の `Optimization Rules`_ セクションで詳細に解説されています。
+
 .. |do| replace:: ``do``
 .. |map| replace:: ``map``
 .. _Optimization Rules: pure.html#optimization-rules
@@ -282,19 +290,25 @@ Manual.
 In addition, Pure also provides the following combinators adopted from
 Haskell:
 
+さらに、 Pure は次のような結合子を Haskell から借用し、提供しています:
+
 .. raw:: html
 
    <a name="flip">
 
 .. _flip:
 
-* ``flip f`` swaps arguments of a binary function ``f``, e.g.::
+* ``flip f`` swaps arguments of a binary function ``f``, e.g.:
+
+* ``flip f`` は二項関数 ``f`` の引数を入れ替えます。例えば::
 
     > map (flip (/) 2) (1..3);
     [0.5,1.0,1.5]
 
   This combinator is also used by the compiler to implement right operator
-  sections, which allows you to write the above simply as::
+  sections, which allows you to write the above simply as:
+
+  この結合子は、コンパイラが right operator sections を実装するのにも使われます。これにより、上の表現を次のようにシンプルな書き方にできます::
 
     > map (/2) (1..3);
     [0.5,1.0,1.5]
@@ -306,7 +320,9 @@ Haskell:
 .. _curry:
 
 * ``curry f`` turns a function ``f`` expecting a pair of values into a
-  curried function of two arguments::
+  curried function of two arguments:
+
+* ``curry f`` は、値のペアを想定した関数 ``f`` を、カリー化された2引数の関数へ変化させます::
 
     > using system;
     > dowith (curry (printf "%d: %g\n")) (0..2) [0.0,2.718,3.14];
@@ -322,7 +338,9 @@ Haskell:
 .. _uncurry:
 
 * Conversely, ``uncurry f`` turns a curried function ``f`` expecting two
-  arguments into a function processing a single pair argument::
+  arguments into a function processing a single pair argument:
+
+* 反対に、 ``uncurry f`` は、カリー化された関数 ``f`` （2引数を想定）を、単一のペア引数を処理する関数へ変化させます::
 
     > map (uncurry (*)) [(2,3),(4,5),(6,7)];
     [6,20,42]
@@ -341,6 +359,8 @@ Haskell:
 * ``curry3`` and ``uncurry3`` are defined analogously, but are used to work
   with ternary functions.
 
+* ``curry3`` と ``uncurry3`` も同じように定義されていますが、3引数の関数を処理するために使われます。
+
 .. raw:: html
 
    <a name="fix">
@@ -349,7 +369,9 @@ Haskell:
 
 * The (normal order) fixed point combinator ``fix`` allows you to create
   recursive anonymous functions. It takes another function ``f`` as its
-  argument and applies ``f`` to ``fix f`` itself::
+  argument and applies ``f`` to ``fix f`` itself:
+
+* The (normal order) 不動点コンビネータ ``fix`` で、再帰的な無名関数を作ることができます。 ``fix`` はもう一つ関数 ``f`` を引数に取り、 ``f`` を ``fix f`` そのものに適用することができます::
 
     > let fact = fix (\f n -> if n<=0 then 1 else n*f (n-1));
     > map fact (1..5);
@@ -358,6 +380,8 @@ Haskell:
   See |fixpoint|_ at Wikipedia for an explanation of how this magic works.
   Just like in Haskell, ``fix`` can be used to produce least fixed points
   of arbitrary functions. For instance::
+
+  Wikipedia の |不動点|_ |fixpoint|_ の項で、この魔法がどのように動作するかの説明を参照してください。 Haskell と同じように、 ``fix`` を使って任意の関数の宰相不動点を計算することができます。具体的には::
 
     > fix (cst bar);
     bar
@@ -369,6 +393,8 @@ Haskell:
 
 .. |fixpoint| replace:: Fixed point combinator
 .. _fixpoint: http://en.wikipedia.org/wiki/Fixed_point_combinator
+.. |不動点| replace:: 不動点コンビネータ
+.. _不動点コンビネータ: http://ja.wikipedia.org/wiki/%E4%B8%8D%E5%8B%95%E7%82%B9%E3%82%B3%E3%83%B3%E3%83%93%E3%83%8D%E3%83%BC%E3%82%BF
 
 ..
 
