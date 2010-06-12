@@ -371,7 +371,7 @@ Haskell:
   recursive anonymous functions. It takes another function ``f`` as its
   argument and applies ``f`` to ``fix f`` itself:
 
-* The (normal order) 不動点コンビネータ ``fix`` で、再帰的な無名関数を作ることができます。 ``fix`` はもう一つ関数 ``f`` を引数に取り、 ``f`` を ``fix f`` そのものに適用することができます::
+* The (normal order) 不動点結合子〔不動点コンビネータ〕 ``fix`` で、再帰的な無名関数を作ることができます。 ``fix`` はもう一つ関数 ``f`` を引数に取り、 ``f`` を ``fix f`` そのものに適用することができます::
 
     > let fact = fix (\f n -> if n<=0 then 1 else n*f (n-1));
     > map fact (1..5);
@@ -400,6 +400,8 @@ Haskell:
 
 Lists and Tuples
 ----------------
+
+リストとタプル
 
 .. raw:: html
 
@@ -466,7 +468,9 @@ whether ``x`` is the empty list or tuple, the function ``reverse x`` which
 reverses a list or tuple, and the operators ``#x`` (size of a list or
 tuple), ``x!i`` (indexing), ``x!!is`` (slicing) and ``x+y`` (list
 concatenation). Note that there isn't a separate operation for
-concatenating tuples, since the pairing operator already does this::
+concatenating tuples, since the pairing operator already does this:
+
+prelude はリストとタプルのコンストラクタ（ ``x:y``, ``x,y`` ）を定義するだけでなく、それらの構造に関する等値（ ``==`` ）と非等値（ ``~=`` ）も定義します（後者は、2つのリストまたはタプルについて、そのメンバーを再帰的に比較します。なので ``==`` でもそのような処理をしたければ ``==`` がリストやタプルのメンバーに対して働くよう定義しなければなりません）■要確認■。また prelude は predicate ``null x`` も提供します。これは ``x`` がリストやタプルが空であるかどうかチェックするものです。関数 ``reverse x`` はリストやタプルを反転します。ほかにも演算子 ``#x`` （リストとタプルのサイズ）、 ``x!i`` （インデックス〔indexing〕）、 ``x!!is`` （スライス）、 ``x+y`` （リスト連結）が提供されます。タプルを結合する独立した処理は存在しないことを覚えておいて下さい。ペアリング演算子がその役を果たすからです::
 
   > (1,2,3),(10,9,8);
   1,2,3,10,9,8
@@ -475,7 +479,9 @@ This works because the ``(,)`` constructor is associative in Pure and will
 always produce right-recursive pairs. This also implies that tuples are
 always flat in Pure and can't be nested; if you need this, you should use
 lists instead. Also note that the empty tuple ``()`` acts as a neutral
-element with respect to ``(,)``::
+element with respect to ``(,)``:
+
+これが動作するのは、 Pure において ``(,)`` コンストラクタが結合的な性質を持つ〔is associative〕からであり、常に右再帰のペア〔right-recursive pairs〕を生み出します。したがって Pure においてタプルは常にフラットであり、入れ子にする〔＝ネストする〕ことはできません。入れ子にする場合は代わりにリストを使って下さい。また、空のタプル ``()`` は ``(,)`` との関係において無色の要素〔a neutral element〕として振る舞います::
 
   > (),(a,b,c);
   a,b,c
@@ -498,7 +504,9 @@ pairs", which take the form ``key=>value``. These are used in various
 contexts to denote key-value associations. The only operations on hash
 pairs provided by the prelude are equality testing (which recursively
 compares the components) and the functions ``key`` and ``val`` which
-extract the components of a hash pair::
+extract the components of a hash pair:
+
+また prelude はもう一つ、「ハッシュペア」と呼ばれる特殊なペアを提供します。これは ``key=>value`` という形式をとります。ハッシュペアは様々な文脈において key-value の関連を示すために使われます。 ハッシュペアに対する処理で prelude が提供するものは多くなく、等値のテスト（構成要素を再帰的に比較）と、関数 ``key`` と ``val`` （ハッシュペアから構成要素を抜き出す）です::
 
   > ("foo"=>99) == ("bar"=>99);
   0
@@ -512,6 +520,8 @@ parenthesized, and ``(x=>y)=>z`` is generally *not* the same as
 so to include a tuple as key or value in a hash pair, the tuple must be
 parenthesized, as in ``"foo"=>(1,2)`` (whereas ``"foo"=>1,2`` denotes a
 tuple whose first element happens to be a hash pair).
+
+タプル演算子 ``(,)`` と異なり、「ハッシュロケット」 ``(=>)`` は結合的な性質を持ちません〔is non-associative〕。そのためネストされた適用は *必ず* 丸括弧で囲われ *なければならず* 、 ``(x=>y)=>z`` は一般に ``x=>(y=>z)`` と同じ *ではありません* 。また、 ``(,)`` の優先度は ``(=>)`` よりも低いので、ハッシュペアのキーや値としてタプルを含めるには、タプルが丸括弧で囲われている必要があります。例えば ``"foo"=>(1,2)`` のようにです（これに対して ``"foo"=>1,2`` は、最初の要素がハッシュペアにされてしまったタプルを示すことになります）。
 
 .. raw:: html
 
@@ -529,6 +539,8 @@ Lisp or Prolog except that they use a Haskell-like syntax. In difference to
 Haskell, list concatenation is denoted ``+``, and lists may contain an
 arbitrary mixture of arguments, i.e., they are fully polymorphic::
 
+リストは、よくある右結合の集合体〔right-recursive aggregates〕で、 Lisp や Prolog とよく似ていますが、 Haskell 的な構文を持っています。ただ Haskell と異なるのは、リスト結合を ``+`` で示すことと、リストが任意の混合的な引数〔an arbitrary mixture of arguments〕を含むことができること、すなわち完全に多態的〔fully polymorphic〕であることです::
+
   > 1:2:3:[];
   [1,2,3]
   > [1,2,3]+[u,v,w]+[3.14];
@@ -536,6 +548,8 @@ arbitrary mixture of arguments, i.e., they are fully polymorphic::
 
 Lists are `eager` in Pure by default, but they can also be made `lazy`, see
 section `Lazy Evaluation and Streams`_ in the Pure Manual.
+
+Pure におけるリストはデフォルトで `熱心` 〔 `eager` ＝先行評価〕ですが、また `怠惰` 〔 `lazy` ＝遅延評価〕とすることも可能です。詳しくは Pure Manual の `Lazy Evaluation and Streams`_ を参照して下さい。
 
 .. _Lazy Evaluation and Streams: pure.html#lazy-evaluation-and-streams
 
@@ -550,7 +564,9 @@ section `Lazy Evaluation and Streams`_ in the Pure Manual.
 .. _arithmetic sequences:
 .. _..:
 
-Arithmetic sequences can be constructed with the infix ``..`` operator::
+Arithmetic sequences can be constructed with the infix ``..`` operator:
+
+等差数列は挿入演算子 ``..`` を使って構築できます::
 
   > 1..5;
   [1,2,3,4,5]
@@ -561,7 +577,9 @@ Note that the Pure syntax differs from Haskell in that there are no
 brackets around the construct and a step width is indicated by specifying
 the first two elements as ``x:y`` instead of ``x,y``. Also, to specify
 infinite sequences you have to use an infinite upper bound (``inf`` or
-``-inf``)::
+``-inf``):
+
+Pure の構文は Haskell のそれと以下の点で異なるので、注意して下さい。構造の前後にブラケットはありません。最初の2要素を ``x,y`` の代わりに ``x:y`` とすることで、数列のステップ幅を指定できます。また、無限数列の特性を持たせるには、無限大の上限（ ``inf`` または ``-inf`` を使う必要があります::
 
   > 1:3..inf;
   1:#<thunk 0x7f696cd2dbd8>
@@ -569,6 +587,8 @@ infinite sequences you have to use an infinite upper bound (``inf`` or
   -1:#<thunk 0x7f696cd2fde8>
 
 The lower bounds of an arithmetic sequence must always be finite.
+
+等差数列の下限は常に有限でなければなりません。
 
 .. raw:: html
 
@@ -581,6 +601,8 @@ interface to the C ``qsort()`` routine, please see your local qsort(3)
 documentation for details. An order predicate ``p`` is specified as the
 first argument, which must return a nonzero integer to indicate that its
 first argument is "less than" its second argument. Example::
+
+遅延評価でないリストは ``sort`` 関数を使ってソートできます。この関数は C の ``qsort()`` ルーチンへのインターフェースを提供します。詳しくは各自のローカルにある qsort(3) のドキュメントを参照して下さい。順序 predicate である ``p`` が ``sort`` の最初の引数として指定されます。この順序 predicate は、非ゼロの整数を返すことで、最初の引数が2番目の引数「よりも小さい」〔its first argument is "less than" its second argument〕ことを示します。例::
 
   > sort (>) (1..10);
   [10,9,8,7,6,5,4,3,2,1]
@@ -599,7 +621,9 @@ first argument is "less than" its second argument. Example::
 .. _tuple:
 
 You can convert between (finite) lists and tuples using the ``list`` and
-``tuple`` operations::
+``tuple`` operations:
+
+``list`` と ``tuple`` 処理を使って、（有限の）リストとタプルを相互に変換できます::
 
   > tuple (1..5);
   1,2,3,4,5
@@ -607,13 +631,17 @@ You can convert between (finite) lists and tuples using the ``list`` and
   [a,b,c]
 
 The ``list`` function can also be used to turn a finite lazy list into an
-eager one::
+eager one:
+
+``list`` 関数は、有限な遅延評価リストを先行評価のリストへと変えることもできます::
 
   > list $ take 10 (-1:-3..-inf);
   [-1,-3,-5,-7,-9,-11,-13,-15,-17,-19]
 
 You can also achieve the same effect somewhat more conveniently by slicing
 a finite part from a stream (see below)::
+
+ストリームから有限な一部をスライスすると同じ効果を達成できます（次の例を参照）。こちらのほうがいくらか便利かもしれません::
 
   > (-1:-3..-inf)!!(0..9);
   [-1,-3,-5,-7,-9,-11,-13,-15,-17,-19]
@@ -626,6 +654,8 @@ a finite part from a stream (see below)::
 
 Conversely, it is also possible to convert a list to a stream::
 
+反対に、リストをストリームへ変換することも可能です::
+
   > stream (1..10);
   1:#<thunk 0x7fe537fe2b58>
 
@@ -633,6 +663,8 @@ This might appear a bit useless at first sight, since all elements of the
 stream are in fact already known. However, this operation then allows you
 to apply other functions to the list and have them evaluated in a lazy
 fashion.
+
+一見するとあまり使い道がないように見えるかもしれません。ストリームの全要素は実際にもうわかっているわけですから。しかし、この処理を使うと、他の関数をその処理に適用し、かつその評価を怠惰なやり方で〔＝遅延評価的に〕行うことができるようになります。
 
 .. raw:: html
 
@@ -647,7 +679,9 @@ fashion.
 
 Indexing of lists and tuples is always zero-based (i.e., indices run from
 ``0`` to ``#x-1``), and an exception will be raised if the index is out of
-bounds::
+bounds:
+
+リストとタプルのインデックス参照はゼロベース（つまり、インデックスは ``0`` から ``#x-1`` の範囲）です。また、インデックスが境界を越えている場合は例外が発生します::
 
   > [1,2,3]!2;
   3
@@ -668,7 +702,9 @@ bounds::
 
 The slicing operator ``!!`` takes a list or tuple and a list of indices and
 returns the list or tuple of the corresponding elements, respectively.
-Indices which are out of the valid range are silently ignored::
+Indices which are out of the valid range are silently ignored:
+
+スライス演算子 ``!!`` は、リストまたはタプルと、〔複数の〕インデックスのリストを取り、相応する要素のリストまたはタプルをそれぞれ返します。適切な範囲の外に出た分のインデックスは黙って無視されます::
 
   > (1..5)!!(3..10);
   [4,5]
@@ -678,6 +714,8 @@ Indices which are out of the valid range are silently ignored::
 Indices can actually be specified in any order, so that you can retrieve
 any permutation of the members, also with duplicates. E.g.::
 
+実のところ、インデックスはいかなる順序で指定されてもかまいません。そのためメンバーのいかなる順列でも取り出すことができ、重複があってもかまいません::
+
   > (1..5)!![2,4,4,1];
   [3,5,5,2]
 
@@ -686,6 +724,8 @@ optimized so that it always works in linear time), because it requires
 repeated traversals of the list for each index. For larger lists you should
 hence use vectors or matrices instead, to avoid the quadratic complexity.
 
+これは、連続したインデックス範囲（最適化されており、常に線型の時間内で動作します）に比べると効率は劣ります。各インデックスごとにリストを繰り返し横断することが必要になるからです。したがって、より大きなリストの場合、代わりにベクターかマトリクスを使い、二次関数的な計算量の増加を避けるべきです。
+
 .. |catmap| replace:: ``catmap``
 
 (The prelude actually implements the slicing operation in a fairly generic
@@ -693,6 +733,8 @@ way, so that it works with any kind of container data structure which
 defines ``!`` in such a manner that it throws an exception when the index
 is out of bounds. It also works with any kind of index container that
 implements the |catmap|_ operation.)
+
+（実際には、 prelude はスライス処理を総称的な〔＝ジェネリックな〕方法で行っています。■なので、あらゆる種類のコンテナデータ型に対して適切に動作しますが、ただし ``!`` を、境界外のインデックスに対して例外を投げるよう定義している必要があります。■また、 |catmap|_ 処理を実装しているあらゆる種類のインデックスコンテナに対しても動作します）
 
 ..
 
