@@ -313,7 +313,7 @@ intermediate representation, it just acts as a frontend to the compiler,
 taking care of compiling source code to native machine code before it gets
 executed.
 
-インタープリタはスクリプトだけでなく、あなたが対話的に入力する定義をも自動的にコンパイルします。このコンパイルはコードが必要となるにつれてインクリメント式に行われます。つまり JIT （`just in time`）コンパイルとして知られているものです。このように、インタープリタはソースプログラムや他の何らかの中間的な表現〔some intermediate representation〕を本当に「解釈する」〔"interprets"〕ことはなく、単にコンパイラのフロントエンドとして振る舞い、ソースコードが実行される前にネイティブコードへとコンパイルする世話をしてくれます。
+インタープリタはスクリプトだけでなく、あなたが対話的に入力する定義をも自動的にコンパイルします。このコンパイルはコードが必要となるにつれてインクリメント式に行われます。つまり JIT （ `just in time` ）コンパイルとして知られているものです。このように、インタープリタはソースプログラムや他の何らかの中間的な表現〔some intermediate representation〕を本当に「解釈する」〔"interprets"〕ことはなく、単にコンパイラのフロントエンドとして振る舞い、ソースコードが実行される前にネイティブコードへとコンパイルする世話をしてくれます。
 
 Pure's LLVM backend does "lazy JIT compilation" by default, meaning that each
 function (global or local) is compiled no sooner than it is run for the first
@@ -787,7 +787,7 @@ beginning with ``#!`` are treated as comments, too; as already discussed
 above, on Unix-like systems this allows you to add a "shebang" to your main
 script in order to turn it into an executable program.
 
-コメントは C++ と同じ文法を持っています（ ``//`` を一行コメントに使い、 ``/* ... */`` を複数行コメントに使用。後者はネスト可能）。 ``#!`` で始まる行もまたコメント扱いで、すでに上で議論した通り、 Unix-like なシステム上では、メインスクリプトにこの "shebang" を追加して実行可能なプログラムへと変えることができます。
+コメントは C++ と同じ構文を持っています（ ``//`` を一行コメントに使い、 ``/* ... */`` を複数行コメントに使用。後者はネスト可能）。 ``#!`` で始まる行もまたコメント扱いで、すでに上で議論した通り、 Unix-like なシステム上では、メインスクリプトにこの "shebang" を追加して実行可能なプログラムへと変えることができます。
 
 There are a few reserved keywords which cannot be used as identifiers:
 
@@ -964,7 +964,7 @@ Declarations`_ for details.)
 Expression Syntax
 -----------------
 
-式の文法
+式の構文
 
 The Pure language provides built-in support for machine integers (32 bit),
 bigints (implemented using GMP_), floating point values (double precision IEEE
@@ -1016,7 +1016,7 @@ Strings: ``"Hello, world!\n"``
 __ http://www.w3.org/TR/xml-entity-names/
 
 文字列: ``"Hello, world!\n"``
-    文字列定数はCと同じように、ダブルクォートで囲まれヌル文字で終わります。Cと異なるのは、文字列が常にUTF-8でエンコードされること、またPureの文字エスケープがCよりも柔軟な文法を持っていることです（同じ作者のQ言語から借りてきています）。この文法はあらゆるUnicode文字を特定する記法を提供します。特に ``\``[ *n* という表記法（*n* は10進法（プレフィクスなし）、16進数（``0x`` プレフィクス）、8進数（``0`` プレフィクス、2進数（``0b`` プレフィクス）いずれかの整数リテラルで示す）は、 Unicode 文字（コードポイント） #\ *n* を示します。このエスケープは様々な数字で構成することができるので、括弧を使って曖昧さを排除することができます。例えば ``"\(123)4"`` は #123 の後にASCII文字の ``4`` が続いていることを示します。従来のC方式に似た ``\n`` のような非表示の特殊文字エスケープもサポートされます。さらには ``\&``\ *name*\ ``;`` 形式の記号文字エスケープ（ *name* は `XML Entity definitions for Characters`__ で定義される単一文字エンティティ名）も使えます。したがって、例えば ``"&copy;"`` はコピーライト文字（コードポイント 0x000A9）を表します。
+    文字列定数は C と同じように、ダブルクォートで囲まれヌル文字で終わります。 C と異なるのは、文字列が常に UTF-8 でエンコードされること、また Pure の文字エスケープが C よりも柔軟な構文規則〔syntax〕を持っていることです（同じ作者の Q 言語から借りてきています）。この構文規則はあらゆる Unicode 文字を特定する記法を提供します。特に ``\``[ *n* という表記法（ *n* は10進法（プレフィクスなし）、16進数（ ``0x`` プレフィクス）、8進数（ ``0`` プレフィクス、2進数（ ``0b`` プレフィクス）いずれかの整数リテラルで示す）は、 Unicode 文字（コードポイント） #\ *n* を示します。このエスケープは様々な数字で構成することができるので、括弧を使って曖昧さを排除することができます。例えば ``"\(123)4"`` は #123 の後にASCII文字の ``4`` が続いていることを示します。従来の C 方式に似た ``\n`` のような非表示の特殊文字エスケープもサポートされます。さらには ``\&``\ *name*\ ``;`` 形式の記号文字エスケープ（ *name* は `XML Entity definitions for Characters`__ で定義される単一文字エンティティ名）も使えます。したがって、例えば ``"&copy;"`` はコピーライト文字（コードポイント 0x000A9）を表します。
 
 __ http://www.w3.org/TR/xml-entity-names/
 
@@ -1045,7 +1045,7 @@ Operator and constant symbols: ``x+y``, ``x==y``, ``not x``
     be interpreted as a literal constant, cf. `Parameters in Equations`_.)
 
 演算子シンボルと定数シンボル: ``x+y``, ``x==y``, ``not x``
-    便宜のため、 Pure は限定された意味を提供しています。対応する `fixity` 宣言を使って、特別な演算子と定数シンボルによって言語の文法を拡張するために。 `Symbol Declarations`_ セクションで議論している通り。従来の挿入〔infix〕、前置〔prefix〕、後置〔postfix〕演算子に加え、 Pure はアウトフィクス（角括弧）とノンフィクス（定数）シンボルも提供します（ノンフィクスシンボルは、実際には多かれ少なかれ普通の識別子と同じような働きをしますが、 ``nonfix`` 属性はコンパイラに対して以下のように伝える点が異なります。そのようなシンボルが等式の左辺に現れたとき、そのシンボルを常にリテラル定数と扱え、と伝えるのです。 cf. `Parameters in Equations`_ ）
+    Pure では便宜のために、言語の構文規則を、特別な演算子シンボルと定数シンボルによって拡張する手段をいくつか提供しています。これは、それぞれ用意されている `fixity` 宣言を使って行います（ `Symbol Declarations`_ セクションで議論されています）。従来の挿入〔infix〕、前置〔prefix〕、後置〔postfix〕演算子に加え、 Pure はアウトフィクス（括弧）とノンフィクス（定数）シンボルも提供します（ノンフィクスシンボルは、実際には多かれ少なかれ普通の識別子と同じような働きをしますが、 ``nonfix`` 属性はコンパイラに対して以下のように伝える点が異なります。そのようなシンボルが等式の左辺に現れたとき、そのシンボルを常にリテラル定数と扱え、と伝えるのです。 cf. `Parameters in Equations`_ ）
 
     Operator and constant symbols may take the form of an identifier or a
     sequence of punctuation characters. They must always be declared before
@@ -3648,9 +3648,9 @@ the former case, ``bar`` refers to the ``bar`` symbol defined by the rule,
 while in the latter case the '\ ``,``\ ' operator is actually declared in the
 prelude and thus imported from the global namespace.
 
-この場合、最初のルールの左辺 ``bar (bar x)`` 内にある最初の ``bar`` は *定義的な* 出現であり、 ``let`` 定義内にある ``x`` と ``y`` も同様です。したがって、これらのシンボルは新たなシンボルとして名前空間 ``foo`` 内に作られます。それに対して、最初のシンボルで現れているもう一つの ``bar`` は、 ``let`` 定義の左辺にある '\ ``,``\ ' と同様、 *参照的な* 出現です。前者 [#]_ の場合、 ``bar`` はそのルールによって定義された ``bar`` シンボルを指示しています。後者の場合、 '\ ``,``\ ' 演算子が実際に定義されているのは prelude 内であり、グローバル名前空間からインポートされています。
+この場合、最初のルールの左辺 ``bar (bar x)`` 内にある最初の ``bar`` は *定義的な* 出現であり、 ``let`` 定義内にある ``x`` と ``y`` も同様です。したがって、これらのシンボルは新たなシンボルとして名前空間 ``foo`` 内に作られます。それに対して、最初のルールで現れているもう一つの ``bar`` は、 ``let`` 定義の左辺にある '\ ``,``\ ' と同じく、 *参照的な* 出現です。前者 [#]_ の場合、 ``bar`` はそのルールによって定義された ``bar`` シンボルを指示しています。後者の場合、 '\ ``,``\ ' 演算子が実際に定義されているのは prelude 内であり、グローバル名前空間からインポートされています。
 
-.. [#] 最初のルール左辺にある3つの bar のうち2番目の（＝丸括弧内にある） ``bar`` のこと。
+.. [#] 訳注：最初のルール左辺にある3つの bar のうち2番目の（＝丸括弧内にある） ``bar`` のこと。
 
 Note that special operator (and nonfix) symbols *always* require an explicit
 declaration. This works as already discussed in the `Symbol Declarations`_

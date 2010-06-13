@@ -34,12 +34,12 @@ This manual describes the operations in the standard Pure library,
 including the prelude and the other library modules which come bundled with
 the interpreter.
 
-‚±‚Ìƒ}ƒjƒ…ƒAƒ‹‚ÍA Pure •W€ƒ‰ƒCƒuƒ‰ƒŠ‚ÉŠÜ‚Ü‚ê‚éˆ—‚ğ‰ğà‚µ‚Ä‚¢‚Ü‚·B•W€ƒ‰ƒCƒuƒ‰ƒŠ‚ÍAƒCƒ“ƒ^[ƒvƒŠƒ^‚Éƒoƒ“ƒhƒ‹‚³‚ê‚Ä‚¢‚é prelude ‚â‚»‚Ì‘¼ƒ‰ƒCƒuƒ‰ƒŠƒ‚ƒWƒ…[ƒ‹‚ğŠÜ‚ñ‚Å‚¢‚Ü‚·B
+ã“ã®ãƒãƒ‹ãƒ¥ã‚¢ãƒ«ã¯ã€ Pure æ¨™æº–ãƒ©ã‚¤ãƒ–ãƒ©ãƒªã«å«ã¾ã‚Œã‚‹å‡¦ç†ã‚’è§£èª¬ã—ã¦ã„ã¾ã™ã€‚æ¨™æº–ãƒ©ã‚¤ãƒ–ãƒ©ãƒªã¯ã€ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ—ãƒªã‚¿ã«ãƒãƒ³ãƒ‰ãƒ«ã•ã‚Œã¦ã„ã‚‹ prelude ã‚„ãã®ä»–ãƒ©ã‚¤ãƒ–ãƒ©ãƒªãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ã‚’å«ã‚“ã§ã„ã¾ã™ã€‚
 
 There is a companion to this manual, the `Pure Manual`_ which describes the
 Pure language and the operation of the Pure interpreter.
 
-‚±‚Ìƒ}ƒjƒ…ƒAƒ‹‚É‚Í `Pure Manual`_ ‚Æ‚¢‚¤‘Š–_‚ª‚¢‚Ü‚·B‚»‚¿‚ç‚Å‚Í Pure Œ¾Œê‚»‚Ì‚à‚Ì‚Æ Pure ƒCƒ“ƒ^[ƒvƒŠƒ^‚Ì“­‚«‚ğ‰ğà‚µ‚Ä‚¢‚Ü‚·B
+ã“ã®ãƒãƒ‹ãƒ¥ã‚¢ãƒ«ã«ã¯ `Pure Manual`_ ã¨ã„ã†ç›¸æ£’ãŒã„ã¾ã™ã€‚ãã¡ã‚‰ã§ã¯ Pure è¨€èªãã®ã‚‚ã®ã¨ Pure ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ—ãƒªã‚¿ã®åƒãã‚’è§£èª¬ã—ã¦ã„ã¾ã™ã€‚
 
 .. Table of contents, switch on section numbering.
 
@@ -60,7 +60,7 @@ automatically (unless the interpreter is invoked with the ``--no-prelude``
 option), all operations discussed in this section are normally available in
 Pure programs without requiring any explicit import declarations.
 
-prelude ‚Í Pure Œ¾Œê‚ÌŠî–{“I‚Èˆ—‚ğ’è‹`‚µ‚Ü‚·B‚±‚±‚ÉŠÜ‚Ü‚ê‚é‚Ì‚ÍAŠî–{“I‚È”’l‰‰Z‚Æ˜_—‰‰ZA•¶š—ñEƒŠƒXƒgEƒ}ƒgƒŠƒNƒXˆ—ŠÖ”A‚³‚ç‚ÉƒŠƒXƒg“à•ï‚Æƒ}ƒgƒŠƒNƒX“à•ï‚ÌÀ‘•‚É•K—v‚Èx‰‡—pˆ—‚Å‚·B•¶š—ñAƒ}ƒgƒŠƒNƒXAƒŒƒR[ƒh‚ÌŠeˆ—‚Í‚»‚ê‚¼‚ê string.pure A matrices.pure A records.pure ‚Éƒ‚ƒWƒ…[ƒ‹‚Æ‚µ‚Ä•ª‚¯‚ç‚ê‚Ä‚¨‚èAƒvƒŠƒ~ƒeƒBƒu‚È”’l‚Æ˜_—‚Ìˆ—‚Í primitives.pure “à‚ÅŒ©‚Â‚©‚è‚Ü‚·B prelude ‚Ìƒ‚ƒWƒ…[ƒ‹‚Í©“®“I‚ÉƒCƒ“ƒ|[ƒg‚³‚ê‚éiƒCƒ“ƒ^[ƒvƒŠƒ^‚ª ``--no-prelude`` ƒIƒvƒVƒ‡ƒ“•t‚«‚Å‹N“®‚³‚ê‚½ê‡‚Í•Êj‚Ì‚ÅA‚±‚ÌƒZƒNƒVƒ‡ƒ“‚Å‹c˜_‚³‚ê‚éˆ—‚Í‘S‚Ä Pure ƒvƒƒOƒ‰ƒ€“à‚Å•’Ê‚É—˜—p‚Å‚«A–¾¦“I‚ÈƒCƒ“ƒ|[ƒgéŒ¾‚Í•K—v‚È‚¢‚±‚Æ‚ğŠo‚¦‚Ä‚¨‚¢‚Ä‰º‚³‚¢B
+prelude ã¯ Pure è¨€èªã®åŸºæœ¬çš„ãªå‡¦ç†ã‚’å®šç¾©ã—ã¾ã™ã€‚ã“ã“ã«å«ã¾ã‚Œã‚‹ã®ã¯ã€åŸºæœ¬çš„ãªæ•°å€¤æ¼”ç®—ã¨è«–ç†æ¼”ç®—ã€æ–‡å­—åˆ—ãƒ»ãƒªã‚¹ãƒˆãƒ»ãƒãƒˆãƒªã‚¯ã‚¹å‡¦ç†é–¢æ•°ã€ã•ã‚‰ã«ãƒªã‚¹ãƒˆå†…åŒ…ã¨ãƒãƒˆãƒªã‚¯ã‚¹å†…åŒ…ã®å®Ÿè£…ã«å¿…è¦ãªæ”¯æ´ç”¨å‡¦ç†ã§ã™ã€‚æ–‡å­—åˆ—ã€ãƒãƒˆãƒªã‚¯ã‚¹ã€ãƒ¬ã‚³ãƒ¼ãƒ‰ã®å„å‡¦ç†ã¯ãã‚Œãã‚Œ string.pure ã€ matrices.pure ã€ records.pure ã«ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ã¨ã—ã¦åˆ†ã‘ã‚‰ã‚Œã¦ãŠã‚Šã€ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–ãªæ•°å€¤ã¨è«–ç†ã®å‡¦ç†ã¯ primitives.pure å†…ã§è¦‹ã¤ã‹ã‚Šã¾ã™ã€‚ prelude ã®ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ã¯è‡ªå‹•çš„ã«ã‚¤ãƒ³ãƒãƒ¼ãƒˆã•ã‚Œã‚‹ï¼ˆã‚¤ãƒ³ã‚¿ãƒ¼ãƒ—ãƒªã‚¿ãŒ ``--no-prelude`` ã‚ªãƒ—ã‚·ãƒ§ãƒ³ä»˜ãã§èµ·å‹•ã•ã‚ŒãŸå ´åˆã¯åˆ¥ï¼‰ã®ã§ã€ã“ã®ã‚»ã‚¯ã‚·ãƒ§ãƒ³ã§è­°è«–ã•ã‚Œã‚‹å‡¦ç†ã¯å…¨ã¦ Pure ãƒ—ãƒ­ã‚°ãƒ©ãƒ å†…ã§æ™®é€šã«åˆ©ç”¨ã§ãã€æ˜ç¤ºçš„ãªã‚¤ãƒ³ãƒãƒ¼ãƒˆå®£è¨€ã¯å¿…è¦ãªã„ã“ã¨ã‚’è¦šãˆã¦ãŠã„ã¦ä¸‹ã•ã„ã€‚
 
 .. raw:: html
 
@@ -80,13 +80,13 @@ refer to them using these symbolic constants. Note that if you also want to
 use these on the left-hand side of equations, you still have to declare
 them as ``nonfix`` symbols yourself, using a declaration like:
 
-‚Ü‚½A prelude ‚Í‹¤—p’è”ƒVƒ“ƒ{ƒ‹‚Æ‹¤—p‰‰ZqƒVƒ“ƒ{ƒ‹‚Ì signature ‚ğéŒ¾‚µ‚Ü‚·B‚±‚±‚É‚Í^‹U’l‚Ì ``true`` ‚Æ ``false`` ‚ªŠÜ‚Ü‚ê‚Ü‚·B Pure ‚É‚¨‚¯‚é—¼Ò‚ÍAÀÛ‚É‚Í’P‚È‚é®”‚É‚·‚¬‚Ü‚¹‚ñ‚ªA‹L†’è”‚ğg‚Á‚Ä‚»‚ê‚ğ‚»‚ê‚ç‚ğQÆ‚·‚é‚Ì‚ª•Ö—˜‚È‚±‚Æ‚à‚µ‚Î‚µ‚Î‚ ‚è‚Ü‚·B‚à‚µ true ‚Æ false ‚ğ“™®¶•Ó‚Å—˜—p‚µ‚½‚¢ê‡A‚ ‚È‚½‚Í©•ª‚Å—¼Ò‚ğ ``nonfix`` ƒVƒ“ƒ{ƒ‹‚Æ‚µ‚ÄéŒ¾‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢‚±‚Æ‚É’ˆÓ‚µ‚Ä‰º‚³‚¢BŸ‚Ì‚æ‚¤‚ÈéŒ¾‚ğg‚¢‚Ü‚·::
+ã¾ãŸã€ prelude ã¯å…±ç”¨å®šæ•°ã‚·ãƒ³ãƒœãƒ«ã¨å…±ç”¨æ¼”ç®—å­ã‚·ãƒ³ãƒœãƒ«ã® signature ã‚’å®£è¨€ã—ã¾ã™ã€‚ã“ã“ã«ã¯çœŸå½å€¤ã® ``true`` ã¨ ``false`` ãŒå«ã¾ã‚Œã¾ã™ã€‚ Pure ã«ãŠã‘ã‚‹ä¸¡è€…ã¯ã€å®Ÿéš›ã«ã¯å˜ãªã‚‹æ•´æ•°ã«ã™ãã¾ã›ã‚“ãŒã€è¨˜å·å®šæ•°ã‚’ä½¿ã£ã¦ãã‚Œã‚’ãã‚Œã‚‰ã‚’å‚ç…§ã™ã‚‹ã®ãŒä¾¿åˆ©ãªã“ã¨ã‚‚ã—ã°ã—ã°ã‚ã‚Šã¾ã™ã€‚ã‚‚ã— true ã¨ false ã‚’ç­‰å¼å·¦è¾ºã§åˆ©ç”¨ã—ãŸã„å ´åˆã€ã‚ãªãŸã¯è‡ªåˆ†ã§ä¸¡è€…ã‚’ ``nonfix`` ã‚·ãƒ³ãƒœãƒ«ã¨ã—ã¦å®£è¨€ã—ãªã‘ã‚Œã°ãªã‚‰ãªã„ã“ã¨ã«æ³¨æ„ã—ã¦ä¸‹ã•ã„ã€‚æ¬¡ã®ã‚ˆã†ãªå®£è¨€ã‚’ä½¿ã„ã¾ã™::
 
   nonfix false true;
 
 In addition, the following special exception symbols are provided:
 
-‰Á‚¦‚ÄAŸ‚Ì‚æ‚¤‚È“Á•Ê—áŠOƒVƒ“ƒ{ƒ‹‚ª’ñ‹Ÿ‚³‚ê‚Ü‚·:
+åŠ ãˆã¦ã€æ¬¡ã®ã‚ˆã†ãªç‰¹åˆ¥ä¾‹å¤–ã‚·ãƒ³ãƒœãƒ«ãŒæä¾›ã•ã‚Œã¾ã™:
 
 .. raw:: html
 
@@ -115,7 +115,7 @@ In addition, the following special exception symbols are provided:
   ``PURE_STACK`` limit exceeded) and ``malloc_error`` (memory allocation
   error).
 
-* ‘g‚İ‚İ—áŠO’l: ``failed_cond`` iƒK[ƒh‚© if-then-else “à‚Å¸”s‚µ‚½ğŒjA ``failed_match`` iƒ‰ƒ€ƒ_‚â ``case`` ®‚È‚Ç‚Ì’†‚Å¸”s‚µ‚½ƒpƒ^[ƒ“ƒ}ƒbƒ`jA ``stack_fault`` i\•ª‚ÈƒXƒ^ƒbƒNƒTƒCƒY‚ª–³‚¢A ``PURE_STACK`` §ŒÀ‚ğ’´‚¦‚½jA ``malloc_error`` iƒƒ‚ƒŠŠ„‚è“–‚ÄƒGƒ‰[jB
+* çµ„ã¿è¾¼ã¿ä¾‹å¤–å€¤: ``failed_cond`` ï¼ˆã‚¬ãƒ¼ãƒ‰ã‹ if-then-else å†…ã§å¤±æ•—ã—ãŸæ¡ä»¶ï¼‰ã€ ``failed_match`` ï¼ˆãƒ©ãƒ ãƒ€ã‚„ ``case`` å¼ãªã©ã®ä¸­ã§å¤±æ•—ã—ãŸãƒ‘ã‚¿ãƒ¼ãƒ³ãƒãƒƒãƒï¼‰ã€ ``stack_fault`` ï¼ˆååˆ†ãªã‚¹ã‚¿ãƒƒã‚¯ã‚µã‚¤ã‚ºãŒç„¡ã„ã€ ``PURE_STACK`` åˆ¶é™ã‚’è¶…ãˆãŸï¼‰ã€ ``malloc_error`` ï¼ˆãƒ¡ãƒ¢ãƒªå‰²ã‚Šå½“ã¦ã‚¨ãƒ©ãƒ¼ï¼‰ã€‚
 
 .. raw:: html
 
@@ -143,7 +143,7 @@ In addition, the following special exception symbols are provided:
   These are thrown by some operations when they fail to find an expected
   value of the corresponding type.
 
-* ’l‚Ìƒ~ƒXƒ}ƒbƒ` a.k.a. “®“IŒ^•t‚¯ƒGƒ‰[: ``bad_string_value x``, ``bad_matrix_value x``, ``bad_list_value x``, ``bad_tuple_value x``. —\‘ª‚³‚ê‚éŒ^‚É‘Î‰‚·‚é’l‚ªŒ©‚Â‚©‚ç‚È‚©‚Á‚½‚Æ‚«A‚±‚ê‚ç‚Ì—áŠO‚ªƒXƒ[‚³‚ê‚Ü‚·B
+* å€¤ã®ãƒŸã‚¹ãƒãƒƒãƒ a.k.a. å‹•çš„å‹ä»˜ã‘ã‚¨ãƒ©ãƒ¼: ``bad_string_value x``, ``bad_matrix_value x``, ``bad_list_value x``, ``bad_tuple_value x``. äºˆæ¸¬ã•ã‚Œã‚‹å‹ã«å¯¾å¿œã™ã‚‹å€¤ãŒè¦‹ã¤ã‹ã‚‰ãªã‹ã£ãŸã¨ãã€ã“ã‚Œã‚‰ã®ä¾‹å¤–ãŒã‚¹ãƒ­ãƒ¼ã•ã‚Œã¾ã™ã€‚
 
 .. raw:: html
 
@@ -154,7 +154,7 @@ In addition, the following special exception symbols are provided:
 * Index range exceptions: ``out_of_bounds`` is thrown by the index operator
   ``!`` if a list, tuple or matrix index is out of bounds.
 
-* ƒCƒ“ƒfƒbƒNƒX”ÍˆÍ‚Ì—áŠO: ƒŠƒXƒgAƒ^ƒvƒ‹Aƒ}ƒgƒŠƒNƒX‚ÌƒCƒ“ƒfƒbƒNƒX‚ª‹«ŠE‚ğ‰z‚¦‚Ä‚¢‚éê‡A ``!`` ‰‰Zq‚Í ``out_of_bounds`` —áŠO‚ğƒXƒ[‚µ‚Ü‚·B
+* ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ç¯„å›²ã®ä¾‹å¤–: ãƒªã‚¹ãƒˆã€ã‚¿ãƒ—ãƒ«ã€ãƒãƒˆãƒªã‚¯ã‚¹ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãŒå¢ƒç•Œã‚’è¶Šãˆã¦ã„ã‚‹å ´åˆã€ ``!`` æ¼”ç®—å­ã¯ ``out_of_bounds`` ä¾‹å¤–ã‚’ã‚¹ãƒ­ãƒ¼ã—ã¾ã™ã€‚
 
 .. raw:: html
 
@@ -166,33 +166,33 @@ Here's the list of predefined operator symbols. Note that the parser will
 automagically give unary minus the same precedence level as the
 corresponding binary operator.
 
-’è‹`Ï‚İ‰‰ZqƒVƒ“ƒ{ƒ‹‚ÌƒŠƒXƒg‚ğ‚±‚±‚É¦‚µ‚Ü‚·Bƒp[ƒT[‚ª’P€ƒ}ƒCƒiƒX‰‰Zq‚É‘Î‚µ‚Ä“ñ€ƒ}ƒCƒiƒX‰‰Zq‚Æ“¯‚¶—Dæ“x‚ğ—^‚¦‚é‚±‚Æ‚É’ˆÓ‚µ‚Ä‰º‚³‚¢B
+å®šç¾©æ¸ˆã¿æ¼”ç®—å­ã‚·ãƒ³ãƒœãƒ«ã®ãƒªã‚¹ãƒˆã‚’ã“ã“ã«ç¤ºã—ã¾ã™ã€‚ãƒ‘ãƒ¼ã‚µãƒ¼ãŒå˜é …ãƒã‚¤ãƒŠã‚¹æ¼”ç®—å­ã«å¯¾ã—ã¦äºŒé …ãƒã‚¤ãƒŠã‚¹æ¼”ç®—å­ã¨åŒã˜å„ªå…ˆåº¦ã‚’ä¸ãˆã‚‹ã“ã¨ã«æ³¨æ„ã—ã¦ä¸‹ã•ã„ã€‚
 
 ::
 
-  infixl  1000   $$ ;                // sequence operator Œp‹N‰‰Zq
-  infixr  1000   $ ;                 // right-associative application ‰EŒ‹‡‚Ì“K—p
-  infixr  1100   , ;                 // pair (tuple) ƒyƒAiƒ^ƒvƒ‹j
-  infix   1200   => ;                // key=>value pairs ("hash rocket") key=>value ƒyƒAiuƒnƒbƒVƒ…ƒƒPƒbƒgvj
-  infix   1300   .. ;                // arithmetic sequences “™·”—ñ
-  infixr  1400   || ;                // logical or (short-circuit) ˜_— or i’Z—j
-  infixr  1500   && ;                // logical and (short-circuit) ˜_— and i’Z—j
-  prefix  1600   ~ ;                 // logical negation ˜_—”Û’è
-  infix   1700   < > <= >= == ~= ;   // relations ŠÖŒW‰‰Zq
-  infix   1700   === ~== ;           // syntactic equality “Œêã‚Ì“™’lksyntactic equalityl
-  infixr  1800   : ;                 // list cons ƒŠƒXƒg cons
-  infix   1900   +: <: ;             // complex numbers (cf. math.pure) ‹•”icf. math.purej
-  infixl  2000   << >> ;             // bit shifts ƒrƒbƒgƒVƒtƒg
-  infixl  2100   + - or ;            // addition, bitwise or ‰Á–@A bitwise or
-  infixl  2200   * / div mod and ;   // multiplication, bitwise and æ–@A bitwise and
+  infixl  1000   $$ ;                // sequence operator ç¶™èµ·æ¼”ç®—å­
+  infixr  1000   $ ;                 // right-associative application å³çµåˆã®é©ç”¨
+  infixr  1100   , ;                 // pair (tuple) ãƒšã‚¢ï¼ˆã‚¿ãƒ—ãƒ«ï¼‰
+  infix   1200   => ;                // key=>value pairs ("hash rocket") key=>value ãƒšã‚¢ï¼ˆã€Œãƒãƒƒã‚·ãƒ¥ãƒ­ã‚±ãƒƒãƒˆã€ï¼‰
+  infix   1300   .. ;                // arithmetic sequences ç­‰å·®æ•°åˆ—
+  infixr  1400   || ;                // logical or (short-circuit) è«–ç† or ï¼ˆçŸ­çµ¡ï¼‰
+  infixr  1500   && ;                // logical and (short-circuit) è«–ç† and ï¼ˆçŸ­çµ¡ï¼‰
+  prefix  1600   ~ ;                 // logical negation è«–ç†å¦å®š
+  infix   1700   < > <= >= == ~= ;   // relations é–¢ä¿‚æ¼”ç®—å­
+  infix   1700   === ~== ;           // syntactic equality çµ±èªä¸Šã®ç­‰å€¤ã€”syntactic equalityã€•
+  infixr  1800   : ;                 // list cons ãƒªã‚¹ãƒˆ cons
+  infix   1900   +: <: ;             // complex numbers (cf. math.pure) è™šæ•°ï¼ˆcf. math.pureï¼‰
+  infixl  2000   << >> ;             // bit shifts ãƒ“ãƒƒãƒˆã‚·ãƒ•ãƒˆ
+  infixl  2100   + - or ;            // addition, bitwise or åŠ æ³•ã€ bitwise or
+  infixl  2200   * / div mod and ;   // multiplication, bitwise and ä¹—æ³•ã€ bitwise and
   infixl  2200   % ;                 // exact division (cf. math.pure)
   prefix  2300   not ;               // bitwise not
-  infixr  2400   ^ ;                 // exponentiation ™pæk—İæl
-  prefix  2500   # ;                 // size operator ƒTƒCƒY‰‰Zq
-  infixl  2600   ! !! ;              // indexing, slicing ƒCƒ“ƒfƒbƒNƒXAƒXƒ‰ƒCƒX
-  infixr  2700   . ;                 // function composition ŠÖ”‡¬
-  prefix  2800   ' ;                 // quote ƒNƒH[ƒg
-  postfix 2900   & ;                 // thunk ƒTƒ“ƒN
+  infixr  2400   ^ ;                 // exponentiation å†ªä¹—ã€”ç´¯ä¹—ã€•
+  prefix  2500   # ;                 // size operator ã‚µã‚¤ã‚ºæ¼”ç®—å­
+  infixl  2600   ! !! ;              // indexing, slicing ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã€ã‚¹ãƒ©ã‚¤ã‚¹
+  infixr  2700   . ;                 // function composition é–¢æ•°åˆæˆ
+  prefix  2800   ' ;                 // quote ã‚¯ã‚©ãƒ¼ãƒˆ
+  postfix 2900   & ;                 // thunk ã‚µãƒ³ã‚¯
 
 ..
 
@@ -220,7 +220,7 @@ application) and ``.`` (function composition), which are also defined as
 macros so that saturated calls of these are eliminated automatically.
 Examples:
 
-Å‚àd—v‚ÈŠÖ”Œ‹‡‰‰Zq‚Í ``$`` i‰EŒ‹‡“K—pj‚Æ ``.`` iŠÖ”‡¬j‚Å‚·B—¼Ò‚Íƒ}ƒNƒ‚Æ‚µ‚Ä‚à’è‹`‚³‚ê‚Ä‚¢‚é‚Ì‚ÅA‚±‚ê‚ç‚ğ saturated call ‚µ‚½ê‡‚É‚Í©“®“I‚Éæ‚èœ‚©‚ê‚Ü‚·B—á::
+æœ€ã‚‚é‡è¦ãªé–¢æ•°çµåˆæ¼”ç®—å­ã¯ ``$`` ï¼ˆå³çµåˆé©ç”¨ï¼‰ã¨ ``.`` ï¼ˆé–¢æ•°åˆæˆï¼‰ã§ã™ã€‚ä¸¡è€…ã¯ãƒã‚¯ãƒ­ã¨ã—ã¦ã‚‚å®šç¾©ã•ã‚Œã¦ã„ã‚‹ã®ã§ã€ã“ã‚Œã‚‰ã‚’ saturated call ã—ãŸå ´åˆã«ã¯è‡ªå‹•çš„ã«å–ã‚Šé™¤ã‹ã‚Œã¾ã™ã€‚ä¾‹::
 
   > foo $ bar 99;
   foo (bar 99)
@@ -242,7 +242,7 @@ The customary identity and constant combinators from the combinatorial
 calculus are also available, in Pure these are named ``id`` and ``cst``,
 respectively:
 
-customary identity ‚Æ’è”Œ‹‡q from the combinatorial calculus ‚Í‚Ç‚¿‚ç‚à—˜—p‰Â”\‚Å‚·B Pure ‚Å‚Í‚»‚ê‚¼‚ê ``id`` ‚Æ ``cst`` ‚Æ–¼•t‚¯‚ç‚ê‚Ä‚¢‚Ü‚·::
+customary identity ã¨å®šæ•°çµåˆå­ from the combinatorial calculus ã¯ã©ã¡ã‚‰ã‚‚åˆ©ç”¨å¯èƒ½ã§ã™ã€‚ Pure ã§ã¯ãã‚Œãã‚Œ ``id`` ã¨ ``cst`` ã¨åä»˜ã‘ã‚‰ã‚Œã¦ã„ã¾ã™::
 
   > map id (1..5);
   [1,2,3,4,5]
@@ -260,7 +260,7 @@ There's also a combinator ``void`` which is basically equivalent to ``cst
 optimizing the case of "throwaway" list and matrix comprehensions. This is
 useful if a comprehension is evaluated solely for its side effects. E.g.:
 
-‚³‚ç‚É ``void`` ‚Æ‚¢‚¤Œ‹‡q‚à‚ ‚è‚Ü‚·BŠî–{“I‚É‚Í ``cst()`` ‚Æ“¯“™kequivalentl‚Å‚·‚ªA but with the special twist that it is also defined as a macro optimizing the case of "throwaway" list and matrix comprehensions. ‚±‚ê‚ÍA‚ ‚é“à•ï‚ğ•›ì—p‚Ì‚½‚ß‚¾‚¯‚É•]‰¿‚µ‚½‚¢Û‚É–ğ—§‚¿‚Ü‚·B—á‚¦‚Î::
+ã•ã‚‰ã« ``void`` ã¨ã„ã†çµåˆå­ã‚‚ã‚ã‚Šã¾ã™ã€‚åŸºæœ¬çš„ã«ã¯ ``cst()`` ã¨åŒç­‰ã€”equivalentã€•ã§ã™ãŒã€ but with the special twist that it is also defined as a macro optimizing the case of "throwaway" list and matrix comprehensions. ã“ã‚Œã¯ã€ã‚ã‚‹å†…åŒ…ã‚’å‰¯ä½œç”¨ã®ãŸã‚ã ã‘ã«è©•ä¾¡ã—ãŸã„éš›ã«å½¹ç«‹ã¡ã¾ã™ã€‚ä¾‹ãˆã°::
 
   > using system;
   > extern int rand();
@@ -279,7 +279,7 @@ intermediate list value of the comprehension is never constructed. This is
 described in more detail in section `Optimization Rules`_ of the Pure
 Manual.
 
-ã‚ÌƒŠƒXƒg“à•ï‚ªAÀÛ‚É‚Í |do|_ ‚ğg‚Á‚ÄÀ‘•‚³‚ê‚Äi’Êí‚Í |map|_ ‚ğg‚¤‚Æ‚±‚ë‚Å‚·‚ªj‚¨‚èA‚»‚ÌŒ‹‰ÊA“à•ï‚Ì’†ŠÔ“I‚ÈƒŠƒXƒg’l‚ÍŒˆ‚µ‚Ä\’z‚³‚ê‚È‚¢‚±‚Æ‚ğŠo‚¦‚Ä‚¨‚¢‚Ä‰º‚³‚¢B‚±‚Ì“_‚Í Pure Manual ‚Ì `Optimization Rules`_ ƒZƒNƒVƒ‡ƒ“‚ÅÚ×‚É‰ğà‚³‚ê‚Ä‚¢‚Ü‚·B
+ä¸Šã®ãƒªã‚¹ãƒˆå†…åŒ…ãŒã€å®Ÿéš›ã«ã¯ |do|_ ã‚’ä½¿ã£ã¦å®Ÿè£…ã•ã‚Œã¦ï¼ˆé€šå¸¸ã¯ |map|_ ã‚’ä½¿ã†ã¨ã“ã‚ã§ã™ãŒï¼‰ãŠã‚Šã€ãã®çµæœã€å†…åŒ…ã®ä¸­é–“çš„ãªãƒªã‚¹ãƒˆå€¤ã¯æ±ºã—ã¦æ§‹ç¯‰ã•ã‚Œãªã„ã“ã¨ã‚’è¦šãˆã¦ãŠã„ã¦ä¸‹ã•ã„ã€‚ã“ã®ç‚¹ã¯ Pure Manual ã® `Optimization Rules`_ ã‚»ã‚¯ã‚·ãƒ§ãƒ³ã§è©³ç´°ã«è§£èª¬ã•ã‚Œã¦ã„ã¾ã™ã€‚
 
 .. |do| replace:: ``do``
 .. |map| replace:: ``map``
@@ -290,7 +290,7 @@ Manual.
 In addition, Pure also provides the following combinators adopted from
 Haskell:
 
-‚³‚ç‚ÉA Pure ‚ÍŸ‚Ì‚æ‚¤‚ÈŒ‹‡q‚ğ Haskell ‚©‚çØ—p‚µA’ñ‹Ÿ‚µ‚Ä‚¢‚Ü‚·:
+ã•ã‚‰ã«ã€ Pure ã¯æ¬¡ã®ã‚ˆã†ãªçµåˆå­ã‚’ Haskell ã‹ã‚‰å€Ÿç”¨ã—ã€æä¾›ã—ã¦ã„ã¾ã™:
 
 .. raw:: html
 
@@ -300,7 +300,7 @@ Haskell:
 
 * ``flip f`` swaps arguments of a binary function ``f``, e.g.:
 
-* ``flip f`` ‚Í“ñ€ŠÖ” ``f`` ‚Ìˆø”‚ğ“ü‚ê‘Ö‚¦‚Ü‚·B—á‚¦‚Î::
+* ``flip f`` ã¯äºŒé …é–¢æ•° ``f`` ã®å¼•æ•°ã‚’å…¥ã‚Œæ›¿ãˆã¾ã™ã€‚ä¾‹ãˆã°::
 
     > map (flip (/) 2) (1..3);
     [0.5,1.0,1.5]
@@ -308,7 +308,7 @@ Haskell:
   This combinator is also used by the compiler to implement right operator
   sections, which allows you to write the above simply as:
 
-  ‚±‚ÌŒ‹‡q‚ÍAƒRƒ“ƒpƒCƒ‰‚ª right operator sections ‚ğÀ‘•‚·‚é‚Ì‚É‚àg‚í‚ê‚Ü‚·B‚±‚ê‚É‚æ‚èAã‚Ì•\Œ»‚ğŸ‚Ì‚æ‚¤‚ÉƒVƒ“ƒvƒ‹‚È‘‚«•û‚É‚Å‚«‚Ü‚·::
+  ã“ã®çµåˆå­ã¯ã€ã‚³ãƒ³ãƒ‘ã‚¤ãƒ©ãŒ right operator sections ã‚’å®Ÿè£…ã™ã‚‹ã®ã«ã‚‚ä½¿ã‚ã‚Œã¾ã™ã€‚ã“ã‚Œã«ã‚ˆã‚Šã€ä¸Šã®è¡¨ç¾ã‚’æ¬¡ã®ã‚ˆã†ã«ã‚·ãƒ³ãƒ—ãƒ«ãªæ›¸ãæ–¹ã«ã§ãã¾ã™::
 
     > map (/2) (1..3);
     [0.5,1.0,1.5]
@@ -322,7 +322,7 @@ Haskell:
 * ``curry f`` turns a function ``f`` expecting a pair of values into a
   curried function of two arguments:
 
-* ``curry f`` ‚ÍA’l‚ÌƒyƒA‚ğ‘z’è‚µ‚½ŠÖ” ``f`` ‚ğAƒJƒŠ[‰»‚³‚ê‚½2ˆø”‚ÌŠÖ”‚Ö•Ï‰»‚³‚¹‚Ü‚·::
+* ``curry f`` ã¯ã€å€¤ã®ãƒšã‚¢ã‚’æƒ³å®šã—ãŸé–¢æ•° ``f`` ã‚’ã€ã‚«ãƒªãƒ¼åŒ–ã•ã‚ŒãŸ2å¼•æ•°ã®é–¢æ•°ã¸å¤‰åŒ–ã•ã›ã¾ã™::
 
     > using system;
     > dowith (curry (printf "%d: %g\n")) (0..2) [0.0,2.718,3.14];
@@ -340,7 +340,7 @@ Haskell:
 * Conversely, ``uncurry f`` turns a curried function ``f`` expecting two
   arguments into a function processing a single pair argument:
 
-* ”½‘Î‚ÉA ``uncurry f`` ‚ÍAƒJƒŠ[‰»‚³‚ê‚½ŠÖ” ``f`` i2ˆø”‚ğ‘z’èj‚ğA’Pˆê‚ÌƒyƒAˆø”‚ğˆ—‚·‚éŠÖ”‚Ö•Ï‰»‚³‚¹‚Ü‚·::
+* åå¯¾ã«ã€ ``uncurry f`` ã¯ã€ã‚«ãƒªãƒ¼åŒ–ã•ã‚ŒãŸé–¢æ•° ``f`` ï¼ˆ2å¼•æ•°ã‚’æƒ³å®šï¼‰ã‚’ã€å˜ä¸€ã®ãƒšã‚¢å¼•æ•°ã‚’å‡¦ç†ã™ã‚‹é–¢æ•°ã¸å¤‰åŒ–ã•ã›ã¾ã™::
 
     > map (uncurry (*)) [(2,3),(4,5),(6,7)];
     [6,20,42]
@@ -359,7 +359,7 @@ Haskell:
 * ``curry3`` and ``uncurry3`` are defined analogously, but are used to work
   with ternary functions.
 
-* ``curry3`` ‚Æ ``uncurry3`` ‚à“¯‚¶‚æ‚¤‚É’è‹`‚³‚ê‚Ä‚¢‚Ü‚·‚ªA3ˆø”‚ÌŠÖ”‚ğˆ—‚·‚é‚½‚ß‚Ég‚í‚ê‚Ü‚·B
+* ``curry3`` ã¨ ``uncurry3`` ã‚‚åŒã˜ã‚ˆã†ã«å®šç¾©ã•ã‚Œã¦ã„ã¾ã™ãŒã€3å¼•æ•°ã®é–¢æ•°ã‚’å‡¦ç†ã™ã‚‹ãŸã‚ã«ä½¿ã‚ã‚Œã¾ã™ã€‚
 
 .. raw:: html
 
@@ -371,7 +371,7 @@ Haskell:
   recursive anonymous functions. It takes another function ``f`` as its
   argument and applies ``f`` to ``fix f`` itself:
 
-* The (normal order) •s“®“_Œ‹‡qk•s“®“_ƒRƒ“ƒrƒl[ƒ^l ``fix`` ‚ÅAÄ‹A“I‚È–³–¼ŠÖ”‚ğì‚é‚±‚Æ‚ª‚Å‚«‚Ü‚·B ``fix`` ‚Í‚à‚¤ˆê‚ÂŠÖ” ``f`` ‚ğˆø”‚Éæ‚èA ``f`` ‚ğ ``fix f`` ‚»‚Ì‚à‚Ì‚É“K—p‚·‚é‚±‚Æ‚ª‚Å‚«‚Ü‚·::
+* The (normal order) ä¸å‹•ç‚¹çµåˆå­ã€”ä¸å‹•ç‚¹ã‚³ãƒ³ãƒ“ãƒãƒ¼ã‚¿ã€• ``fix`` ã§ã€å†å¸°çš„ãªç„¡åé–¢æ•°ã‚’ä½œã‚‹ã“ã¨ãŒã§ãã¾ã™ã€‚ ``fix`` ã¯ã‚‚ã†ä¸€ã¤é–¢æ•° ``f`` ã‚’å¼•æ•°ã«å–ã‚Šã€ ``f`` ã‚’ ``fix f`` ãã®ã‚‚ã®ã«é©ç”¨ã™ã‚‹ã“ã¨ãŒã§ãã¾ã™::
 
     > let fact = fix (\f n -> if n<=0 then 1 else n*f (n-1));
     > map fact (1..5);
@@ -379,9 +379,9 @@ Haskell:
 
   See |fixpoint|_ at Wikipedia for an explanation of how this magic works.
   Just like in Haskell, ``fix`` can be used to produce least fixed points
-  of arbitrary functions. For instance::
+  of arbitrary functions. For instance:
 
-  Wikipedia ‚Ì |•s“®“_|_ |fixpoint|_ ‚Ì€‚ÅA‚±‚Ì–‚–@‚ª‚Ç‚Ì‚æ‚¤‚É“®ì‚·‚é‚©‚Ìà–¾‚ğQÆ‚µ‚Ä‚­‚¾‚³‚¢B Haskell ‚Æ“¯‚¶‚æ‚¤‚ÉA ``fix`` ‚ğg‚Á‚Ä”CˆÓ‚ÌŠÖ”‚ÌÉ‘Š•s“®“_‚ğŒvZ‚·‚é‚±‚Æ‚ª‚Å‚«‚Ü‚·B‹ï‘Ì“I‚É‚Í::
+  Wikipedia ã® |fixpointja|_ ã€” |fixpoint|_ ã€•ã®é …ã§ã€ã“ã®é­”æ³•ãŒã©ã®ã‚ˆã†ã«å‹•ä½œã™ã‚‹ã‹ã®èª¬æ˜ã‚’å‚ç…§ã—ã¦ãã ã•ã„ã€‚ Haskell ã¨åŒã˜ã‚ˆã†ã«ã€ ``fix`` ã‚’ä½¿ã£ã¦ä»»æ„ã®é–¢æ•°ã®å®°ç›¸ä¸å‹•ç‚¹ã‚’è¨ˆç®—ã™ã‚‹ã“ã¨ãŒã§ãã¾ã™ã€‚å…·ä½“çš„ã«ã¯::
 
     > fix (cst bar);
     bar
@@ -393,15 +393,16 @@ Haskell:
 
 .. |fixpoint| replace:: Fixed point combinator
 .. _fixpoint: http://en.wikipedia.org/wiki/Fixed_point_combinator
-.. |•s“®“_| replace:: •s“®“_ƒRƒ“ƒrƒl[ƒ^
-.. _•s“®“_ƒRƒ“ƒrƒl[ƒ^: http://ja.wikipedia.org/wiki/%E4%B8%8D%E5%8B%95%E7%82%B9%E3%82%B3%E3%83%B3%E3%83%93%E3%83%8D%E3%83%BC%E3%82%BF
+
+.. |fixpointja| replace:: ä¸å‹•ç‚¹ã‚³ãƒ³ãƒ“ãƒãƒ¼ã‚¿
+.. _fixpointja: http://ja.wikipedia.org/wiki/%E4%B8%8D%E5%8B%95%E7%82%B9%E3%82%B3%E3%83%B3%E3%83%93%E3%83%8D%E3%83%BC%E3%82%BF
 
 ..
 
 Lists and Tuples
 ----------------
 
-ƒŠƒXƒg‚Æƒ^ƒvƒ‹
+ãƒªã‚¹ãƒˆã¨ã‚¿ãƒ—ãƒ«
 
 .. raw:: html
 
@@ -470,7 +471,7 @@ tuple), ``x!i`` (indexing), ``x!!is`` (slicing) and ``x+y`` (list
 concatenation). Note that there isn't a separate operation for
 concatenating tuples, since the pairing operator already does this:
 
-prelude ‚ÍƒŠƒXƒg‚Æƒ^ƒvƒ‹‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^i ``x:y``, ``x,y`` j‚ğ’è‹`‚·‚é‚¾‚¯‚Å‚È‚­A‚»‚ê‚ç‚Ì\‘¢‚ÉŠÖ‚·‚é“™’li ``==`` j‚Æ”ñ“™’li ``~=`` j‚à’è‹`‚µ‚Ü‚·iŒãÒ‚ÍA2‚Â‚ÌƒŠƒXƒg‚Ü‚½‚Íƒ^ƒvƒ‹‚É‚Â‚¢‚ÄA‚»‚Ìƒƒ“ƒo[‚ğÄ‹A“I‚É”äŠr‚µ‚Ü‚·B‚È‚Ì‚Å ``==`` ‚Å‚à‚»‚Ì‚æ‚¤‚Èˆ—‚ğ‚µ‚½‚¯‚ê‚Î ``==`` ‚ªƒŠƒXƒg‚âƒ^ƒvƒ‹‚Ìƒƒ“ƒo[‚É‘Î‚µ‚Ä“­‚­‚æ‚¤’è‹`‚µ‚È‚¯‚ê‚Î‚È‚è‚Ü‚¹‚ñj¡—vŠm”F¡B‚Ü‚½ prelude ‚Í predicate ``null x`` ‚à’ñ‹Ÿ‚µ‚Ü‚·B‚±‚ê‚Í ``x`` ‚ªƒŠƒXƒg‚âƒ^ƒvƒ‹‚ª‹ó‚Å‚ ‚é‚©‚Ç‚¤‚©ƒ`ƒFƒbƒN‚·‚é‚à‚Ì‚Å‚·BŠÖ” ``reverse x`` ‚ÍƒŠƒXƒg‚âƒ^ƒvƒ‹‚ğ”½“]‚µ‚Ü‚·B‚Ù‚©‚É‚à‰‰Zq ``#x`` iƒŠƒXƒg‚Æƒ^ƒvƒ‹‚ÌƒTƒCƒYjA ``x!i`` iƒCƒ“ƒfƒbƒNƒXkindexingljA ``x!!is`` iƒXƒ‰ƒCƒXjA ``x+y`` iƒŠƒXƒg˜AŒ‹j‚ª’ñ‹Ÿ‚³‚ê‚Ü‚·Bƒ^ƒvƒ‹‚ğŒ‹‡‚·‚é“Æ—§‚µ‚½ˆ—‚Í‘¶İ‚µ‚È‚¢‚±‚Æ‚ğŠo‚¦‚Ä‚¨‚¢‚Ä‰º‚³‚¢BƒyƒAƒŠƒ“ƒO‰‰Zq‚ª‚»‚Ì–ğ‚ğ‰Ê‚½‚·‚©‚ç‚Å‚·::
+prelude ã¯ãƒªã‚¹ãƒˆã¨ã‚¿ãƒ—ãƒ«ã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ï¼ˆ ``x:y``, ``x,y`` ï¼‰ã‚’å®šç¾©ã™ã‚‹ã ã‘ã§ãªãã€ãã‚Œã‚‰ã®æ§‹é€ ã«é–¢ã™ã‚‹ç­‰å€¤ï¼ˆ ``==`` ï¼‰ã¨éç­‰å€¤ï¼ˆ ``~=`` ï¼‰ã‚‚å®šç¾©ã—ã¾ã™ï¼ˆå¾Œè€…ã¯ã€2ã¤ã®ãƒªã‚¹ãƒˆã¾ãŸã¯ã‚¿ãƒ—ãƒ«ã«ã¤ã„ã¦ã€ãã®ãƒ¡ãƒ³ãƒãƒ¼ã‚’å†å¸°çš„ã«æ¯”è¼ƒã—ã¾ã™ã€‚ãªã®ã§ ``==`` ã§ã‚‚ãã®ã‚ˆã†ãªå‡¦ç†ã‚’ã—ãŸã‘ã‚Œã° ``==`` ãŒãƒªã‚¹ãƒˆã‚„ã‚¿ãƒ—ãƒ«ã®ãƒ¡ãƒ³ãƒãƒ¼ã«å¯¾ã—ã¦åƒãã‚ˆã†å®šç¾©ã—ãªã‘ã‚Œã°ãªã‚Šã¾ã›ã‚“ï¼‰â– è¦ç¢ºèªâ– ã€‚ã¾ãŸ prelude ã¯ predicate ``null x`` ã‚‚æä¾›ã—ã¾ã™ã€‚ã“ã‚Œã¯ ``x`` ãŒãƒªã‚¹ãƒˆã‚„ã‚¿ãƒ—ãƒ«ãŒç©ºã§ã‚ã‚‹ã‹ã©ã†ã‹ãƒã‚§ãƒƒã‚¯ã™ã‚‹ã‚‚ã®ã§ã™ã€‚é–¢æ•° ``reverse x`` ã¯ãƒªã‚¹ãƒˆã‚„ã‚¿ãƒ—ãƒ«ã‚’åè»¢ã—ã¾ã™ã€‚ã»ã‹ã«ã‚‚æ¼”ç®—å­ ``#x`` ï¼ˆãƒªã‚¹ãƒˆã¨ã‚¿ãƒ—ãƒ«ã®ã‚µã‚¤ã‚ºï¼‰ã€ ``x!i`` ï¼ˆã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã€”indexingã€•ï¼‰ã€ ``x!!is`` ï¼ˆã‚¹ãƒ©ã‚¤ã‚¹ï¼‰ã€ ``x+y`` ï¼ˆãƒªã‚¹ãƒˆé€£çµï¼‰ãŒæä¾›ã•ã‚Œã¾ã™ã€‚ã‚¿ãƒ—ãƒ«ã‚’çµåˆã™ã‚‹ç‹¬ç«‹ã—ãŸå‡¦ç†ã¯å­˜åœ¨ã—ãªã„ã“ã¨ã‚’è¦šãˆã¦ãŠã„ã¦ä¸‹ã•ã„ã€‚ãƒšã‚¢ãƒªãƒ³ã‚°æ¼”ç®—å­ãŒãã®å½¹ã‚’æœãŸã™ã‹ã‚‰ã§ã™::
 
   > (1,2,3),(10,9,8);
   1,2,3,10,9,8
@@ -481,7 +482,7 @@ always flat in Pure and can't be nested; if you need this, you should use
 lists instead. Also note that the empty tuple ``()`` acts as a neutral
 element with respect to ``(,)``:
 
-‚±‚ê‚ª“®ì‚·‚é‚Ì‚ÍA Pure ‚É‚¨‚¢‚Ä ``(,)`` ƒRƒ“ƒXƒgƒ‰ƒNƒ^‚ªŒ‹‡“I‚È«¿‚ğ‚Âkis associativel‚©‚ç‚Å‚ ‚èAí‚É‰EÄ‹A‚ÌƒyƒAkright-recursive pairsl‚ğ¶‚İo‚µ‚Ü‚·B‚µ‚½‚ª‚Á‚Ä Pure ‚É‚¨‚¢‚Äƒ^ƒvƒ‹‚Íí‚Éƒtƒ‰ƒbƒg‚Å‚ ‚èA“ü‚êq‚É‚·‚ékƒlƒXƒg‚·‚él‚±‚Æ‚Í‚Å‚«‚Ü‚¹‚ñB“ü‚êq‚É‚·‚éê‡‚Í‘ã‚í‚è‚ÉƒŠƒXƒg‚ğg‚Á‚Ä‰º‚³‚¢B‚Ü‚½A‹ó‚Ìƒ^ƒvƒ‹ ``()`` ‚Í ``(,)`` ‚Æ‚ÌŠÖŒW‚É‚¨‚¢‚Ä–³F‚Ì—v‘fka neutral elementl‚Æ‚µ‚ÄU‚é•‘‚¢‚Ü‚·::
+ã“ã‚ŒãŒå‹•ä½œã™ã‚‹ã®ã¯ã€ Pure ã«ãŠã„ã¦ ``(,)`` ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ãŒçµåˆçš„ãªæ€§è³ªã‚’æŒã¤ã€”is associativeã€•ã‹ã‚‰ã§ã‚ã‚Šã€å¸¸ã«å³å†å¸°ã®ãƒšã‚¢ã€”right-recursive pairsã€•ã‚’ç”Ÿã¿å‡ºã—ã¾ã™ã€‚ã—ãŸãŒã£ã¦ Pure ã«ãŠã„ã¦ã‚¿ãƒ—ãƒ«ã¯å¸¸ã«ãƒ•ãƒ©ãƒƒãƒˆã§ã‚ã‚Šã€å…¥ã‚Œå­ã«ã™ã‚‹ã€”ï¼ãƒã‚¹ãƒˆã™ã‚‹ã€•ã“ã¨ã¯ã§ãã¾ã›ã‚“ã€‚å…¥ã‚Œå­ã«ã™ã‚‹å ´åˆã¯ä»£ã‚ã‚Šã«ãƒªã‚¹ãƒˆã‚’ä½¿ã£ã¦ä¸‹ã•ã„ã€‚ã¾ãŸã€ç©ºã®ã‚¿ãƒ—ãƒ« ``()`` ã¯ ``(,)`` ã¨ã®é–¢ä¿‚ã«ãŠã„ã¦ç„¡è‰²ã®è¦ç´ ã€”a neutral elementã€•ã¨ã—ã¦æŒ¯ã‚‹èˆã„ã¾ã™::
 
   > (),(a,b,c);
   a,b,c
@@ -506,7 +507,7 @@ pairs provided by the prelude are equality testing (which recursively
 compares the components) and the functions ``key`` and ``val`` which
 extract the components of a hash pair:
 
-‚Ü‚½ prelude ‚Í‚à‚¤ˆê‚ÂAuƒnƒbƒVƒ…ƒyƒAv‚ÆŒÄ‚Î‚ê‚é“Áê‚ÈƒyƒA‚ğ’ñ‹Ÿ‚µ‚Ü‚·B‚±‚ê‚Í ``key=>value`` ‚Æ‚¢‚¤Œ`®‚ğ‚Æ‚è‚Ü‚·BƒnƒbƒVƒ…ƒyƒA‚Í—lX‚È•¶–¬‚É‚¨‚¢‚Ä key-value ‚ÌŠÖ˜A‚ğ¦‚·‚½‚ß‚Ég‚í‚ê‚Ü‚·B ƒnƒbƒVƒ…ƒyƒA‚É‘Î‚·‚éˆ—‚Å prelude ‚ª’ñ‹Ÿ‚·‚é‚à‚Ì‚Í‘½‚­‚È‚­A“™’l‚ÌƒeƒXƒgi\¬—v‘f‚ğÄ‹A“I‚É”äŠrj‚ÆAŠÖ” ``key`` ‚Æ ``val`` iƒnƒbƒVƒ…ƒyƒA‚©‚ç\¬—v‘f‚ğ”²‚«o‚·j‚Å‚·::
+ã¾ãŸ prelude ã¯ã‚‚ã†ä¸€ã¤ã€ã€Œãƒãƒƒã‚·ãƒ¥ãƒšã‚¢ã€ã¨å‘¼ã°ã‚Œã‚‹ç‰¹æ®Šãªãƒšã‚¢ã‚’æä¾›ã—ã¾ã™ã€‚ã“ã‚Œã¯ ``key=>value`` ã¨ã„ã†å½¢å¼ã‚’ã¨ã‚Šã¾ã™ã€‚ãƒãƒƒã‚·ãƒ¥ãƒšã‚¢ã¯æ§˜ã€…ãªæ–‡è„ˆã«ãŠã„ã¦ key-value ã®é–¢é€£ã‚’ç¤ºã™ãŸã‚ã«ä½¿ã‚ã‚Œã¾ã™ã€‚ ãƒãƒƒã‚·ãƒ¥ãƒšã‚¢ã«å¯¾ã™ã‚‹å‡¦ç†ã§ prelude ãŒæä¾›ã™ã‚‹ã‚‚ã®ã¯å¤šããªãã€ç­‰å€¤ã®ãƒ†ã‚¹ãƒˆï¼ˆæ§‹æˆè¦ç´ ã‚’å†å¸°çš„ã«æ¯”è¼ƒï¼‰ã¨ã€é–¢æ•° ``key`` ã¨ ``val`` ï¼ˆãƒãƒƒã‚·ãƒ¥ãƒšã‚¢ã‹ã‚‰æ§‹æˆè¦ç´ ã‚’æŠœãå‡ºã™ï¼‰ã§ã™::
 
   > ("foo"=>99) == ("bar"=>99);
   0
@@ -521,7 +522,7 @@ so to include a tuple as key or value in a hash pair, the tuple must be
 parenthesized, as in ``"foo"=>(1,2)`` (whereas ``"foo"=>1,2`` denotes a
 tuple whose first element happens to be a hash pair).
 
-ƒ^ƒvƒ‹‰‰Zq ``(,)`` ‚ÆˆÙ‚È‚èAuƒnƒbƒVƒ…ƒƒPƒbƒgv ``(=>)`` ‚ÍŒ‹‡“I‚È«¿‚ğ‚¿‚Ü‚¹‚ñkis non-associativelB‚»‚Ì‚½‚ßƒlƒXƒg‚³‚ê‚½“K—p‚Í *•K‚¸* ŠÛŠ‡ŒÊ‚ÅˆÍ‚í‚ê *‚È‚¯‚ê‚Î‚È‚ç‚¸* A ``(x=>y)=>z`` ‚Íˆê”Ê‚É ``x=>(y=>z)`` ‚Æ“¯‚¶ *‚Å‚Í‚ ‚è‚Ü‚¹‚ñ* B‚Ü‚½A ``(,)`` ‚Ì—Dæ“x‚Í ``(=>)`` ‚æ‚è‚à’á‚¢‚Ì‚ÅAƒnƒbƒVƒ…ƒyƒA‚ÌƒL[‚â’l‚Æ‚µ‚Äƒ^ƒvƒ‹‚ğŠÜ‚ß‚é‚É‚ÍAƒ^ƒvƒ‹‚ªŠÛŠ‡ŒÊ‚ÅˆÍ‚í‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚è‚Ü‚·B—á‚¦‚Î ``"foo"=>(1,2)`` ‚Ì‚æ‚¤‚É‚Å‚·i‚±‚ê‚É‘Î‚µ‚Ä ``"foo"=>1,2`` ‚ÍAÅ‰‚Ì—v‘f‚ªƒnƒbƒVƒ…ƒyƒA‚É‚³‚ê‚Ä‚µ‚Ü‚Á‚½ƒ^ƒvƒ‹‚ğ¦‚·‚±‚Æ‚É‚È‚è‚Ü‚·jB
+ã‚¿ãƒ—ãƒ«æ¼”ç®—å­ ``(,)`` ã¨ç•°ãªã‚Šã€ã€Œãƒãƒƒã‚·ãƒ¥ãƒ­ã‚±ãƒƒãƒˆã€ ``(=>)`` ã¯çµåˆçš„ãªæ€§è³ªã‚’æŒã¡ã¾ã›ã‚“ã€”is non-associativeã€•ã€‚ãã®ãŸã‚ãƒã‚¹ãƒˆã•ã‚ŒãŸé©ç”¨ã¯ *å¿…ãš* ä¸¸æ‹¬å¼§ã§å›²ã‚ã‚Œ *ãªã‘ã‚Œã°ãªã‚‰ãš* ã€ ``(x=>y)=>z`` ã¯ä¸€èˆ¬ã« ``x=>(y=>z)`` ã¨åŒã˜ *ã§ã¯ã‚ã‚Šã¾ã›ã‚“* ã€‚ã¾ãŸã€ ``(,)`` ã®å„ªå…ˆåº¦ã¯ ``(=>)`` ã‚ˆã‚Šã‚‚ä½ã„ã®ã§ã€ãƒãƒƒã‚·ãƒ¥ãƒšã‚¢ã®ã‚­ãƒ¼ã‚„å€¤ã¨ã—ã¦ã‚¿ãƒ—ãƒ«ã‚’å«ã‚ã‚‹ã«ã¯ã€ã‚¿ãƒ—ãƒ«ãŒä¸¸æ‹¬å¼§ã§å›²ã‚ã‚Œã¦ã„ã‚‹å¿…è¦ãŒã‚ã‚Šã¾ã™ã€‚ä¾‹ãˆã° ``"foo"=>(1,2)`` ã®ã‚ˆã†ã«ã§ã™ï¼ˆã“ã‚Œã«å¯¾ã—ã¦ ``"foo"=>1,2`` ã¯ã€æœ€åˆã®è¦ç´ ãŒãƒãƒƒã‚·ãƒ¥ãƒšã‚¢ã«ã•ã‚Œã¦ã—ã¾ã£ãŸã‚¿ãƒ—ãƒ«ã‚’ç¤ºã™ã“ã¨ã«ãªã‚Šã¾ã™ï¼‰ã€‚
 
 .. raw:: html
 
@@ -537,9 +538,9 @@ tuple whose first element happens to be a hash pair).
 Lists are the usual right-recursive aggregates, pretty much the same as in
 Lisp or Prolog except that they use a Haskell-like syntax. In difference to
 Haskell, list concatenation is denoted ``+``, and lists may contain an
-arbitrary mixture of arguments, i.e., they are fully polymorphic::
+arbitrary mixture of arguments, i.e., they are fully polymorphic:
 
-ƒŠƒXƒg‚ÍA‚æ‚­‚ ‚é‰EŒ‹‡‚ÌW‡‘Ìkright-recursive aggregatesl‚ÅA Lisp ‚â Prolog ‚Æ‚æ‚­—‚Ä‚¢‚Ü‚·‚ªA Haskell “I‚È\•¶‚ğ‚Á‚Ä‚¢‚Ü‚·B‚½‚¾ Haskell ‚ÆˆÙ‚È‚é‚Ì‚ÍAƒŠƒXƒgŒ‹‡‚ğ ``+`` ‚Å¦‚·‚±‚Æ‚ÆAƒŠƒXƒg‚ª”CˆÓ‚Ì¬‡“I‚Èˆø”kan arbitrary mixture of argumentsl‚ğŠÜ‚Ş‚±‚Æ‚ª‚Å‚«‚é‚±‚ÆA‚·‚È‚í‚¿Š®‘S‚É‘½‘Ô“Ikfully polymorphicl‚Å‚ ‚é‚±‚Æ‚Å‚·::
+ãƒªã‚¹ãƒˆã¯ã€ã‚ˆãã‚ã‚‹å³çµåˆã®é›†åˆä½“ã€”right-recursive aggregatesã€•ã§ã€ Lisp ã‚„ Prolog ã¨ã‚ˆãä¼¼ã¦ã„ã¾ã™ãŒã€ Haskell çš„ãªæ§‹æ–‡ã‚’æŒã£ã¦ã„ã¾ã™ã€‚ãŸã  Haskell ã¨ç•°ãªã‚‹ã®ã¯ã€ãƒªã‚¹ãƒˆçµåˆã‚’ ``+`` ã§ç¤ºã™ã“ã¨ã¨ã€ãƒªã‚¹ãƒˆãŒä»»æ„ã®æ··åˆçš„ãªå¼•æ•°ã€”an arbitrary mixture of argumentsã€•ã‚’å«ã‚€ã“ã¨ãŒã§ãã‚‹ã“ã¨ã€ã™ãªã‚ã¡å®Œå…¨ã«å¤šæ…‹çš„ã€”fully polymorphicã€•ã§ã‚ã‚‹ã“ã¨ã§ã™::
 
   > 1:2:3:[];
   [1,2,3]
@@ -549,7 +550,7 @@ arbitrary mixture of arguments, i.e., they are fully polymorphic::
 Lists are `eager` in Pure by default, but they can also be made `lazy`, see
 section `Lazy Evaluation and Streams`_ in the Pure Manual.
 
-Pure ‚É‚¨‚¯‚éƒŠƒXƒg‚ÍƒfƒtƒHƒ‹ƒg‚Å `”MS` k `eager` æs•]‰¿l‚Å‚·‚ªA‚Ü‚½ `‘Ó‘Ä` k `lazy` ’x‰„•]‰¿l‚Æ‚·‚é‚±‚Æ‚à‰Â”\‚Å‚·BÚ‚µ‚­‚Í Pure Manual ‚Ì `Lazy Evaluation and Streams`_ ‚ğQÆ‚µ‚Ä‰º‚³‚¢B
+Pure ã«ãŠã‘ã‚‹ãƒªã‚¹ãƒˆã¯ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã§ `ç†±å¿ƒ` ã€” `eager` ï¼å…ˆè¡Œè©•ä¾¡ã€•ã§ã™ãŒã€ã¾ãŸ `æ€ æƒ°` ã€” `lazy` ï¼é…å»¶è©•ä¾¡ã€•ã¨ã™ã‚‹ã“ã¨ã‚‚å¯èƒ½ã§ã™ã€‚è©³ã—ãã¯ Pure Manual ã® `Lazy Evaluation and Streams`_ ã‚’å‚ç…§ã—ã¦ä¸‹ã•ã„ã€‚
 
 .. _Lazy Evaluation and Streams: pure.html#lazy-evaluation-and-streams
 
@@ -566,7 +567,7 @@ Pure ‚É‚¨‚¯‚éƒŠƒXƒg‚ÍƒfƒtƒHƒ‹ƒg‚Å `”MS` k `eager` æs•]‰¿l‚Å‚·‚ªA‚Ü‚½ `‘Ó
 
 Arithmetic sequences can be constructed with the infix ``..`` operator:
 
-“™·”—ñ‚Í‘}“ü‰‰Zq ``..`` ‚ğg‚Á‚Ä\’z‚Å‚«‚Ü‚·::
+ç­‰å·®æ•°åˆ—ã¯æŒ¿å…¥æ¼”ç®—å­ ``..`` ã‚’ä½¿ã£ã¦æ§‹ç¯‰ã§ãã¾ã™::
 
   > 1..5;
   [1,2,3,4,5]
@@ -579,7 +580,7 @@ the first two elements as ``x:y`` instead of ``x,y``. Also, to specify
 infinite sequences you have to use an infinite upper bound (``inf`` or
 ``-inf``):
 
-Pure ‚Ì\•¶‚Í Haskell ‚Ì‚»‚ê‚ÆˆÈ‰º‚Ì“_‚ÅˆÙ‚È‚é‚Ì‚ÅA’ˆÓ‚µ‚Ä‰º‚³‚¢B\‘¢‚Ì‘OŒã‚Éƒuƒ‰ƒPƒbƒg‚Í‚ ‚è‚Ü‚¹‚ñBÅ‰‚Ì2—v‘f‚ğ ``x,y`` ‚Ì‘ã‚í‚è‚É ``x:y`` ‚Æ‚·‚é‚±‚Æ‚ÅA”—ñ‚ÌƒXƒeƒbƒv•‚ğw’è‚Å‚«‚Ü‚·B‚Ü‚½A–³ŒÀ”—ñ‚Ì“Á«‚ğ‚½‚¹‚é‚É‚ÍA–³ŒÀ‘å‚ÌãŒÀi ``inf`` ‚Ü‚½‚Í ``-inf`` ‚ğg‚¤•K—v‚ª‚ ‚è‚Ü‚·::
+Pure ã®æ§‹æ–‡ã¯ Haskell ã®ãã‚Œã¨ä»¥ä¸‹ã®ç‚¹ã§ç•°ãªã‚‹ã®ã§ã€æ³¨æ„ã—ã¦ä¸‹ã•ã„ã€‚æ§‹é€ ã®å‰å¾Œã«ãƒ–ãƒ©ã‚±ãƒƒãƒˆã¯ã‚ã‚Šã¾ã›ã‚“ã€‚æœ€åˆã®2è¦ç´ ã‚’ ``x,y`` ã®ä»£ã‚ã‚Šã« ``x:y`` ã¨ã™ã‚‹ã“ã¨ã§ã€æ•°åˆ—ã®ã‚¹ãƒ†ãƒƒãƒ—å¹…ã‚’æŒ‡å®šã§ãã¾ã™ã€‚ã¾ãŸã€ç„¡é™æ•°åˆ—ã®ç‰¹æ€§ã‚’æŒãŸã›ã‚‹ã«ã¯ã€ç„¡é™å¤§ã®ä¸Šé™ï¼ˆ ``inf`` ã¾ãŸã¯ ``-inf`` ã‚’ä½¿ã†å¿…è¦ãŒã‚ã‚Šã¾ã™::
 
   > 1:3..inf;
   1:#<thunk 0x7f696cd2dbd8>
@@ -588,7 +589,7 @@ Pure ‚Ì\•¶‚Í Haskell ‚Ì‚»‚ê‚ÆˆÈ‰º‚Ì“_‚ÅˆÙ‚È‚é‚Ì‚ÅA’ˆÓ‚µ‚Ä‰º‚³‚¢B\‘¢‚Ì‘OŒã‚É
 
 The lower bounds of an arithmetic sequence must always be finite.
 
-“™·”—ñ‚Ì‰ºŒÀ‚Íí‚É—LŒÀ‚Å‚È‚¯‚ê‚Î‚È‚è‚Ü‚¹‚ñB
+ç­‰å·®æ•°åˆ—ã®ä¸‹é™ã¯å¸¸ã«æœ‰é™ã§ãªã‘ã‚Œã°ãªã‚Šã¾ã›ã‚“ã€‚
 
 .. raw:: html
 
@@ -600,9 +601,9 @@ Non-lazy lists can be sorted using the ``sort`` function, which provides an
 interface to the C ``qsort()`` routine, please see your local qsort(3)
 documentation for details. An order predicate ``p`` is specified as the
 first argument, which must return a nonzero integer to indicate that its
-first argument is "less than" its second argument. Example::
+first argument is "less than" its second argument. Example:
 
-’x‰„•]‰¿‚Å‚È‚¢ƒŠƒXƒg‚Í ``sort`` ŠÖ”‚ğg‚Á‚Äƒ\[ƒg‚Å‚«‚Ü‚·B‚±‚ÌŠÖ”‚Í C ‚Ì ``qsort()`` ƒ‹[ƒ`ƒ“‚Ö‚ÌƒCƒ“ƒ^[ƒtƒF[ƒX‚ğ’ñ‹Ÿ‚µ‚Ü‚·BÚ‚µ‚­‚ÍŠe©‚Ìƒ[ƒJƒ‹‚É‚ ‚é qsort(3) ‚ÌƒhƒLƒ…ƒƒ“ƒg‚ğQÆ‚µ‚Ä‰º‚³‚¢B‡˜ predicate ‚Å‚ ‚é ``p`` ‚ª ``sort`` ‚ÌÅ‰‚Ìˆø”‚Æ‚µ‚Äw’è‚³‚ê‚Ü‚·B‚±‚Ì‡˜ predicate ‚ÍA”ñƒ[ƒ‚Ì®”‚ğ•Ô‚·‚±‚Æ‚ÅAÅ‰‚Ìˆø”‚ª2”Ô–Ú‚Ìˆø”u‚æ‚è‚à¬‚³‚¢vkits first argument is "less than" its second argumentl‚±‚Æ‚ğ¦‚µ‚Ü‚·B—á::
+é…å»¶è©•ä¾¡ã§ãªã„ãƒªã‚¹ãƒˆã¯ ``sort`` é–¢æ•°ã‚’ä½¿ã£ã¦ã‚½ãƒ¼ãƒˆã§ãã¾ã™ã€‚ã“ã®é–¢æ•°ã¯ C ã® ``qsort()`` ãƒ«ãƒ¼ãƒãƒ³ã¸ã®ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ã‚’æä¾›ã—ã¾ã™ã€‚è©³ã—ãã¯å„è‡ªã®ãƒ­ãƒ¼ã‚«ãƒ«ã«ã‚ã‚‹ qsort(3) ã®ãƒ‰ã‚­ãƒ¥ãƒ¡ãƒ³ãƒˆã‚’å‚ç…§ã—ã¦ä¸‹ã•ã„ã€‚é †åº predicate ã§ã‚ã‚‹ ``p`` ãŒ ``sort`` ã®æœ€åˆã®å¼•æ•°ã¨ã—ã¦æŒ‡å®šã•ã‚Œã¾ã™ã€‚ã“ã®é †åº predicate ã¯ã€éã‚¼ãƒ­ã®æ•´æ•°ã‚’è¿”ã™ã“ã¨ã§ã€æœ€åˆã®å¼•æ•°ãŒ2ç•ªç›®ã®å¼•æ•°ã€Œã‚ˆã‚Šã‚‚å°ã•ã„ã€ã€”its first argument is "less than" its second argumentã€•ã“ã¨ã‚’ç¤ºã—ã¾ã™ã€‚ä¾‹::
 
   > sort (>) (1..10);
   [10,9,8,7,6,5,4,3,2,1]
@@ -623,7 +624,7 @@ first argument is "less than" its second argument. Example::
 You can convert between (finite) lists and tuples using the ``list`` and
 ``tuple`` operations:
 
-``list`` ‚Æ ``tuple`` ˆ—‚ğg‚Á‚ÄAi—LŒÀ‚ÌjƒŠƒXƒg‚Æƒ^ƒvƒ‹‚ğ‘ŠŒİ‚É•ÏŠ·‚Å‚«‚Ü‚·::
+``list`` ã¨ ``tuple`` å‡¦ç†ã‚’ä½¿ã£ã¦ã€ï¼ˆæœ‰é™ã®ï¼‰ãƒªã‚¹ãƒˆã¨ã‚¿ãƒ—ãƒ«ã‚’ç›¸äº’ã«å¤‰æ›ã§ãã¾ã™::
 
   > tuple (1..5);
   1,2,3,4,5
@@ -633,15 +634,15 @@ You can convert between (finite) lists and tuples using the ``list`` and
 The ``list`` function can also be used to turn a finite lazy list into an
 eager one:
 
-``list`` ŠÖ”‚ÍA—LŒÀ‚È’x‰„•]‰¿ƒŠƒXƒg‚ğæs•]‰¿‚ÌƒŠƒXƒg‚Ö‚Æ•Ï‚¦‚é‚±‚Æ‚à‚Å‚«‚Ü‚·::
+``list`` é–¢æ•°ã¯ã€æœ‰é™ãªé…å»¶è©•ä¾¡ãƒªã‚¹ãƒˆã‚’å…ˆè¡Œè©•ä¾¡ã®ãƒªã‚¹ãƒˆã¸ã¨å¤‰ãˆã‚‹ã“ã¨ã‚‚ã§ãã¾ã™::
 
   > list $ take 10 (-1:-3..-inf);
   [-1,-3,-5,-7,-9,-11,-13,-15,-17,-19]
 
 You can also achieve the same effect somewhat more conveniently by slicing
-a finite part from a stream (see below)::
+a finite part from a stream (see below):
 
-ƒXƒgƒŠ[ƒ€‚©‚ç—LŒÀ‚Èˆê•”‚ğƒXƒ‰ƒCƒX‚·‚é‚Æ“¯‚¶Œø‰Ê‚ğ’B¬‚Å‚«‚Ü‚·iŸ‚Ì—á‚ğQÆjB‚±‚¿‚ç‚Ì‚Ù‚¤‚ª‚¢‚­‚ç‚©•Ö—˜‚©‚à‚µ‚ê‚Ü‚¹‚ñ::
+ã‚¹ãƒˆãƒªãƒ¼ãƒ ã‹ã‚‰æœ‰é™ãªä¸€éƒ¨ã‚’ã‚¹ãƒ©ã‚¤ã‚¹ã™ã‚‹ã¨åŒã˜åŠ¹æœã‚’é”æˆã§ãã¾ã™ï¼ˆæ¬¡ã®ä¾‹ã‚’å‚ç…§ï¼‰ã€‚ã“ã¡ã‚‰ã®ã»ã†ãŒã„ãã‚‰ã‹ä¾¿åˆ©ã‹ã‚‚ã—ã‚Œã¾ã›ã‚“::
 
   > (-1:-3..-inf)!!(0..9);
   [-1,-3,-5,-7,-9,-11,-13,-15,-17,-19]
@@ -652,9 +653,9 @@ a finite part from a stream (see below)::
 
 .. _stream:
 
-Conversely, it is also possible to convert a list to a stream::
+Conversely, it is also possible to convert a list to a stream:
 
-”½‘Î‚ÉAƒŠƒXƒg‚ğƒXƒgƒŠ[ƒ€‚Ö•ÏŠ·‚·‚é‚±‚Æ‚à‰Â”\‚Å‚·::
+åå¯¾ã«ã€ãƒªã‚¹ãƒˆã‚’ã‚¹ãƒˆãƒªãƒ¼ãƒ ã¸å¤‰æ›ã™ã‚‹ã“ã¨ã‚‚å¯èƒ½ã§ã™::
 
   > stream (1..10);
   1:#<thunk 0x7fe537fe2b58>
@@ -664,7 +665,7 @@ stream are in fact already known. However, this operation then allows you
 to apply other functions to the list and have them evaluated in a lazy
 fashion.
 
-ˆêŒ©‚·‚é‚Æ‚ ‚Ü‚èg‚¢“¹‚ª‚È‚¢‚æ‚¤‚ÉŒ©‚¦‚é‚©‚à‚µ‚ê‚Ü‚¹‚ñBƒXƒgƒŠ[ƒ€‚Ì‘S—v‘f‚ÍÀÛ‚É‚à‚¤‚í‚©‚Á‚Ä‚¢‚é‚í‚¯‚Å‚·‚©‚çB‚µ‚©‚µA‚±‚Ìˆ—‚ğg‚¤‚ÆA‘¼‚ÌŠÖ”‚ğ‚»‚Ìˆ—‚É“K—p‚µA‚©‚Â‚»‚Ì•]‰¿‚ğ‘Ó‘Ä‚È‚â‚è•û‚Åk’x‰„•]‰¿“I‚Éls‚¤‚±‚Æ‚ª‚Å‚«‚é‚æ‚¤‚É‚È‚è‚Ü‚·B
+ä¸€è¦‹ã™ã‚‹ã¨ã‚ã¾ã‚Šä½¿ã„é“ãŒãªã„ã‚ˆã†ã«è¦‹ãˆã‚‹ã‹ã‚‚ã—ã‚Œã¾ã›ã‚“ã€‚ã‚¹ãƒˆãƒªãƒ¼ãƒ ã®å…¨è¦ç´ ã¯å®Ÿéš›ã«ã‚‚ã†ã‚ã‹ã£ã¦ã„ã‚‹ã‚ã‘ã§ã™ã‹ã‚‰ã€‚ã—ã‹ã—ã€ã“ã®å‡¦ç†ã‚’ä½¿ã†ã¨ã€ä»–ã®é–¢æ•°ã‚’ãã®å‡¦ç†ã«é©ç”¨ã—ã€ã‹ã¤ãã®è©•ä¾¡ã‚’æ€ æƒ°ãªã‚„ã‚Šæ–¹ã§ã€”ï¼é…å»¶è©•ä¾¡çš„ã«ã€•è¡Œã†ã“ã¨ãŒã§ãã‚‹ã‚ˆã†ã«ãªã‚Šã¾ã™ã€‚
 
 .. raw:: html
 
@@ -681,7 +682,7 @@ Indexing of lists and tuples is always zero-based (i.e., indices run from
 ``0`` to ``#x-1``), and an exception will be raised if the index is out of
 bounds:
 
-ƒŠƒXƒg‚Æƒ^ƒvƒ‹‚ÌƒCƒ“ƒfƒbƒNƒXQÆ‚Íƒ[ƒƒx[ƒXi‚Â‚Ü‚èAƒCƒ“ƒfƒbƒNƒX‚Í ``0`` ‚©‚ç ``#x-1`` ‚Ì”ÍˆÍj‚Å‚·B‚Ü‚½AƒCƒ“ƒfƒbƒNƒX‚ª‹«ŠE‚ğ‰z‚¦‚Ä‚¢‚éê‡‚Í—áŠO‚ª”­¶‚µ‚Ü‚·::
+ãƒªã‚¹ãƒˆã¨ã‚¿ãƒ—ãƒ«ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹å‚ç…§ã¯ã‚¼ãƒ­ãƒ™ãƒ¼ã‚¹ï¼ˆã¤ã¾ã‚Šã€ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã¯ ``0`` ã‹ã‚‰ ``#x-1`` ã®ç¯„å›²ï¼‰ã§ã™ã€‚ã¾ãŸã€ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãŒå¢ƒç•Œã‚’è¶Šãˆã¦ã„ã‚‹å ´åˆã¯ä¾‹å¤–ãŒç™ºç”Ÿã—ã¾ã™::
 
   > [1,2,3]!2;
   3
@@ -704,7 +705,7 @@ The slicing operator ``!!`` takes a list or tuple and a list of indices and
 returns the list or tuple of the corresponding elements, respectively.
 Indices which are out of the valid range are silently ignored:
 
-ƒXƒ‰ƒCƒX‰‰Zq ``!!`` ‚ÍAƒŠƒXƒg‚Ü‚½‚Íƒ^ƒvƒ‹‚ÆAk•¡”‚ÌlƒCƒ“ƒfƒbƒNƒX‚ÌƒŠƒXƒg‚ğæ‚èA‘Š‰‚·‚é—v‘f‚ÌƒŠƒXƒg‚Ü‚½‚Íƒ^ƒvƒ‹‚ğ‚»‚ê‚¼‚ê•Ô‚µ‚Ü‚·B“KØ‚È”ÍˆÍ‚ÌŠO‚Éo‚½•ª‚ÌƒCƒ“ƒfƒbƒNƒX‚Í–Ù‚Á‚Ä–³‹‚³‚ê‚Ü‚·::
+ã‚¹ãƒ©ã‚¤ã‚¹æ¼”ç®—å­ ``!!`` ã¯ã€ãƒªã‚¹ãƒˆã¾ãŸã¯ã‚¿ãƒ—ãƒ«ã¨ã€ã€”è¤‡æ•°ã®ã€•ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã®ãƒªã‚¹ãƒˆã‚’å–ã‚Šã€ç›¸å¿œã™ã‚‹è¦ç´ ã®ãƒªã‚¹ãƒˆã¾ãŸã¯ã‚¿ãƒ—ãƒ«ã‚’ãã‚Œãã‚Œè¿”ã—ã¾ã™ã€‚é©åˆ‡ãªç¯„å›²ã®å¤–ã«å‡ºãŸåˆ†ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã¯é»™ã£ã¦ç„¡è¦–ã•ã‚Œã¾ã™::
 
   > (1..5)!!(3..10);
   [4,5]
@@ -712,9 +713,9 @@ Indices which are out of the valid range are silently ignored:
   4,5
 
 Indices can actually be specified in any order, so that you can retrieve
-any permutation of the members, also with duplicates. E.g.::
+any permutation of the members, also with duplicates. E.g.:
 
-À‚Ì‚Æ‚±‚ëAƒCƒ“ƒfƒbƒNƒX‚Í‚¢‚©‚È‚é‡˜‚Åw’è‚³‚ê‚Ä‚à‚©‚Ü‚¢‚Ü‚¹‚ñB‚»‚Ì‚½‚ßƒƒ“ƒo[‚Ì‚¢‚©‚È‚é‡—ñ‚Å‚àæ‚èo‚·‚±‚Æ‚ª‚Å‚«Ad•¡‚ª‚ ‚Á‚Ä‚à‚©‚Ü‚¢‚Ü‚¹‚ñ::
+å®Ÿã®ã¨ã“ã‚ã€ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã¯ã„ã‹ãªã‚‹é †åºã§æŒ‡å®šã•ã‚Œã¦ã‚‚ã‹ã¾ã„ã¾ã›ã‚“ã€‚ãã®ãŸã‚ãƒ¡ãƒ³ãƒãƒ¼ã®ã„ã‹ãªã‚‹é †åˆ—ã§ã‚‚å–ã‚Šå‡ºã™ã“ã¨ãŒã§ãã€é‡è¤‡ãŒã‚ã£ã¦ã‚‚ã‹ã¾ã„ã¾ã›ã‚“::
 
   > (1..5)!![2,4,4,1];
   [3,5,5,2]
@@ -724,7 +725,7 @@ optimized so that it always works in linear time), because it requires
 repeated traversals of the list for each index. For larger lists you should
 hence use vectors or matrices instead, to avoid the quadratic complexity.
 
-‚±‚ê‚ÍA˜A‘±‚µ‚½ƒCƒ“ƒfƒbƒNƒX”ÍˆÍiÅ“K‰»‚³‚ê‚Ä‚¨‚èAí‚ÉüŒ^‚ÌŠÔ“à‚Å“®ì‚µ‚Ü‚·j‚É”ä‚×‚é‚ÆŒø—¦‚Í—ò‚è‚Ü‚·BŠeƒCƒ“ƒfƒbƒNƒX‚²‚Æ‚ÉƒŠƒXƒg‚ğŒJ‚è•Ô‚µ‰¡’f‚·‚é‚±‚Æ‚ª•K—v‚É‚È‚é‚©‚ç‚Å‚·B‚µ‚½‚ª‚Á‚ÄA‚æ‚è‘å‚«‚ÈƒŠƒXƒg‚Ìê‡A‘ã‚í‚è‚ÉƒxƒNƒ^[‚©ƒ}ƒgƒŠƒNƒX‚ğg‚¢A“ñŸŠÖ”“I‚ÈŒvZ—Ê‚Ì‘‰Á‚ğ”ğ‚¯‚é‚×‚«‚Å‚·B
+ã“ã‚Œã¯ã€é€£ç¶šã—ãŸã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ç¯„å›²ï¼ˆæœ€é©åŒ–ã•ã‚Œã¦ãŠã‚Šã€å¸¸ã«ç·šå‹ã®æ™‚é–“å†…ã§å‹•ä½œã—ã¾ã™ï¼‰ã«æ¯”ã¹ã‚‹ã¨åŠ¹ç‡ã¯åŠ£ã‚Šã¾ã™ã€‚å„ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã”ã¨ã«ãƒªã‚¹ãƒˆã‚’ç¹°ã‚Šè¿”ã—æ¨ªæ–­ã™ã‚‹ã“ã¨ãŒå¿…è¦ã«ãªã‚‹ã‹ã‚‰ã§ã™ã€‚ã—ãŸãŒã£ã¦ã€ã‚ˆã‚Šå¤§ããªãƒªã‚¹ãƒˆã®å ´åˆã€ä»£ã‚ã‚Šã«ãƒ™ã‚¯ã‚¿ãƒ¼ã‹ãƒãƒˆãƒªã‚¯ã‚¹ã‚’ä½¿ã„ã€äºŒæ¬¡é–¢æ•°çš„ãªè¨ˆç®—é‡ã®å¢—åŠ ã‚’é¿ã‘ã‚‹ã¹ãã§ã™ã€‚
 
 .. |catmap| replace:: ``catmap``
 
@@ -734,20 +735,28 @@ defines ``!`` in such a manner that it throws an exception when the index
 is out of bounds. It also works with any kind of index container that
 implements the |catmap|_ operation.)
 
-iÀÛ‚É‚ÍA prelude ‚ÍƒXƒ‰ƒCƒXˆ—‚ğ‘Ì“I‚ÈkƒWƒFƒlƒŠƒbƒN‚Èl•û–@‚Ås‚Á‚Ä‚¢‚Ü‚·B¡‚È‚Ì‚ÅA‚ ‚ç‚ä‚éí—Ş‚ÌƒRƒ“ƒeƒiƒf[ƒ^Œ^‚É‘Î‚µ‚Ä“KØ‚É“®ì‚µ‚Ü‚·‚ªA‚½‚¾‚µ ``!`` ‚ğA‹«ŠEŠO‚ÌƒCƒ“ƒfƒbƒNƒX‚É‘Î‚µ‚Ä—áŠO‚ğ“Š‚°‚é‚æ‚¤’è‹`‚µ‚Ä‚¢‚é•K—v‚ª‚ ‚è‚Ü‚·B¡‚Ü‚½A |catmap|_ ˆ—‚ğÀ‘•‚µ‚Ä‚¢‚é‚ ‚ç‚ä‚éí—Ş‚ÌƒCƒ“ƒfƒbƒNƒXƒRƒ“ƒeƒi‚É‘Î‚µ‚Ä‚à“®ì‚µ‚Ü‚·j
+ï¼ˆå®Ÿéš›ã«ã¯ã€ prelude ã¯ã‚¹ãƒ©ã‚¤ã‚¹å‡¦ç†ã‚’ç·ç§°çš„ãªã€”ï¼ã‚¸ã‚§ãƒãƒªãƒƒã‚¯ãªã€•æ–¹æ³•ã§è¡Œã£ã¦ã„ã¾ã™ã€‚â– ãªã®ã§ã€ã‚ã‚‰ã‚†ã‚‹ç¨®é¡ã®ã‚³ãƒ³ãƒ†ãƒŠãƒ‡ãƒ¼ã‚¿å‹ã«å¯¾ã—ã¦é©åˆ‡ã«å‹•ä½œã—ã¾ã™ãŒã€ãŸã ã— ``!`` ã‚’ã€å¢ƒç•Œå¤–ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã«å¯¾ã—ã¦ä¾‹å¤–ã‚’æŠ•ã’ã‚‹ã‚ˆã†å®šç¾©ã—ã¦ã„ã‚‹å¿…è¦ãŒã‚ã‚Šã¾ã™ã€‚â– ã¾ãŸã€ |catmap|_ å‡¦ç†ã‚’å®Ÿè£…ã—ã¦ã„ã‚‹ã‚ã‚‰ã‚†ã‚‹ç¨®é¡ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚³ãƒ³ãƒ†ãƒŠã«å¯¾ã—ã¦ã‚‚å‹•ä½œã—ã¾ã™ï¼‰
 
 ..
 
 List Functions
 --------------
 
+ãƒªã‚¹ãƒˆé–¢æ•°
+
 This mostly comes straight from the Q prelude which in turn was based on
 the first edition of the Bird/Wadler book, and is very similar to what you
 can find in the Haskell prelude. Some functions have slightly different
 names, though, and of course everything is typed dynamically.
 
+ãƒªã‚¹ãƒˆé–¢æ•°ã¯ Q è¨€èªã® prelude ã‚’ã»ã¼ãã®ã¾ã¾è¸è¥²ã—ã¦ãŠã‚Šã€ãã® Q è¨€èªã® prelude ã¯ Bird/Wadler æœ¬ [#]_ ã®åˆç‰ˆã‚’åŸºç¤ã¨ã—ã¦ãŠã‚Šã€ Haskell ã® prelude ã§å®šç¾©ã•ã‚Œã¦ã„ã‚‹ã‚‚ã®ã¨ã‚ˆãä¼¼ã¦ã„ã¾ã™ã€‚é–¢æ•°ã®ã„ãã¤ã‹ã¯å°‘ã—é•ã£ãŸåå‰ã‚’æŒã£ã¦ã„ã¾ã™ãŒã€ã‚‚ã¡ã‚ã‚“å‹•çš„ã«å‹ä»˜ã‘ã•ã‚Œã¾ã™ã€‚
+
+.. [#] è¨³æ³¨ï¼š Richard Bird & Philip Wadler, *Introduction to Functional Programming*, ISBN 978-0-13-484189-2, Prentice Hall, 1988. ã®ã“ã¨ã‚’æŒ‡ã™ã¨æ€ã‚ã‚Œã‚‹ã€‚ã¡ãªã¿ã« 1998 å¹´åˆŠã®ç¬¬2ç‰ˆï¼ˆ978-0-130484346-9ï¼‰ã¯ã‚¿ã‚¤ãƒˆãƒ«ã‚’ *Introduction to Functional Programming using Haskell* ã¨æ”¹ã‚ã€ Bird ã®å˜è‘—ã¨ã—ã¦åˆŠè¡Œã•ã‚Œã¦ã„ã‚‹ã€‚
+
 Common List Functions
 ~~~~~~~~~~~~~~~~~~~~~
+
+å…±é€šãƒªã‚¹ãƒˆé–¢æ•°
 
 .. raw:: html
 
@@ -758,6 +767,8 @@ Common List Functions
 ``any p xs``
   tests whether the predicate ``p`` holds for any of the members of ``xs``
 
+  predicate ``p`` ãŒ ``xs`` ã®ãƒ¡ãƒ³ãƒãƒ¼ã®ã„ãšã‚Œã‹1ã¤ã§ã‚‚ä¿æŒã—ã¦ã„ã‚‹ã‹ã©ã†ã‹ã‚’ãƒ†ã‚¹ãƒˆã—ã¾ã™ã€‚
+
 .. raw:: html
 
    <a name="all">
@@ -766,6 +777,8 @@ Common List Functions
 
 ``all p xs``
   tests whether the predicate ``p`` holds for all of the members of ``xs``
+
+  predicate ``p`` ãŒ ``xs`` ã®ãƒ¡ãƒ³ãƒãƒ¼ã®å…¨ã¦ã‚’ä¿æŒã—ã¦ã„ã‚‹ã‹ã©ã†ã‹ã‚’ãƒ†ã‚¹ãƒˆã—ã¾ã™ã€‚
 
 .. raw:: html
 
@@ -777,6 +790,8 @@ Common List Functions
 ``cat xs``
   concatenate a list of lists
 
+  â– ãƒªã‚¹ãƒˆã®ãƒªã‚¹ãƒˆã‚’çµåˆã—ã¾ã™ã€‚â– 
+
 .. raw:: html
 
    <a name="catmap">
@@ -786,6 +801,8 @@ Common List Functions
 ``catmap f xs``
   convenience function which combines |cat|_ and |map|_; this is also used
   to implement list comprehensions
+
+  |cat|_ ã¨ |map|_ ã‚’çµ„ã¿åˆã‚ã›ãŸä¾¿åˆ©ãªé–¢æ•°ã€‚ãƒªã‚¹ãƒˆå†…åŒ…ã‚’å®Ÿè£…ã™ã‚‹ã®ã«ã‚‚ä½¿ã‚ã‚Œã¾ã™ã€‚
 
 .. raw:: html
 
@@ -797,6 +814,8 @@ Common List Functions
   apply ``f`` to all members of ``xs``, like |map|_, but throw away all
   intermediate results and return ``()``
 
+  ``f`` ã‚’ ``xs`` ã®å…¨ãƒ¡ãƒ³ãƒãƒ¼ã«é©ç”¨ã—ã¾ã™ã€‚ |map|_ ã¨ä¼¼ã¦ã„ã¾ã™ãŒã€ä¸­é–“æ®µéšã®çµæœã‚’ã™ã¹ã¦æ¨ã¦ã¦ ``()`` ã‚’è¿”ã—ã¾ã™ã€‚
+
 .. raw:: html
 
    <a name="drop">
@@ -805,6 +824,8 @@ Common List Functions
 
 ``drop n xs``
   remove ``n`` elements from the front of ``xs``
+
+  ``xs`` ã®è¦ç´ ã‚’å…ˆé ­ã‹ã‚‰ ``n`` å€‹åˆ†é™¤å»ã—ã¾ã™ã€‚
 
 .. raw:: html
 
@@ -816,6 +837,8 @@ Common List Functions
   remove elements from the front of ``xs`` while the predicate ``p`` is
   satisfied
 
+  predicate ``p`` ãŒæº€ãŸã•ã‚Œã‚‹ã¾ã§ ``xs`` ã®å…ˆé ­ã‹ã‚‰è¦ç´ ã‚’é™¤å»ã—ã¦ã„ãã¾ã™ã€‚
+
 .. raw:: html
 
    <a name="filter">
@@ -824,6 +847,8 @@ Common List Functions
 
 ``filter p xs``
   return the list of all members of ``xs`` satisfying the predicate ``p``
+
+  ``xs`` ã®ãƒ¡ãƒ³ãƒãƒ¼ã®ã†ã¡ predicate ``p`` ã‚’æº€ãŸã™ã‚‚ã®ã‚’ã™ã¹ã¦è¿”ã—ã¾ã™ã€‚
 
 .. raw:: html
 
@@ -836,6 +861,8 @@ Common List Functions
   starting from the initial value ``a`` and working from the front of the
   list towards its end
 
+  äºŒé …é–¢æ•° ``f`` ã‚’ ``xs`` ã®å…¨ãƒ¡ãƒ³ãƒãƒ¼ã«å¯¾ã—ã¦é›†ç©çš„ã«é©ç”¨ã€”accumulateã€•ã—ã¾ã™ã€‚åˆæœŸå€¤ã‚’ ``a`` ã¨ã—ã¦ã€ãƒªã‚¹ãƒˆã®å…ˆé ­ã‹ã‚‰æœ«å°¾ã¸ã¨é©ç”¨ã—ã¦ã„ãã¾ã™ã€‚
+
 .. raw:: html
 
    <a name="foldl1">
@@ -846,6 +873,8 @@ Common List Functions
   accumulate the binary function ``f`` over all members of ``xs``,
   starting from the value ``head xs`` and working from the front of the
   list towards its end; ``xs`` must be nonempty
+
+  äºŒé …é–¢æ•° ``f`` ã‚’ ``xs`` ã®å…¨ãƒ¡ãƒ³ãƒãƒ¼ã«å¯¾ã—ã¦é›†ç©çš„ã«é©ç”¨ã—ã¾ã™ã€‚ ``head xs`` ã€” xs ã®å…ˆé ­è¦ç´ ã€•ã®å€¤ã‹ã‚‰å§‹ã‚ã¦ã€ãƒªã‚¹ãƒˆã®å…ˆé ­ã‹ã‚‰æœ«å°¾ã¸ã¨é©ç”¨ã—ã¦ã„ãã¾ã™ã€‚ ``xs`` ãŒç©ºã§ã‚ã£ã¦ã¯ã„ã‘ã¾ã›ã‚“ã€‚
 
 .. raw:: html
 
@@ -858,6 +887,8 @@ Common List Functions
   starting from the initial value ``a`` and working from the end of the
   list towards its front
 
+  äºŒé …é–¢æ•° ``f`` ã‚’ ``xs`` ã®å…¨ãƒ¡ãƒ³ãƒãƒ¼ã«å¯¾ã—ã¦é›†ç©çš„ã«é©ç”¨ã—ã¾ã™ã€‚åˆæœŸå€¤ã‚’ ``a`` ã¨ã—ã¦ã€ãƒªã‚¹ãƒˆã®æœ«å°¾ã‹ã‚‰å…ˆé ­ã¸ã¨é©ç”¨ã—ã¦ã„ãã¾ã™ã€‚
+
 .. raw:: html
 
    <a name="foldr1">
@@ -869,6 +900,8 @@ Common List Functions
   starting from the value ``last xs`` and working from the end of the
   list towards its front; ``xs`` must be nonempty
 
+  äºŒé …é–¢æ•° ``f`` ã‚’ ``xs`` ã®å…¨ãƒ¡ãƒ³ãƒãƒ¼ã«å¯¾ã—ã¦é›†ç©çš„ã«é©ç”¨ã—ã¾ã™ã€‚ ``last xs`` ã®å€¤ã€” xs ã®æœ«å°¾è¦ç´ ã€•ã‹ã‚‰å§‹ã¾ã‚Šã€ãƒªã‚¹ãƒˆã®æœ«å°¾ã‹ã‚‰å…ˆé ­ã¸ã¨é©ç”¨ã—ã¦ã„ãã¾ã™ã€‚ ``xs`` ãŒç©ºã§ã‚ã£ã¦ã¯ã„ã‘ã¾ã›ã‚“ã€‚
+
 .. raw:: html
 
    <a name="head">
@@ -877,6 +910,8 @@ Common List Functions
 
 ``head xs``
   return the first element of ``xs``; ``xs`` must be nonempty
+
+  ``xs`` ã®å…ˆé ­è¦ç´ ã‚’è¿”ã—ã¾ã™ã€‚ ``xs`` ãŒç©ºã§ã‚ã£ã¦ã¯ã„ã‘ã¾ã›ã‚“ã€‚
 
 .. raw:: html
 
@@ -888,9 +923,13 @@ Common List Functions
   search for an occurrence of ``x`` in ``xs`` and return the index of the
   first occurrence, if any, ``-1`` otherwise
 
+  ``xs`` ã®ä¸­ã‹ã‚‰ ``x`` ã®å‡ºç¾ã‚’æ¢ã—ã€è¦‹ã¤ã‹ã£ãŸå ´åˆã«ã¯æœ€åˆã®å‡ºç¾ä½ç½®ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’ã€è¦‹ã¤ã‹ã‚‰ãªã„å ´åˆã¯ ``-1`` ã‚’è¿”ã—ã¾ã™ã€‚
+
   Note: This uses equality (``==``) to decide whether a member of ``xs`` is
   an occurrence of ``x``, so ``==`` must have an appropriate definition on
   the list members.
+
+  æ³¨æ„ï¼šã“ã®é–¢æ•°ã¯ç­‰å€¤æ¼”ç®—å­ï¼ˆ ``==`` ï¼‰ã‚’ä½¿ã£ã¦ ``xs`` ã®ã‚ã‚‹ãƒ¡ãƒ³ãƒãƒ¼ãŒ ``x`` ã§ã‚ã‚‹ã‹ã©ã†ã‹ã‚’æ±ºå®šã—ã¾ã™ã€‚ãã®ãŸã‚ ``==`` ã¯ãƒªã‚¹ãƒˆãƒ¡ãƒ³ãƒãƒ¼ã«å¯¾ã—ã¦é©åˆ‡ã«å®šç¾©ã•ã‚Œã¦ã„ãªã‘ã‚Œã°ãªã‚Šã¾ã›ã‚“ã€‚
 
 .. raw:: html
 
@@ -901,6 +940,8 @@ Common List Functions
 ``init xs``
   return all but the last element of ``xs``; ``xs`` must be nonempty
 
+  ``xs`` ã®æœ€å¾Œã®è¦ç´ ã‚’é™¤ã„ãŸå…¨è¦ç´ ã‚’è¿”ã—ã¾ã™ã€‚ ``xs`` ãŒç©ºã§ã‚ã£ã¦ã¯ã„ã‘ã¾ã›ã‚“ã€‚
+
 .. raw:: html
 
    <a name="last">
@@ -909,6 +950,8 @@ Common List Functions
 
 ``last xs``
   return the last element of ``xs``; ``xs`` must be nonempty
+
+  ``xs`` ã®æœ«å°¾è¦ç´ ã‚’è¿”ã—ã¾ã™ã€‚ ``xs`` ãŒç©ºã§ã‚ã£ã¦ã¯ã„ã‘ã¾ã›ã‚“ã€‚
 
 .. raw:: html
 
@@ -921,6 +964,8 @@ Common List Functions
   and string arguments while ensuring that the result is always a list;
   this is primarily used to implement list comprehensions
 
+  |map|_ ã®ã‚ˆã†ã«å‹•ä½œã™ã‚‹ä¾¿åˆ©ãªé–¢æ•°ã§ã™ã€‚ãƒãƒˆãƒªã‚¯ã‚¹ã¨ãƒªã‚¹ãƒˆã‚’å¼•æ•°ã¨ã—ã¦æ‰±ãˆã¾ã™ãŒã€çµæœã¯å¸¸ã«ãƒªã‚¹ãƒˆã¨ã—ã¦è¿”ã•ã‚Œã¾ã™ã€‚ä¸»ã«ãƒªã‚¹ãƒˆå†…åŒ…ã‚’å®Ÿè£…ã™ã‚‹ãŸã‚ã«ä½¿ã‚ã‚Œã¾ã™ã€‚
+
 .. raw:: html
 
    <a name="map">
@@ -929,6 +974,8 @@ Common List Functions
 
 ``map f xs``
   apply ``f`` to each member of ``xs``
+
+  ``f`` ã‚’ ``xs`` ã®å„ãƒ¡ãƒ³ãƒãƒ¼ã«é©ç”¨ã—ã¾ã™ã€‚
 
 .. raw:: html
 
@@ -940,6 +987,8 @@ Common List Functions
   accumulate the binary function ``f`` over all members of ``xs``,
   as with ``foldl``, but return all intermediate results as a list
 
+  äºŒé …é–¢æ•° ``f`` ã‚’ ``xs`` ã®å…¨ãƒ¡ãƒ³ãƒãƒ¼ã«å¯¾ã—ã¦ã€ ``foldl`` ã‚’ä½¿ã£ãŸå ´åˆã¨åŒã˜ã‚ˆã†ã«é›†ç©çš„ã«é©ç”¨ã—ã¾ã™ãŒã€ä¸­é–“æ®µéšã®çµæœå…¨ã¦ã‚’ãƒªã‚¹ãƒˆã¨ã—ã¦è¿”ã—ã¾ã™ã€‚
+
 .. raw:: html
 
    <a name="scanl1">
@@ -949,6 +998,8 @@ Common List Functions
 ``scanl1 f xs``
   accumulate the binary function ``f`` over all members of ``xs``,
   as with ``foldl1``, but return all intermediate results as a list
+
+  äºŒé …é–¢æ•° ``f`` ã‚’ ``xs`` ã®å…¨ãƒ¡ãƒ³ãƒãƒ¼ã«å¯¾ã—ã¦ã€ ``foldl1`` ã‚’ä½¿ã£ãŸå ´åˆã¨åŒã˜ã‚ˆã†ã«é›†ç©çš„ã«é©ç”¨ã—ã¾ã™ãŒã€ä¸­é–“æ®µéšã®çµæœå…¨ã¦ã‚’ãƒªã‚¹ãƒˆã¨ã—ã¦è¿”ã—ã¾ã™ã€‚
 
 .. raw:: html
 
@@ -960,6 +1011,8 @@ Common List Functions
   accumulate the binary function ``f`` over all members of ``xs``,
   as with ``foldr``, but return all intermediate results as a list
 
+  äºŒé …é–¢æ•° ``f`` ã‚’ ``xs`` ã®å…¨ãƒ¡ãƒ³ãƒãƒ¼ã«å¯¾ã—ã¦ã€ ``foldlr`` ã‚’ä½¿ã£ãŸå ´åˆã¨åŒã˜ã‚ˆã†ã«é›†ç©çš„ã«é©ç”¨ã—ã¾ã™ãŒã€ä¸­é–“æ®µéšã®çµæœå…¨ã¦ã‚’ãƒªã‚¹ãƒˆã¨ã—ã¦è¿”ã—ã¾ã™ã€‚
+
 .. raw:: html
 
    <a name="scanr1">
@@ -969,6 +1022,8 @@ Common List Functions
 ``scanr1 f xs``
   accumulate the binary function ``f`` over all members of ``xs``,
   as with ``foldr1``, but return all intermediate results as a list
+
+  äºŒé …é–¢æ•° ``f`` ã‚’ ``xs`` ã®å…¨ãƒ¡ãƒ³ãƒãƒ¼ã«å¯¾ã—ã¦ã€ ``foldlr1`` ã‚’ä½¿ã£ãŸå ´åˆã¨åŒã˜ã‚ˆã†ã«é›†ç©çš„ã«é©ç”¨ã—ã¾ã™ãŒã€ä¸­é–“æ®µéšã®çµæœå…¨ã¦ã‚’ãƒªã‚¹ãƒˆã¨ã—ã¦è¿”ã—ã¾ã™ã€‚
 
 .. raw:: html
 
@@ -984,6 +1039,8 @@ Common List Functions
   exception is raised if the result of a comparison is not a machine
   integer.)
 
+  ãƒªã‚¹ãƒˆ ``xs`` ã®è¦ç´ ã‚’ predicate ``p`` ã«å¾“ã£ã¦æ˜‡é †ã«ã‚½ãƒ¼ãƒˆã—ã¾ã™ã€‚ã‚½ãƒ¼ãƒˆã«ã¯ C ã® ``qsort`` é–¢æ•°ãŒä½¿ã‚ã‚Œã¾ã™ã€‚ predicate ``p`` 2å¼•æ•°ã¨ã¨ã‚‚ã«å‘¼ã³å‡ºã•ã‚Œã€ç¬¬1å¼•æ•°ãŒç¬¬2å¼•æ•°ã€Œã‚ˆã‚Šã‚‚å°ã•ã„ã€å ´åˆã«çœŸã‚’è¿”ã™ã“ã¨ãŒæƒ³å®šã•ã‚Œã¾ã™ï¼ˆæ¯”è¼ƒã®çµæœãŒ machine int ã§ã¯ãªã„å ´åˆã€ä¾‹å¤–ãŒèµ·ã“ã•ã‚Œã¾ã™ï¼‰ã€‚
+
 .. raw:: html
 
    <a name="tail">
@@ -992,6 +1049,8 @@ Common List Functions
 
 ``tail xs``
   return all but the first element of ``xs``; ``xs`` must be nonempty
+
+  ``xs`` ã®æœ€åˆã®è¦ç´ ã‚’é™¤ã„ãŸå…¨è¦ç´ ã‚’è¿”ã—ã¾ã™ã€‚ ``xs`` ãŒç©ºã§ã‚ã£ã¦ã¯ã„ã‘ã¾ã›ã‚“ã€‚
 
 .. raw:: html
 
@@ -1002,6 +1061,8 @@ Common List Functions
 ``take n xs``
   take ``n`` elements from the front of ``xs``
 
+  ``xs`` ã®å…ˆé ­ã‹ã‚‰ ``n`` å€‹åˆ†ã®è¦ç´ ã‚’å–å¾—ã—ã¾ã™ã€‚
+
 .. raw:: html
 
    <a name="takewhile">
@@ -1011,6 +1072,8 @@ Common List Functions
 ``takewhile p xs``
   take elements from the front of ``xs`` while the predicate ``p`` is
   satisfied
+
+  ``xs`` ã®å…ˆé ­ã‹ã‚‰ã€ predicate ``p`` ãŒæº€ãŸã•ã‚Œã¦ã„ã‚‹é™ã‚Šè¦ç´ ã‚’å–å¾—ã—ã¾ã™ã€‚
 
 ..
 
