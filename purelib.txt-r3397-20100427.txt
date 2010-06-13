@@ -1080,10 +1080,14 @@ Common List Functions
 List Generators
 ~~~~~~~~~~~~~~~
 
+リスト生成関数
+
 Some useful (infinite) list generators, as well as some finite (and eager)
 variations of these. The latter work like a combination of ``take`` or
 ``takewhile`` and the former, but are implemented directly for better
 efficiency.
+
+いくつかの便利な（無限）リスト生成関数と、そのバリエーションであるいくつかの有限（かつ先行評価）リスト生成関数です。後者は ``take`` や ``takewhile`` を前者と組み合わせたように動作しますが、直接的に実装されているのでもっと効率的です。
 
 .. raw:: html
 
@@ -1093,6 +1097,8 @@ efficiency.
 
 ``cycle xs``
   cycles through the elements of the nonempty list ``xs``, ad infinitum
+
+  空でないリスト ``xs`` の要素を無限に循環させます。
 
 .. raw:: html
 
@@ -1104,6 +1110,8 @@ efficiency.
   eager version of ``cycle``, returns the first ``n`` elements of
   ``cycle xs``
 
+  ``cycle`` 関数の先行評価版で、 ``cycle xs`` の先頭から ``n`` 個分の要素を返します。
+
 .. raw:: html
 
    <a name="iterate">
@@ -1113,6 +1121,8 @@ efficiency.
 ``iterate f x``
   returns the stream containing ``x``, ``f x``, ``f (f x)``, etc.,
   ad infinitum
+
+  ``x``, ``f x``, ``f (f x)`` 等々を無限に含むストリームを返します。
 
 .. raw:: html
 
@@ -1124,6 +1134,8 @@ efficiency.
   eager version of ``iterate``, returns the first ``n`` elements of
   ``iterate f x``
 
+  ``iterate`` の先攻評価版で、 ``iterate f x`` の先頭から ``n`` 個分の要素を返します。
+
 .. raw:: html
 
    <a name="iterwhile">
@@ -1134,6 +1146,8 @@ efficiency.
   another eager version of ``iterate``, returns the list of all elements
   from the front of ``iterate f x`` for which the predicate ``p`` holds
 
+  ``iterate`` のもう一つの先攻評価版で、 ``iterate f x`` の先頭から、 predicate ``p`` を満たしている限り、全要素をリストとして返します。■要確認■
+
 .. raw:: html
 
    <a name="repeat">
@@ -1143,6 +1157,10 @@ efficiency.
 ``repeat x``
   returns an infinite stream of ``x``\ s
 
+  ``x`` を要素とする無限のストリームを返す [#]_ 。
+
+.. [#] 訳注： cycle とは異なり、リストのリストとなる。 x が [0,1,2] なら [[0,1,2],[0,1,2], ... ]
+
 .. raw:: html
 
    <a name="repeatn">
@@ -1151,6 +1169,8 @@ efficiency.
 
 ``repeatn n x``
   eager version of ``repeat``, returns a list with ``n`` ``x``\ s
+
+  ``repeat`` の先攻評価版で、 ``n`` 個の ``x`` を持つリストを返します。
 
 ..
 
