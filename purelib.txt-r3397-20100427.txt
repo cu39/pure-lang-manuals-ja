@@ -1177,6 +1177,8 @@ efficiency.
 Zip and Friends
 ~~~~~~~~~~~~~~~
 
+Zip と仲間たち
+
 .. raw:: html
 
    <a name="unzip">
@@ -1186,6 +1188,8 @@ Zip and Friends
 ``unzip xys``
   takes a list of pairs to a pair of lists of corresponding elements
 
+  ペアのリストから、値がそれぞれ対応した2つのリストのペアを作ります。
+
 .. raw:: html
 
    <a name="unzip3">
@@ -1194,6 +1198,8 @@ Zip and Friends
 
 ``unzip3 xyzs``
   ``unzip`` with triples
+
+  ``unzip`` の3要素版です。
 
 .. raw:: html
 
@@ -1206,6 +1212,8 @@ Zip and Friends
   through the elements of ``xs`` and ``y`` runs through the elements
   of ``y``
 
+  対応するペア ``(x,y)`` のリストを返します。このとき ``x`` には ``xs`` の要素が順に入り、 ``y`` には ``ys`` の要素が順に入ります。
+
 .. raw:: html
 
    <a name="zip3">
@@ -1214,6 +1222,8 @@ Zip and Friends
 
 ``zip3 xs ys zs``
   ``zip`` with three lists, returns a list of triples
+
+  リスト3つに対する ``zip`` 関数で、3要素タプルのリストを返します。
 
 .. raw:: html
 
@@ -1225,6 +1235,8 @@ Zip and Friends
   apply the binary function ``f`` to corresponding elements of ``xs``
   and ``ys``
 
+  二項関数 ``f`` を、リスト ``xs`` と ``ys`` の対応する要素に適用します。
+
 .. raw:: html
 
    <a name="zipwith3">
@@ -1235,9 +1247,13 @@ Zip and Friends
   apply the ternary function ``f`` to corresponding elements of ``xs``,
   ``ys`` and ``zs``
 
+  参考関数 ``f`` を、 ``xs`` と ``ys`` と ``zs`` の対応する要素に適用します。
+
 Pure also has the following variations of ``zipwith``/``zipwith3`` which
 throw away all intermediate results and return ``()``. That is, these work
 like |do|_ but pull arguments from two or three lists, respectively:
+
+また Pure は次のような ``zipwith``/``zipwith3`` の派生版を提供します。この派生版は中間段階の結果をすべて破棄し、 ``()`` を返します。つまり、これらは |do|_ と同じように動作しますが、それぞれ2つまたは3つのリストから引数を引き出します:
 
 .. raw:: html
 
@@ -1249,6 +1265,8 @@ like |do|_ but pull arguments from two or three lists, respectively:
   apply the binary function ``f`` to corresponding elements of ``xs``
   and ``ys``, return ``()``
 
+  2項関数 ``f`` を ``xs`` と ``ys`` の対応する要素に適用し、 ``()`` を返します。
+
 .. raw:: html
 
    <a name="dowith3">
@@ -1258,6 +1276,8 @@ like |do|_ but pull arguments from two or three lists, respectively:
 ``dowith3 f xs ys zs``
   apply the ternary function ``f`` to corresponding elements of ``xs``,
   ``ys`` and ``zs``, return ``()``
+
+  3項関数 ``f`` を ``xs`` と ``ys`` と ``zs`` の対応する要素に適用し、 ``()`` を返します。
 
 ..
 
