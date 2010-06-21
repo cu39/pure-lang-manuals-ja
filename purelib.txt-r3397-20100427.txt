@@ -1284,6 +1284,8 @@ like |do|_ but pull arguments from two or three lists, respectively:
 String Functions
 ----------------
 
+文字列関数
+
 .. raw:: html
 
    <a name="strings">
@@ -1298,8 +1300,12 @@ implemented as C character arrays for reasons of efficiency. Pure also has
 some powerful operations to convert between Pure expressions and their
 string representation, see `Eval and Friends`_ for those.
 
+Pure の文字列は、 UTF-8 でエンコードされ、ヌル文字を終端とする character strings です。詳しくは `Pure Manual`_ を参照して下さい。 prelude は文字列に対する様々な処理を提供します。これにはリスト的な処理の完全なセットが含まれているので、文字列をあたかもリストであるかのように使うことができます。ただし、効率を理由として、実際には C の文字配列として実装されています。また、 Pure は Pure 式とその文字列 representation を相互変換する強力な処理をいくつか持っています。これについて詳しいことは `Eval and Friends`_ を参照して下さい。
+
 Basic String Functions
 ~~~~~~~~~~~~~~~~~~~~~~
+
+基礎的な文字列関数
 
 .. raw:: html
 
@@ -1332,7 +1338,9 @@ Basic String Functions
 .. _! (string):
 .. _!! (string):
 
-Concatenation, indexing and slicing works just like with lists::
+Concatenation, indexing and slicing works just like with lists:
+
+結合、インデックス参照、スライスはリストの場合と同じように動作します::
 
   > "abc"+"xyz";
   "abcxyz"
@@ -1359,7 +1367,9 @@ Concatenation, indexing and slicing works just like with lists::
 .. _# (string):
 
 Checking for empty strings and determining the size of a string also works
-as expected::
+as expected:
+
+空文字列のチェックと文字列サイズの決定も、予想と同じように動作します::
 
   > null "";
   1
@@ -1371,6 +1381,8 @@ as expected::
 You can search for the location of a substring in a string, and extract a
 substring of a given length:
 
+文字列に含まれるサブ文字列の位置を探すことや、与えられた長さまでサブ文字列を抽出することも可能です:
+
 .. raw:: html
 
    <a name="index (string)">
@@ -1380,6 +1392,8 @@ substring of a given length:
 ``index s u``
   Returns the (zero-based) index of the first occurrence of the substring
   ``u`` in ``s``, or -1 if ``u`` is not found in ``s``.
+
+  ``s`` の中にサブ文字列 ``u`` が最初に現れるインデックス位置（ゼロから始まる）を返します。 ``s`` 内に ``u`` が見つからない場合は ``-1`` を返します。
 
 .. raw:: html
 
@@ -1392,7 +1406,11 @@ substring of a given length:
   ``s``. This takes care of all corner cases, adjusting index and number of
   characters so that the index range stays confined to the source string.
 
-Example::
+  ``s`` 内の位置 ``i`` から（少なくとも） ``n`` 文字分のサブ文字列を抽出します。この関数はインデックスと文字数を調節して元の文字列の範囲内におさめるので、あらゆるレアで厄介なケースも面倒を見てくれます。■要確認■
+
+Example:
+
+例::
 
   > index s "jumps";
   20
@@ -1405,6 +1423,8 @@ Instead, these are represented as strings ``c`` containing exactly one
 character strings to the corresponding integer character codes, and vice
 versa:
 
+Pure は個々の文字のための独立した型を持たないことを覚えておいて下さい。その代わり、〔以下の説明において〕個々の文字は文字列型 ``c`` として表されます。これは厳密に一つだけ（ UTF-8 の）文字を含んでいます（すなわち ``$c==1`` ）。このような単独文字変数〔single character strings〕は、それに対応する文字コード整数へ変換することも、またその逆も可能です:
+
 .. raw:: html
 
    <a name="ord">
@@ -1414,6 +1434,8 @@ versa:
 ``ord c``
   Ordinal number of a single character string ``c``. This is the
   character's code point in the Unicode character set.
+
+  単独文字変数 ``c`` の ordinal number です。 Unicode 文字集合におけるその文字のコードポイントとなります。
 
 .. raw:: html
 
@@ -1425,6 +1447,8 @@ versa:
   Converts an integer back to the character with the corresponding code
   point.
 
+  整数型変数を、対応するコードポイントの文字へ変換します。
+
 .. raw:: html
 
    <a name="character arithmetic">
@@ -1432,7 +1456,9 @@ versa:
 .. _character arithmetic:
 
 In addition, the usual character arithmetic works, including arithmetic
-sequences of characters, so that you can write stuff like the following::
+sequences of characters, so that you can write stuff like the following:
+
+さらに、通常の文字算術も機能します。
 
   > "a"-"A";
   32
@@ -1441,7 +1467,9 @@ sequences of characters, so that you can write stuff like the following::
   > "a".."k";
   ["a","b","c","d","e","f","g","h","i","j","k"]
 
-Strings are also ordered lexicographically based on their character codes::
+Strings are also ordered lexicographically based on their character codes:
+
+文字列は文字コードの lexicographically based で順序づけることもできます::
 
   > "awe">"awesome";
   0
@@ -1450,6 +1478,8 @@ Strings are also ordered lexicographically based on their character codes::
 
 For convenience, the prelude provides the following functions to convert
 between strings and lists (or other aggregates) of characters.
+
+便宜のため、 prelude は次のような関数を提供し、文字列と文字のリスト（や他の文字の集合物〔aggregates〕）とを相互変換できるようにしています。
 
 .. raw:: html
 
@@ -1464,6 +1494,8 @@ between strings and lists (or other aggregates) of characters.
 
 ``chars s``, ``list s``
   Convert a string ``s`` to a list of characters.
+
+  文字列 ``s`` を文字リストへ変換します。
 
 .. raw:: html
 
@@ -1480,6 +1512,8 @@ between strings and lists (or other aggregates) of characters.
   Convert a string ``s`` to a tuple or (symbolic) matrix of characters,
   respectively.
 
+  文字列 ``s`` をそれぞれ、タプルへ、また文字列の（記号）マトリクスへと変換します。
+
 .. raw:: html
 
    <a name="strcat">
@@ -1489,6 +1523,8 @@ between strings and lists (or other aggregates) of characters.
 ``strcat xs``
   Concatenate a list ``xs`` of strings (in particular, this converts a
   list of characters back to a string).
+
+  文字列型を要素とするリスト ``xs`` を結合します（特に文字のリストを文字列へと戻す場合によく使います）。
 
 .. raw:: html
 
@@ -1501,7 +1537,11 @@ between strings and lists (or other aggregates) of characters.
   In the case of a list, this is synonymous with ``strcat``, but it also
   works with the other types of aggregates.
 
-For instance::
+  文字列型を要素に持つリスト、タプル、（記号）マトリクスを、1つの文字列へ変換します。リストを指定した場合は ``strcat`` とまったく同じ動作となりますが、この関数は他種の集合物を扱うこともできます。
+
+For instance:
+
+具体例として::
 
   > list "abc";
   ["a","b","c"]
@@ -1511,6 +1551,8 @@ For instance::
 The following functions are provided to deal with strings of "tokens"
 separated by a given delimiter string.
 
+次の関数は、与えられた区切り文字で区切られた「トークン」文字列を処理するために抵抗されています。
+
 .. raw:: html
 
    <a name="split">
@@ -1519,6 +1561,8 @@ separated by a given delimiter string.
 
 ``split delim s``
   Splits ``s`` into a list of substrings delimited by ``delim``.
+
+  ``s`` を、 ``delim`` を境界としたサブ文字列のリストに切り分けます。
 
 .. raw:: html
 
@@ -1530,7 +1574,11 @@ separated by a given delimiter string.
   Joins the list of strings ``xs`` to a single string, interpolating the
   given ``delim`` string.
 
+  文字列のリスト ``xs`` を1つの文字列へと、間に ``delim`` 文字列を挿入しつつ、つなぎ合わせます。
+
 Example::
+
+例::
 
   > let xs = split " " s; xs;
   ["The","quick","brown","fox","jumps","over","the","lazy","dog."]
@@ -1541,18 +1589,24 @@ We mention in passing here that more elaborate string matching, splitting
 and replacement operations based on regular expressions are provided by the
 system module, see `System Interface`_.
 
+ここで述べておくべきは、正規表現を基礎として文字列のマッチング、切り分け〔splitting〕、置換を行うもっと精巧な処理が、システムモジュールにより提供されているということです。 `System Interface`_ を参照。
+
 If that isn't enough already, most generic list operations carry over to
 strings in the obvious way, treating the string like a list of characters.
 (Some operations will actually return character lists in that case, so you
 might have to apply ``string`` explicitly to convert these back to a
-string.) For instance::
+string.) For instance:
+
+それでもまだ不十分なら、総称的なリスト処理のほとんどを文字列処理へと■明示的な方法で■持ち込むことができます。つまり、文字列を文字のリストのように扱うわけです。（このようなケースで、いつかの処理は実際に文字のリストを返します。そのため ``string`` を明示的に適用し、そのリストを文字列型へ変換して戻してやる必要があります）。例えば::
 
   > filter (>="k") s;
   "qukrownoxumpsovrtlzyo"
   > string $ map pred "ibm";
   "hal"
 
-List comprehensions can draw values from strings, too::
+List comprehensions can draw values from strings, too:
+
+リスト内包は文字列から値を引き出すこともできます::
 
   > string [x+1 | x="HAL"];
   "IBM"
