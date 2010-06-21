@@ -1616,6 +1616,8 @@ List comprehensions can draw values from strings, too:
 Low-Level Operations
 ~~~~~~~~~~~~~~~~~~~~
 
+■低レベル■の処理
+
 The following routines are provided by the runtime to turn raw C ``char*``
 pointers (also called `byte strings` in Pure parlance, to distinguish them
 from Pure's "cooked" UTF-8 string values) into corresponding Pure
@@ -1624,6 +1626,13 @@ interface already takes care of the necessary marshalling, but in some
 low-level code these operations are useful. Also note that here and in the
 following, the ``cstring`` routines also convert the string between the
 system encoding and Pure's internal UTF-8 representation.
+
+次のルーチンはランタイムにより提供されているもので、生の C ``char*``
+ポインタ（ Pure 用語では `バイト文字列` 〔 `byte strings` 〕と呼ばれることがあります。
+Pure の「調理済み」 UTF-8 文字列値と区別するための用語です）を、それに応じた
+Pure 文字列へと変えてくれます。通常は C インターフェースが必要なマーシャリングの面倒を見てくれるのでこのことについて心配する必要はありませんが、ある種の低レベルコードではこの処理が役に立ちます。また、■ここと次■においては、
+``cstring`` ルーチンでも文字列をシステムエンコーディングと Pure の内部
+UTF-8 表現との間で相互変換できることも覚えておいて下さい。
 
 .. raw:: html
 
@@ -1643,6 +1652,11 @@ system encoding and Pure's internal UTF-8 representation.
   these for C strings which are specifically intended to be freed by the
   user.
 
+  ポインタ ``s`` を Pure 文字列へ変換します。 ``s`` はヌル文字を終端とする
+  C 文字列でなければなりません。これらのルーチンは元々の文字列値〔original
+  string value〕の所有権を引き取り、その領域が確実に ``malloc`` されるようにします。そのためこれらを使うのは、ユーザが領域を解放することが明確に意図されている
+  C 文字列に対してのみにすべきです。
+
 .. raw:: html
 
    <a name="string_dup">
@@ -1658,10 +1672,16 @@ system encoding and Pure's internal UTF-8 representation.
   Convert a pointer ``s`` to a Pure string. Like above, but these functions
   take a copy of the string, leaving the original C string untouched.
 
+  ポインタ ``s`` を Pure 文字列へ変換します。■上のものと同じように■、これらの関数も文字列のコピーを作り、元々の
+  C 文字列はそのまま残します。
+
 ..
 
 The reverse transformations are also provided. These take a Pure string to
 a byte string (raw ``char*``).
+
+■逆変形■もまた提供されます。これらは Pure 文字列をバイト文字列〔生の
+``char*`` 〕へと変えます。
 
 .. raw:: html
 
@@ -1682,6 +1702,12 @@ a byte string (raw ``char*``).
   which can be used like a C ``char*``, and has to be freed explicitly by
   the caller when no longer needed.
 
+  Pure 文字列 ``s`` からバイト文字列を構築します。この結果は、変換された文字列を指示する生のポインタオブジェクト〔a raw
+  pointer object pointing to the converted string〕となります。元々の
+  Pure 文字列は常にコピーされ（かつ、 ``byte_cstring``
+  の場合には、システムエンコーディングへと変換され）ます。変換結果としてのバイト文字列は
+  ``malloc`` されたポインタであり、 C の ``char*`` 型のように扱うことができ、必要なくなったときには呼び出し側で明示的に領域を解放しなければなりません。
+
 ..
 
 Finally, it is also possible to convert Pure string lists to byte string
@@ -1693,6 +1719,13 @@ almost any purpose which requires such a string vector in C. They also take
 care of garbage-collecting themselves. The original string data is always
 copied. As usual, the ``cstring`` variants do automatic conversions to the
 system encoding.
+
+最後に、 Pure 文字列のリストをバイト文字列のベクターに変換することも、その逆もまた可能です。これらは
+``argv`` のような文字列ベクター（すなわち ``char**`` や ``char*[]`` ）を
+C ルーチンに渡したいときに役立ちます。計算された C ベクターは
+``malloc`` 済みポインタとなり、終端要素には ``NULL`` ポインタが入ります。このため
+C においてこうした文字列ベクターを必要とするほぼあらゆる目的に使うことができるでしょう。また、■これら■はガベージ・コレクションの面倒を自分で見ます。元々の文字列データは常にコピーされます。通常通り、
+``cstring`` のほうの関数はシステムエンコーディングへの変換を自動で行います。
 
 .. raw:: html
 
@@ -1708,6 +1741,8 @@ system encoding.
 ``byte_string_pointer xs``, ``byte_cstring_pointer xs``
   Convert a list of Pure strings to a C ``char**``.
 
+  Pure 文字列のリストを C の ``char**`` へと変換します。
+
 .. raw:: html
 
    <a name="string_list">
@@ -1722,11 +1757,16 @@ system encoding.
 ``string_list n p``, ``cstring_list n p``
   Convert a C ``char**`` to a list of Pure strings.
 
+  C の ``char**`` を Pure 文字列のリストへと変換します。
+
 Note that the back conversions take an additional first argument which
 denotes the number of strings to retrieve. If you know that the vector is
 ``NULL``-terminated then this can also be an infinite value (``inf``) in
 which case the number of elements will be figured out automatically.
 Processing always stops at the first ``NULL`` pointer encountered.
+
+逆変換〔back conversions〕が追加の第一引数を取り、この引数は取り戻すべき文字列の数を示していることを忘れないでください。ベクターの終端が ``NULL``
+があることがわかっているならば、■第一引数■は無限大値（ ``inf`` ）でもよく、この場合、要素の数は自動で計算されます。処理は常に、初めて ``NULL`` ポインタと出会ったところで終わります。
 
 ..
 
