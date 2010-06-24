@@ -1773,6 +1773,8 @@ Processing always stops at the first ``NULL`` pointer encountered.
 Matrix Functions
 ----------------
 
+マトリクス関数
+
 .. raw:: html
 
    <a name="matrix size">
@@ -1796,7 +1798,9 @@ Matrix Functions
 
 The size of a matrix (number of elements) can be obtained using ``#``, and
 the ``dim`` function can be used to return its dimensions (number of rows
-and columns)::
+and columns):
+
+マトリクスのサイズ（要素数）は ``#`` を使うことで取得できます。また ``dim`` 関数を使うとマトリクスの次元（行と列の数）が返ります::
 
   > let x = {1,2,3;4,5,6}; #x;
   6
@@ -1812,6 +1816,8 @@ and columns)::
 ``null x`` can be used to check for empty matrices. Note that there are
 various kinds of these, as a matrix may have zero rows or columns, or both.
 
+``null x`` を使うとマトリクスが空かどうかチェックできます。空のマトリクスには様々な種類があることを忘れないでください。マトリクスは行と列の数のいずれかがゼロである可能性がありますし、両方ともゼロであるかもしれません。
+
 .. raw:: html
 
    <a name="! (matrix)">
@@ -1821,12 +1827,19 @@ various kinds of these, as a matrix may have zero rows or columns, or both.
 Indexing and slicing works pretty much like in MATLAB and Octave, except
 that the Pure operators ``!`` and ``!!`` are used (and indices are
 zero-based). It is possible to access elements with a one-dimensional index
-(in row-major oder)::
+(in row-major oder):
+
+インデックス参照とスライスは MATLAB や Octave
+のそれとよく似た動作をします。ただし Pure では演算子 ``!`` と ``!!``
+が使われます（さらに、インデックスはゼロから始まります）。一次元のインデックス
+1 つを使って要素にアクセスすることができます（行優先）::
 
   > x!3;
   4
 
-Or you can specify a pair of row and column index::
+Or you can specify a pair of row and column index:
+
+あるいは、行と列のインデックスのペアを定義することもできます::
 
   > x!(1,0);
   4
@@ -1838,18 +1851,24 @@ Or you can specify a pair of row and column index::
 .. _!! (matrix):
 
 Slicing works accordingly. You can either specify a list of (one- or
-two-dimensional) indices, in which case the result is always a row vector::
+two-dimensional) indices, in which case the result is always a row vector:
+
+スライスも同じように動作します。まず、（1次元か2次元の）インデックスのリストを指定できます。この場合は結果として常に行ベクターが返されます::
 
   > x!!(2..5);
   {3,4,5,6}
 
-Or you can specify a pair of row and column index lists::
+Or you can specify a pair of row and column index lists:
+
+あるいは、行インデックスと列インデックスのリストをペアにしたものを指定することもできます::
 
   > x!!(0..1,1..2);
   {2,3;5,6}
 
 The following abbreviations are provided to grab a slice from a row or
-column::
+column:
+
+次の略記法は、行または列からスライスを得るために提供されているものです::
 
   > x!!(1,1..2);
   {5,6}
@@ -1857,14 +1876,20 @@ column::
   {2;5}
 
 Matrices can be compared with the ``==`` and ``~=`` operators which check
-the dimensions and the matrix elements for equality::
+the dimensions and the matrix elements for equality:
+
+マトリクスは演算子 ``==`` と ``~=`` を使って比較することができます。これらはマトリクスの次元と要素が等値であるかどうかチェックするものです::
 
   > x == transpose x;
   0
 
 Most of the generic list operations are implemented on matrices, see
 `Common List Functions`_. Hence operations like ``map`` and ``zipwith``
-work as expected::
+work as expected:
+
+総称的なリスト処理のほとんどはマトリクス用にも実装されています。
+`Common List Functions`_ を参照して下さい。したがって ``map`` や ``zipwith``
+のような処理も予想通り動作します::
 
   > map succ {1,2,3;4,5,6};
   {2,3,4;5,6,7}
@@ -1879,10 +1904,16 @@ check `Matrix Computations`_ in the Pure Manual for some more examples, and
 the `Record Functions`_ section for an implementation of records using
 symbolic vectors.
 
+また、マトリクスモジュールは、マトリクスに特化された処理の一群を提供します。ここにはマトリクス内包に必要な処理のすべても含まれています。以下では最も重要な処理をいくつか手短にまとめていますが、
+gory な詳細すべてに関してはどうか matrices.pure を参照して下さい。また
+Pure Manual 内の `Matrix Computations`_ 〔マトリクス計算〕にももう少し具体例があり、 `Record Functions`_ セクションには記号ベクターを使ったレコードの実装があります。
+
 .. _Matrix Computations: pure.html#matrix-computations
 
 Matrix Construction and Conversions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+マトリクスの構築と変換
 
 .. raw:: html
 
@@ -1897,7 +1928,12 @@ The ``matrix`` function converts a list or tuple to a corresponding matrix.
 the matrix to the corresponding rectangular matrix; otherwise, the result
 is a row vector. (In the former case, the ``matrix`` function may throw a
 ``bad_matrix_value x`` exception in case of dimension mismatch, where ``x``
-denotes the offending submatrix.) ::
+denotes the offending submatrix.) :
+
+``matrix`` 関数はリストやタプルを、それぞれに相当するマトリクスへ変換します。
+``matrix`` はまた、各行を定義した複数のリストかマトリクスを〔各要素として〕持つ1つのリスト〔＝複数のリストを含むリスト or 複数のマトリクスを含むリスト〕を、それに相応する正方マトリクスへと変換します。場合によって、結果は1つの行ベクターにもなります（前者のケースでは、マトリクスの次元が一致しない場合に
+``matrix`` 関数が ``bad_matrix_value x`` 例外を投げる可能性があります。このとき
+``x`` ははみ出た部分のサブマトリクス〔the offending submatrix〕を示します::
 
   > matrix [1,2,3];
   {1,2,3}
@@ -1922,6 +1958,11 @@ of the converted aggregate). Also, the ``vector`` function is a synonym for
 ``rowvector``. These functions can also be used to create recursive
 (symbolic) matrix structures of arbitrary depth, which provide a nested
 array data structure with efficient (constant time) element access. ::
+
+``rowvector`` と ``colvector`` 関数はどちらも同じような動作をしますが、単一のリスト、タプル、マトリクスを引数に取るところは同じでも、それぞれ単一の行を返すか、列を返すかという点が異なります（すなわち、
+1xn または nx1 のマトリクスが返ります。このとき n は変換されたまとまり〔the
+converted aggregate〕のサイズです）。また、 ``vector`` 関数は ``rowvector``
+関数の同義語です。これらの関数を使って、任意の深さを持つ再帰的な（記号）マトリクス構造を作ることができます。これにより、効率的に（定数時間で）要素アクセスを行える入れ子の配列データ構造〔a nested array data structure〕が提供されます。 ::
 
   > rowvector [1,2,3];
   {1,2,3}
@@ -1958,6 +1999,9 @@ vector; this is usually faster than the ``matrix`` and ``rowvector``
 operations, but requires that the elements already are of the appropriate
 type. ::
 
+``dmatrix`` 、 ``cmatrix`` 、 ``imatrix`` および ``smatrix`` 関数は、リストまたはマトリクスを、相応する型（整数、浮動小数点数、虚数、記号）のマトリクスに変換します。入力がリストである場合、結果は常に行ベクターとなります。通常、これらの関数は
+``matrix`` や ``rowvector`` よりも高速に処理を行いますが、中の要素がすでに適切な型へ変換されている必要があります。 ::
+
   > imatrix [1,2,3];
   {1,2,3}
   > dmatrix {1,2,3;4,5,6};
@@ -1968,6 +2012,9 @@ with either an int ``n`` or a pair ``(n,m)`` of ints as argument, in which
 case they construct a zero rowvector or matrix with the corresponding
 dimensions. ::
 
+``dmatrix`` 、 ``cmatrix`` および ``imatrix`` 関数は、単一の整数 ``n``
+または整数のペア ``(n,m)`` を引数として呼び出すことができます。この場合、すべての要素をゼロとする行ベクターか、指定された次元を持つマトリクスが構築されます。 ::
+
   > imatrix 3;
   {0,0,0}
   > imatrix (2,3);
@@ -1975,6 +2022,9 @@ dimensions. ::
 
 There's also a number of more specialized conversions operations which are
 discussed under `Matrix Inspection and Manipulation`_ below.
+
+もっとマトリクス変換に特化された処理がほかにもたくさんあり、それらは下部
+`Matrix Inspection and Manipulation`_ で議論されています。
 
 .. raw:: html
 
@@ -1996,6 +2046,9 @@ Conversely, a matrix can be converted back to a flat list or tuple with the
 ``list`` and ``tuple`` functions. In addition, the ``list2`` function
 converts a matrix to a list of lists (one sublist for each row of the
 matrix). ::
+
+逆に、 ``list`` や ``tuple`` 関数を使い、マトリクスを変換してフラットなリストやタプルへ戻すことも可能です。さらに ``list2``
+関数は1つのマトリクスを、複数のリストを要素とするの1つリスト（マトリクスの1行が1つのサブリストとなる）へと変換します。 ::
 
   > tuple {1,2,3;4,5,6};
   1,2,3,4,5,6
